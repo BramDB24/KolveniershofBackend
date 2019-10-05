@@ -7,6 +7,7 @@ namespace kolveniershofBackend.Models
 {
     public class DagAtelier
     {
-        public String DagMoment { get; set; }
+        public int Id { get; set; }
+        public string DagMoment { get; set; }
     }
 }

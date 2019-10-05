@@ -7,8 +7,10 @@ namespace kolveniershofBackend.Models
 {
     public class Opmerking
     {
+
+        public int Id { get; set; }
         public int Type { get; set; }
 
-        public String Tekst { get; set; }
+        public string Tekst { get; set; }
     }
 }

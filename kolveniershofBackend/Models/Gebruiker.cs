@@ -32,5 +32,10 @@ namespace kolveniershofBackend.Models
         {
         
         }
+
+        public Gebruiker(string name)
+        {
+            this.Voornaam = name;
+        }
     }
 }

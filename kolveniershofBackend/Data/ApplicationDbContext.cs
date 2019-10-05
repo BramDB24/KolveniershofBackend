@@ -10,6 +10,7 @@ namespace kolveniershofBackend.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Gebruiker> Gebruikers { get; set; }
+        public DbSet<DagPlanning> Dagplanningen { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -18,7 +19,7 @@ namespace kolveniershofBackend.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<Gebruiker>();
-            builder.Entity<Gebruiker>().Property(r => r.Naam).IsRequired().HasMaxLength(50);
+            builder.Entity<Gebruiker>().Property(r => r.Voornaam).IsRequired().HasMaxLength(50);
         }
 
     }

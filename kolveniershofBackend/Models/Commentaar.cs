@@ -7,9 +7,10 @@ namespace kolveniershofBackend.Models
 {
     public class Commentaar
     {
+        public int Id { get; set; }
         public DateTime Datum { get; set; }
-        public String tekst { get; set; }
-        public String Type { get; set; }
+        public string Tekst { get; set; }
+        public string Type { get; set; }
         public Gebruiker Gebruiker { get; set; }
     }
 }

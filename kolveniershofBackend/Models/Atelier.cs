@@ -7,8 +7,8 @@ namespace kolveniershofBackend.Models
 {
     public class Atelier
     {
-        public String Naam { get; set; }
-        public String Picto { get; set; }
-        public String Type { get; set; }
+        public string Naam { get; set; }
+        public string Picto { get; set; }
+        public string Type { get; set; }
     }
 }
