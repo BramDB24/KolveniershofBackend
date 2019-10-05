@@ -8,11 +8,29 @@ namespace kolveniershofBackend.Models
     public class Gebruiker
     {
         public int Id { get; set; }
-        public string Naam { get; set; }
+        public string Voornaam { get; set; }
 
-        public Gebruiker(String naam)
+        public string Achternaam { get; set; }
+
+        public string Email { get; set; }
+
+        public string Sfeergroep { get; set; }
+
+        public string Foto { get; set; }
+
+        public string Straatnaam { get; set; }
+        
+        public int Huisnummer { get; set; }
+
+        public string Woonplaats { get; set; }
+
+        public int Postcode { get; set; }
+
+        public List<Commentaar> Commentaren { get; set; }
+
+        public Gebruiker()
         {
-            this.Naam = naam;
+        
         }
     }
 }
