@@ -18,8 +18,14 @@ namespace kolveniershofBackend.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            //gebruikers
             builder.Entity<Gebruiker>();
             builder.Entity<Gebruiker>().Property(r => r.Voornaam).IsRequired().HasMaxLength(50);
+
+            //dagplanningen
+            builder.Entity<DagPlanning>();
+            builder.Entity<DagPlanning>().HasKey(d => d.Id);
+            //builder.Entity<DagPlanning>().HasMany(d => d.DagAteliers).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
 
     }

@@ -18,8 +18,15 @@ namespace kolveniershofBackend.Models
 
         public DagPlanning()
         {
-
+            Opmerkingen = new List<Opmerking>();
+            DagAteliers = new List<DagAtelier>();
         }
+
+        public DagPlanning(DateTime datum) : base()
+        {
+            this.Datum = datum;
+        }
+        
     }
 
     

@@ -21,10 +21,26 @@ namespace kolveniershofBackend.Data
             _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
             {
-                //seeding the database with recipes, see DBContext       
+                //gebruikers   
                 var user = new Gebruiker("lucas");
                 _dbContext.Gebruikers.Add(user);
+                
+
+                //dagplanningen
+                DateTime dt = DateTime.Today;
+                var dagplanning = new DagPlanning(dt);
+                _dbContext.Dagplanningen.Add(dagplanning);
+                for(int i= 1; i<20; i++)
+                {
+                    var date = dt.AddDays(i);
+                    var dp = new DagPlanning(date);
+                    _dbContext.Dagplanningen.Add(dp);
+                }
+                Console.WriteLine(dt);
+
+
                 _dbContext.SaveChanges();
+
             }
         }
     }

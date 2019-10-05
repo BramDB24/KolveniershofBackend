@@ -20,7 +20,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpGet("{datum}")]
-        public ActionResult<DagPlanning> GetDagPlanning(String datum)
+        public ActionResult<DagPlanning> GetDagPlanning(string datum)
         {
             //identity
 
