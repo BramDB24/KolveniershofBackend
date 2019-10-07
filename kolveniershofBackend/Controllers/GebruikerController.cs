@@ -18,7 +18,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Gebruiker> GetGebruiker(int id)
+        public ActionResult<Gebruiker> GetGebruiker(string id)
         {
             Gebruiker g = _gebruikerRepository.GetBy(id);
             if (g == null) return NotFound();
@@ -26,7 +26,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Gebruiker> DeleteRecipe(int id)
+        public ActionResult<Gebruiker> DeleteRecipe(string id)
         {
             Gebruiker g = _gebruikerRepository.GetBy(id);
             if (g == null)

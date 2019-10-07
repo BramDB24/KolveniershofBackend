@@ -34,7 +34,7 @@ namespace kolveniershofBackend.Data.Repositories
 
         public DagPlanning GetBy(int id)
         {
-            return _dagen.SingleOrDefault(d => d.Id == id);
+            return _dagen.SingleOrDefault(d => d.DagplanningId == id);
         }
 
         public void SaveChanges()

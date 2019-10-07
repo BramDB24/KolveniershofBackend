@@ -33,9 +33,9 @@ namespace kolveniershofBackend.Data.Repositories
             return _gebruikers.ToList();
         }
 
-        public Gebruiker GetBy(int id)
+        public Gebruiker GetBy(string id)
         {
-            return _gebruikers.SingleOrDefault(r => r.Id == id);
+            return _gebruikers.SingleOrDefault(r => r.GebruikerId == id);
         }
 
         public void SaveChanges()

@@ -7,7 +7,7 @@ namespace kolveniershofBackend.Models
 {
     public interface IGebruikerRepository
     {
-            Gebruiker GetBy(int id);
+            Gebruiker GetBy(string id);
             IEnumerable<Gebruiker> GetAll();
             void Add(Gebruiker gebruiker);
             void Delete(Gebruiker gebruiker);

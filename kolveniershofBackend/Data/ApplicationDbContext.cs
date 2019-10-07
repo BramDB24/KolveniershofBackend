@@ -24,7 +24,7 @@ namespace kolveniershofBackend.Data
 
             //dagplanningen
             builder.Entity<DagPlanning>();
-            builder.Entity<DagPlanning>().HasKey(d => d.Id);
+            builder.Entity<DagPlanning>().HasKey(d => d.DagplanningId);
             //builder.Entity<DagPlanning>().HasMany(d => d.DagAteliers).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
 
