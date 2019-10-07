@@ -21,7 +21,7 @@ namespace kolveniershofBackend.Data.Mappers
             builder.Property(g => g.Huisnummer).IsRequired();
             builder.Property(g => g.Sfeergroep).IsRequired();
             builder.Property(g => g.Foto).IsRequired();
-            builder.Property(g => g.GebruikerType).IsRequired();
+            builder.Property(g => g.Type).IsRequired();
         }
     }
 }

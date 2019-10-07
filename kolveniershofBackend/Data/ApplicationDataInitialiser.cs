@@ -23,13 +23,13 @@ namespace kolveniershofBackend.Data
             {
                 //gebruikers   
                 var user = new Gebruiker("lucas", "vermeulen", "lucas@gmail.com", Enums.Sfeergroep.Sfeergroep1, 
-                    "SomeURL", "Arendstraat", 5, "1", "Gent", 9000, Enums.GebruikerType.Begeleider);
+                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", Enums.GebruikerType.Begeleider);
                 _dbContext.Gebruikers.Add(user);
                 
 
                 //dagplanningen
                 DateTime dt = DateTime.Today;
-                var dagplanning = new DagPlanning(1, new DateTime(2020, 5, 12), "broccoli met worst en patatten");
+                var dagplanning = new DagPlanning(1, new DateTime(2020, 5, 12), "balletjes in tomatensaus en friet");
                 _dbContext.DagPlanningen.Add(dagplanning);
                 for(int i= 1; i<20; i++)
                 {
@@ -39,6 +39,12 @@ namespace kolveniershofBackend.Data
                 }
                 Console.WriteLine(dt);
 
+
+                var template = new DagPlanningTemplate()
+                {
+                    IsTemplate = true,
+                    Weeknummer = 1
+                };
 
                 _dbContext.SaveChanges();
 
