@@ -7,7 +7,7 @@ namespace kolveniershofBackend.Models
 {
     public class DagPlanning
     {
-        public int Id { get; set; }
+        public int DagplanningId { get; set; }
         public int Weeknummer { get; set; }
         public DateTime Datum { get; set; }
         public DayOfWeek Weekdag => Datum.DayOfWeek;
