@@ -33,6 +33,12 @@ namespace kolveniershofBackend.Data
             //dagplanningen
             builder.Entity<DagPlanning>().HasMany(d => d.Opmerkingen).WithOne().OnDelete(DeleteBehavior.Cascade);
             //builder.Entity<DagPlanning>().HasMany(d => d.DagAteliers).WithOne().OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<GebruikerAtelier>().HasKey(ga => new { ga.DagAtelierId, ga.GebruikerId });
+            builder.Entity<GebruikerAtelier>().HasOne(ga => ga.DagAtelier).WithMany(da => da.GebruikerAtelier).HasForeignKey(ga => ga.DagAtelierId).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<GebruikerAtelier>().HasOne(ga => ga.Gebruiker).WithMany().HasForeignKey(ga => ga.GebruikerId).OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DagAtelier>().HasOne(da => da.Atelier).WithMany();  
         }
 
     }
