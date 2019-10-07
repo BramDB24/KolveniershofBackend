@@ -7,6 +7,6 @@ namespace kolveniershofBackend.Enums
 {
     public enum GebruikerType
     {
-        Cliënt, Admin, Begeleider
+        Undefined, Cliënt, Admin, Begeleider
     }
 }

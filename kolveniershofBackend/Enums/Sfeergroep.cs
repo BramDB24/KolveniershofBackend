@@ -7,6 +7,6 @@ namespace kolveniershofBackend.Enums
 {
     public enum Sfeergroep
     {
-        Sfeergroep1, Sfeergroep2, Sfeergroep3
+        Undefined, Sfeergroep1, Sfeergroep2, Sfeergroep3
     }
 }

@@ -7,6 +7,6 @@ namespace kolveniershofBackend.Enums
 {
     public enum DagMoment
     {
-        Voormiddag, Namiddag, VolledigeDag
+        Undefined, Voormiddag, Namiddag, VolledigeDag
     }
 }

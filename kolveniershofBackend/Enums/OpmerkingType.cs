@@ -7,7 +7,7 @@ namespace kolveniershofBackend.Enums
 {
     public enum OpmerkingType
     {
-        Vervoer, Cliënten, AteliersEnWeekschema, Varia, Logistiek, Begeleiding,
+        Undefined, Vervoer, Cliënten, AteliersEnWeekschema, Varia, Logistiek, Begeleiding,
         Stagiairs, Vrijwilligers, UurRegistratie
     }
 }

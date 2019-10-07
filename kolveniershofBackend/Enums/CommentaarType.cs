@@ -7,6 +7,6 @@ namespace kolveniershofBackend.Enums
 {
     public enum CommentaarType
     {
-        ZaterdagCommentaar, ZondagCommentaar, AlgemeenCommentaar
+        Undefined, ZaterdagCommentaar, ZondagCommentaar, AlgemeenCommentaar
     }
 }

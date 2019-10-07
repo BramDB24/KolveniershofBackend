@@ -7,6 +7,6 @@ namespace kolveniershofBackend.Enums
 {
     public enum AtelierType
     {
-        Afwezig, Ziek, VervoerAtelier, Gewoon 
+        Undefined, Afwezig, Ziek, VervoerAtelier, Gewoon 
     }
 }
