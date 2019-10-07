@@ -10,7 +10,7 @@ namespace kolveniershofBackend.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Gebruiker> Gebruikers { get; set; }
-        public DbSet<DagPlanning> Dagplanningen { get; set; }
+        public DbSet<DagPlanningTemplate> Dagplanningen { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -19,12 +19,19 @@ namespace kolveniershofBackend.Data
         {
             base.OnModelCreating(builder);
             //gebruikers
+            builder.Entity<Gebruiker>().ToTable("Gebruiker");
             builder.Entity<Gebruiker>();
             builder.Entity<Gebruiker>().Property(r => r.Voornaam).IsRequired().HasMaxLength(50);
 
+            //dagplanningTemplates
+            builder.Entity<DagPlanningTemplate>().ToTable("Dagplanning");
+            builder.Entity<DagPlanningTemplate>().HasKey(d => d.Id);
+            builder.Entity<DagPlanningTemplate>().HasMany(d => d.DagAteliers).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<DagPlanningTemplate>().HasDiscriminator<bool>("IsTemplate")
+                .HasValue<DagPlanning>(false)
+                .HasValue<DagPlanningTemplate>(true);
             //dagplanningen
-            builder.Entity<DagPlanning>();
-            builder.Entity<DagPlanning>().HasKey(d => d.Id);
+            builder.Entity<DagPlanning>().HasMany(d => d.Opmerkingen).WithOne().OnDelete(DeleteBehavior.Cascade);
             //builder.Entity<DagPlanning>().HasMany(d => d.DagAteliers).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
 

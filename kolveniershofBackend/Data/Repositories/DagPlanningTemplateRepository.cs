@@ -7,34 +7,34 @@ using System.Threading.Tasks;
 
 namespace kolveniershofBackend.Data.Repositories
 {
-    public class DagPlanningRepository : IDagPlanningRepository
+    public class DagPlanningTemplateRepository : IDagPlanningTemplateRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly DbSet<DagPlanning> _dagen;
+        private readonly DbSet<DagPlanningTemplate> _dagen;
 
-        public DagPlanningRepository(ApplicationDbContext dbContext)
+        public DagPlanningTemplateRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
             _dagen = dbContext.Dagplanningen;
         }
-        public void Add(DagPlanning dagPlanning)
+        public void Add(DagPlanningTemplate dagPlanning)
         {
             _dagen.Add(dagPlanning);
         }
 
-        public void Delete(DagPlanning dagPlanning)
+        public void Delete(DagPlanningTemplate dagPlanning)
         {
             _dagen.Remove(dagPlanning);
         }
 
         public DagPlanning GetBy(DateTime datum)
         {
-            return _dagen.SingleOrDefault(d => d.Datum == datum);
+            return (DagPlanning)_dagen.Where(d => d.GetType() == typeof(DagPlanning)).FirstOrDefault(d => ((DagPlanning)d).Datum == datum);
         }
 
-        public DagPlanning GetBy(int id)
+        public DagPlanningTemplate GetBy(int id)
         {
-            return _dagen.SingleOrDefault(d => d.Id == id);
+            return _dagen.FirstOrDefault(d => d.Id == id);
         }
 
         public void SaveChanges()
@@ -42,7 +42,7 @@ namespace kolveniershofBackend.Data.Repositories
             _dbContext.SaveChanges();
         }
 
-        public void Update(DagPlanning dagPlanning)
+        public void Update(DagPlanningTemplate dagPlanning)
         {
             _dagen.Update(dagPlanning);
         }

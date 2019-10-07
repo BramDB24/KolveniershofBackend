@@ -12,9 +12,9 @@ namespace kolveniershofBackend.Controllers
     [ApiController]
     public class DagPlanningController : ControllerBase
     {
-        private readonly IDagPlanningRepository _dagPlanningRepository;
+        private readonly IDagPlanningTemplateRepository _dagPlanningRepository;
 
-        public DagPlanningController(IDagPlanningRepository dagPlanningRepository)
+        public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository)
         {
             _dagPlanningRepository = dagPlanningRepository;
         }
@@ -34,7 +34,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<DagPlanning> PutDagPlanning(int id, DagPlanning dagPlanning)
+        public ActionResult<DagPlanningTemplate> PutDagPlanning(int id, DagPlanning dagPlanning)
         {
             if (id != dagPlanning.Id)
                 return BadRequest();
@@ -44,7 +44,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpPost]
-        public ActionResult<DagPlanning> PostDagplanning(DagPlanning dagPlanning) {
+        public ActionResult<DagPlanningTemplate> PostDagplanning(DagPlanning dagPlanning) {
             //Wordt DTO wss
 
             //Identity
@@ -56,10 +56,10 @@ namespace kolveniershofBackend.Controllers
        
 
         [HttpDelete("{id}")]
-        public ActionResult<DagPlanning> DeleteDagPlanning(int id)
+        public ActionResult<DagPlanningTemplate> DeleteDagPlanning(int id)
         {
             //identity
-            DagPlanning dp = _dagPlanningRepository.GetBy(id);
+            DagPlanningTemplate dp = _dagPlanningRepository.GetBy(id);
             if (dp == null)
             {
                 return NotFound();

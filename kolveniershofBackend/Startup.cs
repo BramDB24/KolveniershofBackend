@@ -35,7 +35,7 @@ namespace kolveniershofBackend
             });
             services.AddScoped<ApplicationDataInitialiser>();
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
-            services.AddScoped<IDagPlanningRepository, DagPlanningRepository>();
+            services.AddScoped<IDagPlanningTemplateRepository, DagPlanningTemplateRepository>();
             services.AddOpenApiDocument(c =>
             {
                 c.DocumentName = "apidocs";
