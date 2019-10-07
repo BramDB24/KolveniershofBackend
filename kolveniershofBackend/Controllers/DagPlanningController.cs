@@ -8,17 +8,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace kolveniershofBackend.Controllers
 {
+   
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class DagPlanningController : ControllerBase
     {
         private readonly IDagPlanningTemplateRepository _dagPlanningRepository;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dagPlanningRepository"></param>
         public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository)
         {
             _dagPlanningRepository = dagPlanningRepository;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="datum"></param>
+        /// <returns></returns>
         [HttpGet("{datum}")]
         public ActionResult<DagPlanning> GetDagPlanning(string datum)
         {
@@ -33,16 +46,27 @@ namespace kolveniershofBackend.Controllers
             return dp;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dagPlanning"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public ActionResult<DagPlanningTemplate> PutDagPlanning(int id, DagPlanning dagPlanning)
         {
-            if (id != dagPlanning.DagplanningId)
+            if (id != dagPlanning.Id)
                 return BadRequest();
             _dagPlanningRepository.Update(dagPlanning);
             _dagPlanningRepository.SaveChanges();
             return NoContent();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dagPlanning"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult<DagPlanningTemplate> PostDagplanning(DagPlanning dagPlanning) {
             //Wordt DTO wss
@@ -54,7 +78,11 @@ namespace kolveniershofBackend.Controllers
             
         }
        
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public ActionResult<DagPlanningTemplate> DeleteDagPlanning(int id)
         {
