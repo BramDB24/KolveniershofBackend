@@ -5,26 +5,26 @@ using System.Threading.Tasks;
 
 namespace kolveniershofBackend.Models
 {
-    public class GebruikerAtelier
+    public class GebruikerDagAtelier
     {
         public string GebruikerId { get; set; }
-        public int AtelierId { get; set; }
+        public int DagAtelierId { get; set; }
         public Gebruiker Gebruiker { get; set; }
-        public Atelier Atelier { get; set; }
+        public DagAtelier DagAtelier { get; set; }
 
-        protected GebruikerAtelier()
+        protected GebruikerDagAtelier()
         {
 
         }
 
-        public GebruikerAtelier(Gebruiker gebruiker, Atelier atelier)
+        public GebruikerDagAtelier(Gebruiker gebruiker, DagAtelier dagAtelier)
         {
             Gebruiker = gebruiker;
-            Atelier = atelier;
+            DagAtelier = dagAtelier;
             GebruikerId = gebruiker.GebruikerId;
-            AtelierId = atelier.AtelierId;
+            DagAtelierId = dagAtelier.DagAtelierId;
         }
     }
-
-
 }
+
+

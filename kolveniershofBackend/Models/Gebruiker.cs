@@ -16,19 +16,31 @@ namespace kolveniershofBackend.Models
         public string Foto { get; set; }
         public string Straatnaam { get; set; }
         public int Huisnummer { get; set; }
-        public int Busnummer { get; set; }
+        public string Busnummer { get; set; }
         public string Gemeente { get; set; }
         public int Postcode { get; set; }
         public List<Commentaar> Commentaren { get; set; }
+        public GebruikerType GebruikerType { get; set; }
 
         public Gebruiker()
         {
-        
+            Commentaren = new List<Commentaar>();
         }
 
-        public Gebruiker(string name)
+        public Gebruiker(string voornaam, string familienaam, string email, Sfeergroep sf, string foto, 
+            string straat, int huisnr, string busnr, string gemeente, int postcode, GebruikerType gebruikerType):this()
         {
-            this.Voornaam = name;
+            Voornaam = voornaam;
+            Achternaam = familienaam;
+            Email = email;
+            Sfeergroep = sf;
+            Foto = foto;
+            Straatnaam = straat;
+            Huisnummer = huisnr;
+            Busnummer = busnr;
+            Gemeente = gemeente;
+            Postcode = postcode;
+            GebruikerType = gebruikerType;
         }
     }
 }

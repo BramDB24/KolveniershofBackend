@@ -1,4 +1,5 @@
-﻿using kolveniershofBackend.Models;
+﻿using kolveniershofBackend.Data.Mappers;
+using kolveniershofBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,31 +10,31 @@ namespace kolveniershofBackend.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        public DbSet<Atelier> Ateliers { get; set; }
+        public DbSet<Commentaar> Commentaar { get; set; }
+        public DbSet<DagAtelier> DagAteliers { get; set; }
+        public DbSet<DagPlanningTemplate> DagPlanningen { get; set; }
+        public DbSet<DagPlanning> DagPlanningenConcreet { get; set; }
         public DbSet<Gebruiker> Gebruikers { get; set; }
-        public DbSet<DagPlanningTemplate> Dagplanningen { get; set; }
+        public DbSet<GebruikerDagAtelier> GebruikerAteliers { get; set; }
+        public DbSet<Opmerking> Opmerkingen { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            //gebruikers
-            builder.Entity<Gebruiker>().ToTable("Gebruiker");
-            builder.Entity<Gebruiker>();
-            builder.Entity<Gebruiker>().Property(r => r.Voornaam).IsRequired().HasMaxLength(50);
-
-            //dagplanningTemplates
-            builder.Entity<DagPlanningTemplate>().ToTable("Dagplanning");
-            builder.Entity<DagPlanningTemplate>().HasKey(d => d.Id);
-            builder.Entity<DagPlanningTemplate>().HasMany(d => d.DagAteliers).WithOne().OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<DagPlanningTemplate>().HasDiscriminator<bool>("IsTemplate")
-                .HasValue<DagPlanning>(false)
-                .HasValue<DagPlanningTemplate>(true);
-            //dagplanningen
-            builder.Entity<DagPlanning>().HasMany(d => d.Opmerkingen).WithOne().OnDelete(DeleteBehavior.Cascade);
-            //builder.Entity<DagPlanning>().HasMany(d => d.DagAteliers).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.ApplyConfiguration(new AtelierConfiguration());
+            builder.ApplyConfiguration(new CommentaarConfiguration());
+            builder.ApplyConfiguration(new DagAtelierConfiguration());
+            builder.ApplyConfiguration(new DagPlanningConfiguration());
+            builder.ApplyConfiguration(new DagPlanningTemplateConfiguration());
+            builder.ApplyConfiguration(new GebruikerConfiguration());
+            builder.ApplyConfiguration(new OpmerkingConfiguration());
+            builder.ApplyConfiguration(new GebruikerAtelierConfiguration());
         }
-
     }
 }

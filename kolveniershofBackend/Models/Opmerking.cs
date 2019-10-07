@@ -15,7 +15,6 @@ namespace kolveniershofBackend.Models
 
         #region Properties
         public int OpmerkingId { get; set; }
-
         public OpmerkingType OpmerkingType
         {
             get { return _opmerkingtype; }

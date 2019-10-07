@@ -13,10 +13,6 @@
     <PackageReference Include="NSwag.AspNetCore" Version="13.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Mappers\" />
-  </ItemGroup>
-
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

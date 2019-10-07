@@ -15,7 +15,7 @@ namespace kolveniershofBackend.Data.Repositories
         public DagPlanningTemplateRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _dagen = dbContext.Dagplanningen;
+            _dagen = dbContext.DagPlanningen;
         }
         public void Add(DagPlanningTemplate dagPlanning)
         {
@@ -34,7 +34,7 @@ namespace kolveniershofBackend.Data.Repositories
 
         public DagPlanningTemplate GetBy(int id)
         {
-            return _dagen.FirstOrDefault(d => d.Id == id);
+            return _dagen.FirstOrDefault(d => d.DagplanningId == id);
         }
 
         public void SaveChanges()

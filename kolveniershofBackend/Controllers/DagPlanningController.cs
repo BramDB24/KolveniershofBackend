@@ -55,7 +55,7 @@ namespace kolveniershofBackend.Controllers
         [HttpPut("{id}")]
         public ActionResult<DagPlanningTemplate> PutDagPlanning(int id, DagPlanning dagPlanning)
         {
-            if (id != dagPlanning.Id)
+            if (id != dagPlanning.DagplanningId)
                 return BadRequest();
             _dagPlanningRepository.Update(dagPlanning);
             _dagPlanningRepository.SaveChanges();

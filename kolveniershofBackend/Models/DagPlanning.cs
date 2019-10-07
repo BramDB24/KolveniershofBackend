@@ -5,32 +5,14 @@ using System.Threading.Tasks;
 
 namespace kolveniershofBackend.Models
 {
-    public class DagPlanning
+    public class DagPlanning: DagPlanningTemplate
     {
         #region Fields
-        private int _weeknummer;
         private DateTime _datum;
         private string _eten;
         #endregion
 
         #region Properties
-        public int Weeknummer
-        {
-            get { return _weeknummer; }
-            set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentException("Gelieve een weeknummer te kiezen");
-                }
-                else
-                {
-                    _weeknummer = value;
-                }
-            }
-
-        }
-
         public DateTime Datum
         {
             get { return _datum; }
@@ -64,17 +46,13 @@ namespace kolveniershofBackend.Models
             }
         }
 
-        public int DagplanningId { get; set; }
         public DayOfWeek Weekdag { get; set; }
-
         public List<Opmerking> Opmerkingen { get; set; }
-        public List<DagAtelier> DagAteliers { get; set; }
         #endregion
 
-        public DagPlanning()
+        public DagPlanning(): base()
         {
             Opmerkingen = new List<Opmerking>();
-            DagAteliers = new List<DagAtelier>();
             Weekdag = Datum.DayOfWeek;
         }
 

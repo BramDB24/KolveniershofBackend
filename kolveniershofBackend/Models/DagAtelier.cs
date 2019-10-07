@@ -34,13 +34,13 @@ namespace kolveniershofBackend.Models
             }
         }
 
-        public List<GebruikerAtelier> GebruikerAteliers { get; set; }
+        public List<GebruikerDagAtelier> GebruikerDagAteliers { get; set; }
 
         #endregion
 
         public DagAtelier()
         {
-            GebruikerAteliers = new List<GebruikerAtelier>();
+            GebruikerDagAteliers = new List<GebruikerDagAtelier>();
         }
 
         public DagAtelier(DagMoment dagMoment, Atelier atelier): this()

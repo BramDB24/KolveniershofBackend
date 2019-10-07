@@ -22,19 +22,20 @@ namespace kolveniershofBackend.Data
             if (_dbContext.Database.EnsureCreated())
             {
                 //gebruikers   
-                var user = new Gebruiker("lucas");
+                var user = new Gebruiker("lucas", "vermeulen", "lucas@gmail.com", Enums.Sfeergroep.Sfeergroep1, 
+                    "SomeURL", "Arendstraat", 5, "1", "Gent", 9000, Enums.GebruikerType.Begeleider);
                 _dbContext.Gebruikers.Add(user);
                 
 
                 //dagplanningen
                 DateTime dt = DateTime.Today;
                 var dagplanning = new DagPlanning(1, new DateTime(2020, 5, 12), "broccoli met worst en patatten");
-                _dbContext.Dagplanningen.Add(dagplanning);
+                _dbContext.DagPlanningen.Add(dagplanning);
                 for(int i= 1; i<20; i++)
                 {
                     var date = dt.AddDays(i);
                     var dp = new DagPlanning(2, date, "pizza");
-                    _dbContext.Dagplanningen.Add(dp);
+                    _dbContext.DagPlanningen.Add(dp);
                 }
                 Console.WriteLine(dt);
 
