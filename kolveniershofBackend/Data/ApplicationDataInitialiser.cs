@@ -28,12 +28,12 @@ namespace kolveniershofBackend.Data
 
                 //dagplanningen
                 DateTime dt = DateTime.Today;
-                var dagplanning = new DagPlanning(dt);
+                var dagplanning = new DagPlanning(1, new DateTime(2020, 5, 12), "broccoli met worst en patatten");
                 _dbContext.Dagplanningen.Add(dagplanning);
                 for(int i= 1; i<20; i++)
                 {
                     var date = dt.AddDays(i);
-                    var dp = new DagPlanning(date);
+                    var dp = new DagPlanning(2, date, "pizza");
                     _dbContext.Dagplanningen.Add(dp);
                 }
                 Console.WriteLine(dt);

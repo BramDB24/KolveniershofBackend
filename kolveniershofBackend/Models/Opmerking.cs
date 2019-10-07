@@ -46,9 +46,14 @@ namespace kolveniershofBackend.Models
                     _tekst = value;
                 }
             }
-
         }
 
         #endregion
+
+        public Opmerking(OpmerkingType opmerkingType, string tekst)
+        {
+            OpmerkingType = opmerkingType;
+            Tekst = tekst;
+        }
     }
 }
