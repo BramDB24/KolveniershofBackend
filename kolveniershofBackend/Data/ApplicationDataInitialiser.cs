@@ -1,4 +1,5 @@
-﻿using kolveniershofBackend.Models;
+﻿using kolveniershofBackend.Enums;
+using kolveniershofBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,9 @@ namespace kolveniershofBackend.Data
             if (_dbContext.Database.EnsureCreated())
             {
                 //gebruikers   
-                var user = new Gebruiker("lucas");
-                _dbContext.Gebruikers.Add(user);
+                var lucas = new Gebruiker("lucas", "nogiets", "mail@iets.com", Sfeergroep.Sfeergroep1, "fotoURL", "straat", "11", "71", "Gent", "9000", GebruikerType.Cliënt);
+                var bram = new Gebruiker("bram", "de bleecker", "email@iets.be", Sfeergroep.Sfeergroep2, "fotoURL", "straat", "200", "41", "Oudenaarde", "9700", GebruikerType.Admin);
+                _dbContext.Gebruikers.AddRange(lucas, bram);
                 
 
                 //dagplanningen
@@ -36,7 +38,12 @@ namespace kolveniershofBackend.Data
                     var dp = new DagPlanning(date);
                     _dbContext.Dagplanningen.Add(dp);
                 }
-                Console.WriteLine(dt);
+
+                var template = new DagPlanningTemplate()
+                {
+                    Weekdag = DayOfWeek.Monday,
+                    Weeknummer = 1
+                };
 
 
                 _dbContext.SaveChanges();
