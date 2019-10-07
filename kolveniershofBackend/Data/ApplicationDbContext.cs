@@ -1,4 +1,5 @@
 ﻿using kolveniershofBackend.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace kolveniershofBackend.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Gebruiker> Gebruikers { get; set; }
         public DbSet<DagPlanningTemplate> Dagplanningen { get; set; }
