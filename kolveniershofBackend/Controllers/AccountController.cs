@@ -31,7 +31,7 @@ namespace kolveniershofBackend.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<String>> CreateToken(LoginDTO model)
+        public async Task<ActionResult<string>> CreateToken(LoginDTO model)
         {
             var user = await _userManager.FindByNameAsync(model.Email); if (user != null)
             {
@@ -43,7 +43,7 @@ namespace kolveniershofBackend.Controllers
             return BadRequest();
         }
 
-        private String GetToken(IdentityUser user)
+        private string GetToken(IdentityUser user)
         {      // Createthetoken
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
@@ -53,14 +53,24 @@ namespace kolveniershofBackend.Controllers
             var token = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(30), signingCredentials: creds); return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        [AllowAnonymous] 
-        [HttpPost("register")] 
-        public async Task<ActionResult<String>> Register(RegisterDTO model) { 
-            IdentityUser user = new IdentityUser { UserName = model.Email, Email = model.Email }; 
-            Gebruiker g = new Gebruiker { Email = model.Email, Voornaam = model.Voornaam, Achternaam = model.Achternaam}; 
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<ActionResult<string>> Register(RegisterDTO model)
+        {
+            IdentityUser user = new IdentityUser { UserName = model.Email, Email = model.Email };
+
+            Gebruiker g = new Gebruiker { Email = model.Email, Voornaam = model.Voornaam, Achternaam = model.Achternaam,
+            Gemeente = model.Gemeente, Postcode = model.PostCode, Straatnaam = model.Straatnaam,
+            Huisnummer = model.Huisnummer, Sfeergroep = model.Sfeergroep, Foto = model.Foto, Type = model.Type};
+
             var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded) { _gebruikerRepository.Add(g); _gebruikerRepository.SaveChanges();
-                string token = GetToken(user); return Created("", token); } return BadRequest(); 
+
+            if (result.Succeeded)
+            {
+                _gebruikerRepository.Add(g); _gebruikerRepository.SaveChanges();
+                string token = GetToken(user); return Created("", token);
+            }
+            return BadRequest();
         }
     }
 

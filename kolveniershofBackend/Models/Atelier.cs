@@ -22,7 +22,7 @@ namespace kolveniershofBackend.Models
             get { return _ateliertype; }
             set
             {
-                if (_ateliertype == AtelierType.Undefined)
+                if (value == AtelierType.Undefined)
                 {
                     throw new ArgumentException("Selecteer het soort atelier");
                 }

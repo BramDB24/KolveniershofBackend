@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace kolveniershofBackend.Enums
 {
-    public enum AtelierType
+    public enum Weekdag
     {
-        Undefined, Afwezig, Ziek, VervoerAtelier, Gewoon, Thuis
+        Undefined, Maandag, Dinsdag, Woensdag, Donderdag, Vrijdag, Zaterdag, Zondag
     }
 }

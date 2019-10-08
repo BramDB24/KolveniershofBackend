@@ -16,7 +16,8 @@ namespace kolveniershofBackend.Data.Mappers
             builder.Property(dpt => dpt.DagplanningId).ValueGeneratedOnAdd();
             builder.Property(dpt => dpt.IsTemplate).IsRequired();
             builder.Property(dpt => dpt.Weeknummer).IsRequired();
-            
+            builder.Property(dpt => dpt.Weekdag).IsRequired();
+
             //dagplanning heeft een lijst van dagateliers
             builder.HasMany(d => d.DagAteliers).WithOne().OnDelete(DeleteBehavior.Cascade);
 

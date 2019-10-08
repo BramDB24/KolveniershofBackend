@@ -26,7 +26,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Gebruiker> DeleteRecipe(string id)
+        public ActionResult<Gebruiker> VerwijderGebruiker(string id)
         {
             Gebruiker g = _gebruikerRepository.GetBy(id);
             if (g == null)

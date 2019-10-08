@@ -39,9 +39,10 @@ namespace kolveniershofBackend
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("KolveniershofContext"));
             });
-            services.AddScoped<ApplicationDataInitialiser>();
+            
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.AddScoped<IDagPlanningTemplateRepository, DagPlanningTemplateRepository>();
+            services.AddScoped<ApplicationDataInitialiser>();
 
             services.AddAuthentication(x => {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

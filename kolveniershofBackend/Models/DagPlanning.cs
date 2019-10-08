@@ -1,4 +1,5 @@
-﻿using System;
+﻿using kolveniershofBackend.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,21 +47,22 @@ namespace kolveniershofBackend.Models
             }
         }
 
-        public DayOfWeek Weekdag { get; set; }
+        
         public List<Opmerking> Opmerkingen { get; set; }
         #endregion
 
-        public DagPlanning(): base()
+        public DagPlanning()
         {
             Opmerkingen = new List<Opmerking>();
-            Weekdag = Datum.DayOfWeek;
+            DagAteliers = new List<DagAtelier>();
         }
 
-        public DagPlanning(int weeknummer, DateTime datum, string eten): this()
+        public DagPlanning(int weeknr, bool template, DateTime datum, string eten): this()
         {
-            Weeknummer = weeknummer;
             Datum = datum;
             Eten = eten;
+            Weeknummer = weeknr;
+            IsTemplate = template;
         }
     }
 }

@@ -12,10 +12,20 @@ namespace kolveniershofBackend.Models
 
         private string _voornaam;
         private string _achternaam;
-        private string _postcode;
         private string _email;
+        private string _foto;
+        private string _straatnaam;
+        private string _huisnummer;
+        private string _busnummer;
+        private string _gemeente;
+        private string _postcode;
+        private GebruikerType _gebruikerType;
+
+        public List<Commentaar> Commentaren { get; set; }
 
         public string GebruikerId { get; set; }
+
+
         public string Voornaam {
             get {
                 return _voornaam;
@@ -26,6 +36,7 @@ namespace kolveniershofBackend.Models
                 _voornaam = value;
             }
         }
+
         public string Achternaam {
             get {
                 return _achternaam;
@@ -50,12 +61,94 @@ namespace kolveniershofBackend.Models
                 _email = value;
             }
         }
+        
+
         public Sfeergroep Sfeergroep { get; set; }
-        public string Foto { get; set; }
-        public string Straatnaam { get; set; }
-        public string Huisnummer { get; set; }
-        public string Busnummer { get; set; }
-        public string Gemeente { get; set; }
+
+        public string Foto
+        {
+            get
+            {
+                return _foto;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Een gebruiker moet een foto hebben");
+                _foto = value;
+            }
+        }
+
+        public string Straatnaam
+        {
+            get
+            {
+                return _straatnaam;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Een gebruiker moet een straat opgeven");
+                _straatnaam = value;
+            }
+        }
+
+        public string Huisnummer
+        {
+            get
+            {
+                return _huisnummer;
+            }
+            set
+            {
+                if (!Regex.IsMatch(value, @"^[0-9]{1,4}[a-zA-Z]{0,2}$", RegexOptions.IgnoreCase))
+                {
+                    throw new ArgumentException("Ongeldig huisnummer");
+                }
+                else
+                {
+                    _huisnummer = value;
+                }
+            }
+        }
+
+        public string Busnummer
+        {
+            get
+            {
+                return _busnummer;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    _busnummer = null;
+                }
+                else if (!Regex.IsMatch(value, @"^$|^[A-Za-z0-9 \\.]*[A-Za-z0-9][A-Za-z0-9 \\.]*$", RegexOptions.IgnoreCase))
+                {
+                    throw new ArgumentException("Ongeldig busnummer");
+                }
+                else
+                {
+                    _busnummer = value;
+                }
+            }
+        }
+
+        public string Gemeente
+        {
+            get
+            {
+                return _gemeente;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Een gebruiker moet een gemeente opgeven");
+                _gemeente = value;
+            }
+        }
+
         public string Postcode {
             get {
                 return _postcode;
@@ -67,9 +160,22 @@ namespace kolveniershofBackend.Models
             }
         }
 
-        public GebruikerType Type { get; set; }
+        public GebruikerType Type
+        {
+            get { return _gebruikerType; }
+            set
+            {
+                if (value == GebruikerType.Undefined)
+                {
+                    throw new ArgumentException("Selecteer het soort gebruiker");
+                }
+                else
+                {
+                    _gebruikerType = value;
+                }
+            }
+        }
 
-        public List<Commentaar> Commentaren { get; set; }
 
         public Gebruiker() {
             Commentaren = new List<Commentaar>();

@@ -12,7 +12,6 @@ namespace kolveniershofBackend.Data.Mappers
     {
         public void Configure(EntityTypeBuilder<DagPlanning> builder)
         {
-            builder.Property(dpt => dpt.Weekdag).IsRequired();
             builder.Property(dpt => dpt.Eten).IsRequired();
 
             //dagplanning heeft een lijst van opmerkingen

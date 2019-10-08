@@ -15,19 +15,14 @@ namespace kolveniershofBackend.Models
 
         #region Properties
         public int CommentaarId { get; set; }
-
         public DateTime Datum { get; set; }
-
-        public Gebruiker Gebruiker { get; set; }
-        public string GebruikerId { get; set; }
-
 
         public CommentaarType CommentaarType
         {
             get { return _commentaarType; }
             set
             {
-                if (_commentaarType == CommentaarType.Undefined)
+                if (value == CommentaarType.Undefined)
                 {
                     throw new ArgumentException("Selecteer de soort opmerking");
                 }
@@ -60,9 +55,8 @@ namespace kolveniershofBackend.Models
             Datum = DateTime.Now;
         }
 
-        public Commentaar(Gebruiker gebruiker, string tekst, CommentaarType commentaarType): this()
+        public Commentaar(string tekst, CommentaarType commentaarType): this()
         {
-            Gebruiker = gebruiker;
             Tekst = tekst;
             CommentaarType = commentaarType;
         }

@@ -22,6 +22,9 @@ namespace kolveniershofBackend.Data.Mappers
             builder.Property(g => g.Sfeergroep).IsRequired();
             builder.Property(g => g.Foto).IsRequired();
             builder.Property(g => g.Type).IsRequired();
+
+            //gebruiker kent zijn / haar commentaren
+            builder.HasMany(g=>g.Commentaren).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

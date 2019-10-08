@@ -20,7 +20,7 @@ namespace kolveniershofBackend.Models
             get { return _opmerkingtype; }
             set
             {
-                if(_opmerkingtype == OpmerkingType.Undefined)
+                if(value == OpmerkingType.Undefined)
                 {
                     throw new ArgumentException("Selecteer de soort opmerking");
                 }

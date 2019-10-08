@@ -16,10 +16,6 @@ namespace kolveniershofBackend.Data.Mappers
             builder.Property(c => c.CommentaarId).ValueGeneratedOnAdd();
             builder.Property(c => c.CommentaarType).IsRequired();
             builder.Property(c => c.Tekst).IsRequired();
-
-            //commentaar kent haar gebruiker
-            builder.HasOne(c => c.Gebruiker).WithMany().HasForeignKey(c => c.GebruikerId)
-                .IsRequired().OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

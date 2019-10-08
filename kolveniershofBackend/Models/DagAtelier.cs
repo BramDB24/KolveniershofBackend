@@ -23,9 +23,9 @@ namespace kolveniershofBackend.Models
             get { return _dagMoment; }
             set
             {
-                if (_dagMoment == DagMoment.Undefined)
+                if (value == DagMoment.Undefined)
                 {
-                    throw new ArgumentException("Selecteer de soort opmerking");
+                    throw new ArgumentException("Selecteer het dagmoment");
                 }
                 else
                 {

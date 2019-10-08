@@ -1,4 +1,5 @@
-﻿using System;
+﻿using kolveniershofBackend.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace kolveniershofBackend.Models
     {
 
         private int _weeknummer;
+        private Weekdag _weekdag;
+
         public int DagplanningId { get; set; }
         public List<DagAtelier> DagAteliers { get; set; }
         public bool IsTemplate { get; set; }
@@ -30,15 +33,32 @@ namespace kolveniershofBackend.Models
 
         }
 
+        public Weekdag Weekdag
+        {
+            get { return _weekdag; }
+            set
+            {
+                if (value == Weekdag.Undefined)
+                {
+                    throw new ArgumentException("Selecteer een weekdag");
+                }
+                else
+                {
+                    _weekdag = value;
+                }
+            }
+        }
+
         public DagPlanningTemplate()
         {
             DagAteliers = new List<DagAtelier>();
         }
 
-        public DagPlanningTemplate(int weeknr, bool template): this()
+        public DagPlanningTemplate(int weeknr, Weekdag weekdag, bool template): this()
         {
             Weeknummer = weeknr;
             IsTemplate = template;
+            Weekdag = weekdag;
         }
     }
 }
