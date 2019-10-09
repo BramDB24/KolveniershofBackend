@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using kolveniershofBackend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace kolveniershofBackend.Controllers
 {
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class GebruikerController : ControllerBase
@@ -50,7 +53,7 @@ namespace kolveniershofBackend.Controllers
         public ActionResult<Gebruiker> PutGebruiker(string id, Gebruiker gebruiker)
         {
             Gebruiker g = _gebruikerRepository.GetBy(id);
-            if (!g.GebruikerId.Equals(id))
+            if (!g.Id.Equals(id))
                 return BadRequest();
             _gebruikerRepository.Update(gebruiker);
             _gebruikerRepository.SaveChanges();
@@ -62,7 +65,7 @@ namespace kolveniershofBackend.Controllers
         {
             _gebruikerRepository.Add(gebruiker);
             _gebruikerRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetGebruiker), gebruiker.GebruikerId);
+            return CreatedAtAction(nameof(GetGebruiker), gebruiker.Id);
         }
     }
 }
