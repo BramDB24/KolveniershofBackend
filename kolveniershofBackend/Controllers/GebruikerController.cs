@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace kolveniershofBackend.Controllers
 {
-    public class GebruikerController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class GebruikerController : ControllerBase
     {
         private readonly IGebruikerRepository _gebruikerRepository;
 
@@ -36,6 +38,31 @@ namespace kolveniershofBackend.Controllers
             _gebruikerRepository.Delete(g);
             _gebruikerRepository.SaveChanges();
             return g;
+        }
+
+        [HttpGet]
+        public IEnumerable<Gebruiker> GetGebruikers()
+        {
+            return _gebruikerRepository.GetAll();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<Gebruiker> PutGebruiker(string id, Gebruiker gebruiker)
+        {
+            Gebruiker g = _gebruikerRepository.GetBy(id);
+            if (!g.GebruikerId.Equals(id))
+                return BadRequest();
+            _gebruikerRepository.Update(gebruiker);
+            _gebruikerRepository.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpPost]
+        public ActionResult<Gebruiker> PostGebruiker(Gebruiker gebruiker)
+        {
+            _gebruikerRepository.Add(gebruiker);
+            _gebruikerRepository.SaveChanges();
+            return CreatedAtAction(nameof(GetGebruiker), gebruiker.GebruikerId);
         }
     }
 }
