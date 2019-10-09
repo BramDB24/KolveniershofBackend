@@ -54,11 +54,21 @@ namespace kolveniershofBackend.Models
             DagAteliers = new List<DagAtelier>();
         }
 
-        public DagPlanningTemplate(int weeknr, Weekdag weekdag, bool template): this()
+        public DagPlanningTemplate(int weeknr, Weekdag weekdag): this()
         {
             Weeknummer = weeknr;
-            IsTemplate = template;
+            IsTemplate = true;
             Weekdag = weekdag;
+        }
+
+        public void VoegDagAtelierToeAanDagPlaningTemplate(DagAtelier dagAtelier)
+        {
+            DagAteliers.Add(dagAtelier);
+        }
+
+        public void VerwijderDagAtlierVanDagPlanningTemplate(DagAtelier dagAtelier)
+        { 
+            DagAteliers.Remove(dagAtelier);
         }
     }
 }

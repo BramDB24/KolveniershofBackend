@@ -1,4 +1,5 @@
 ﻿using kolveniershofBackend.Enums;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace kolveniershofBackend.Models
 {
-    public class Gebruiker
+    public class Gebruiker: IdentityUser
     {
 
         private string _voornaam;
@@ -22,9 +23,6 @@ namespace kolveniershofBackend.Models
         private GebruikerType _gebruikerType;
 
         public List<Commentaar> Commentaren { get; set; }
-
-        public string GebruikerId { get; set; }
-
 
         public string Voornaam {
             get {
@@ -49,7 +47,7 @@ namespace kolveniershofBackend.Models
         }
 
 
-        public string Email {
+        public override string Email {
             get {
                 return _email;
             }
@@ -195,6 +193,7 @@ namespace kolveniershofBackend.Models
             Gemeente = gemeente;
             Postcode = postcode;
             Type = type;
+            UserName = email;
         }
 
         public void addCommentaar(Commentaar commentaar) //commentaar object meegeven of objecten om commentaar mee te creëren meegeven

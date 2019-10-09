@@ -7,7 +7,7 @@ namespace kolveniershofBackend.Models
 {
     public class GebruikerDagAtelier
     {
-        public string GebruikerId { get; set; }
+        public string Id { get; set; }
         public int DagAtelierId { get; set; }
         public Gebruiker Gebruiker { get; set; }
         public DagAtelier DagAtelier { get; set; }
@@ -21,7 +21,7 @@ namespace kolveniershofBackend.Models
         {
             Gebruiker = gebruiker;
             DagAtelier = dagAtelier;
-            GebruikerId = gebruiker.GebruikerId;
+            Id = gebruiker.Id;
             DagAtelierId = dagAtelier.DagAtelierId;
         }
     }

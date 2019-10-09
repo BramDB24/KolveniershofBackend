@@ -1,4 +1,5 @@
-﻿using kolveniershofBackend.Models;
+﻿using kolveniershofBackend.Enums;
+using kolveniershofBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,17 @@ namespace kolveniershofBackend.Data.Repositories
 
         public Gebruiker GetBy(string id)
         {
-            return _gebruikers.SingleOrDefault(r => r.GebruikerId == id);
+            return _gebruikers.SingleOrDefault(r => r.Id == id);
+        }
+
+        public Gebruiker GetBySfeergroep(Sfeergroep sfeergroep)
+        {
+            return _gebruikers.SingleOrDefault(r => r.Sfeergroep == sfeergroep);
+        }
+
+        public Gebruiker GetByType(GebruikerType gebruikerType)
+        {
+            return _gebruikers.SingleOrDefault(r => r.Type == gebruikerType);
         }
 
         public void SaveChanges()

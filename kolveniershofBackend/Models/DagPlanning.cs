@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace kolveniershofBackend.Models
 {
-    public class DagPlanning: DagPlanningTemplate
+    public class DagPlanning : DagPlanningTemplate
     {
         #region Fields
         private DateTime _datum;
@@ -47,7 +47,7 @@ namespace kolveniershofBackend.Models
             }
         }
 
-        
+
         public List<Opmerking> Opmerkingen { get; set; }
         #endregion
 
@@ -57,12 +57,30 @@ namespace kolveniershofBackend.Models
             DagAteliers = new List<DagAtelier>();
         }
 
-        public DagPlanning(int weeknr, bool template, DateTime datum, string eten): this()
+        public DagPlanning(int weeknr, DateTime datum, string eten) : this()
         {
             Datum = datum;
             Eten = eten;
             Weeknummer = weeknr;
-            IsTemplate = template;
+            IsTemplate = false;
+            Weekdag = ZetDayOfWeekOmNaarWeekdag(datum);
+        }
+
+        public static Weekdag ZetDayOfWeekOmNaarWeekdag(DateTime datum)
+        {
+            var dag = Weekdag.Undefined;
+
+            switch (datum.DayOfWeek)
+            {
+                case DayOfWeek.Monday: dag = Weekdag.Maandag; break;
+                case DayOfWeek.Tuesday: dag = Weekdag.Dinsdag; break;
+                case DayOfWeek.Wednesday:dag = Weekdag.Woensdag; break;
+                case DayOfWeek.Thursday: dag = Weekdag.Donderdag; break;
+                case DayOfWeek.Friday: dag = Weekdag.Vrijdag; break;
+                case DayOfWeek.Saturday: dag = Weekdag.Zaterdag; break;
+                case DayOfWeek.Sunday: dag = Weekdag.Zondag; break;
+            }
+            return dag;
         }
     }
 }
