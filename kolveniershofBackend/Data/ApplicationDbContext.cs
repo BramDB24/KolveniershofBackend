@@ -10,14 +10,8 @@ namespace kolveniershofBackend.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Atelier> Ateliers { get; set; }
-        public DbSet<Commentaar> Commentaar { get; set; }
-        public DbSet<DagAtelier> DagAteliers { get; set; }
         public DbSet<DagPlanningTemplate> DagPlanningen { get; set; }
-        public DbSet<DagPlanning> DagPlanningenConcreet { get; set; }
         public DbSet<Gebruiker> Gebruikers { get; set; }
-        public DbSet<GebruikerDagAtelier> GebruikerAteliers { get; set; }
-        public DbSet<Opmerking> Opmerkingen { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
