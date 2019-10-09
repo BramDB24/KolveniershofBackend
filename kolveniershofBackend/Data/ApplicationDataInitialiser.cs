@@ -11,9 +11,9 @@ namespace kolveniershofBackend.Data
     {
 
         private readonly ApplicationDbContext _dbContext;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Gebruiker> _userManager;
 
-        public ApplicationDataInitialiser(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
+        public ApplicationDataInitialiser(ApplicationDbContext dbContext, UserManager<Gebruiker> userManager)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -56,14 +56,14 @@ namespace kolveniershofBackend.Data
                 Gebruiker lisa = new Gebruiker("lisa", "janssens", "lisa@gmail.be", Enums.Sfeergroep.Sfeergroep3,
                     "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", Enums.GebruikerType.Cliënt);
 
-                var gebruikers = new List<Gebruiker> { dina, dieter, lucas, karo, thomas, frans, jos, laura, veerle, ken, nicolas, lisa };
+                var gebruikers = new List<Gebruiker> { dina, dieter, lucas, karo, thomas, frans,
+                    jos, laura, veerle, ken, nicolas, lisa };
                 foreach (Gebruiker g in gebruikers)
                 {
-                    _dbContext.Gebruikers.Add(g);
-                   // IdentityUser user = new IdentityUser { UserName = g.Email, Email = g.Email };
-                   // await _userManager.CreateAsync(user, "password1010");
+                    await MaakGebruiker(g, "password1010");
                 }
                 _dbContext.SaveChanges();
+
 
                 //alle ateliers
                 //gewone ateliers
@@ -140,14 +140,14 @@ namespace kolveniershofBackend.Data
                 }
                 _dbContext.SaveChanges();
 
-                kokenOpMaandagVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
-                zwemmenOpMaandagNamiddag.VoegGebruikerAanDagAtelierToe(frans);
-                sportenOpDinsdagVolledigeDag.VoegGebruikerAanDagAtelierToe(lisa);
-                expressieOpWoensdagVoormiddag.VoegGebruikerAanDagAtelierToe(thomas);
-                toneelOpWoensdagNamiddag.VoegGebruikerAanDagAtelierToe(dieter);
-                winkelenOpDonderdagVolledigeDag.VoegGebruikerAanDagAtelierToe(dina);
-                paardrijdenOpVrijdagVoormiddag.VoegGebruikerAanDagAtelierToe(dieter);
-                verhalenOpVrijdagNamiddag.VoegGebruikerAanDagAtelierToe(veerle);
+                //kokenOpMaandagVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
+                //zwemmenOpMaandagNamiddag.VoegGebruikerAanDagAtelierToe(frans);
+                //sportenOpDinsdagVolledigeDag.VoegGebruikerAanDagAtelierToe(lisa);
+                //expressieOpWoensdagVoormiddag.VoegGebruikerAanDagAtelierToe(thomas);
+                //toneelOpWoensdagNamiddag.VoegGebruikerAanDagAtelierToe(dieter);
+                //winkelenOpDonderdagVolledigeDag.VoegGebruikerAanDagAtelierToe(dina);
+                //paardrijdenOpVrijdagVoormiddag.VoegGebruikerAanDagAtelierToe(dieter);
+                //verhalenOpVrijdagNamiddag.VoegGebruikerAanDagAtelierToe(veerle);
 
                 _dbContext.SaveChanges();
 
@@ -206,6 +206,11 @@ namespace kolveniershofBackend.Data
 
                 _dbContext.SaveChanges();
             }
+        }
+
+        private async Task MaakGebruiker(Gebruiker gebruiker, string password)
+        {
+            await _userManager.CreateAsync(gebruiker, password);
         }
     }
 }

@@ -9,8 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace kolveniershofBackend.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [AllowAnonymous]
     public class ValuesController : ControllerBase
     {//
         // GET api/values

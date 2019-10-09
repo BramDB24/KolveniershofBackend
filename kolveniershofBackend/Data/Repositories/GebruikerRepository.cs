@@ -36,7 +36,7 @@ namespace kolveniershofBackend.Data.Repositories
 
         public Gebruiker GetBy(string id)
         {
-            return _gebruikers.SingleOrDefault(r => r.GebruikerId == id);
+            return _gebruikers.SingleOrDefault(r => r.Id == id);
         }
 
         public Gebruiker GetBySfeergroep(Sfeergroep sfeergroep)

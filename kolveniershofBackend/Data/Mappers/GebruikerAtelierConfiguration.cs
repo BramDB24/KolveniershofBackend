@@ -9,7 +9,7 @@ namespace kolveniershofBackend.Data.Mappers
         public void Configure(EntityTypeBuilder<GebruikerDagAtelier> builder)
         {
 
-            builder.HasKey(ga => new { ga.DagAtelierId, ga.GebruikerId });
+            builder.HasKey(ga => new { ga.DagAtelierId, ga.Id });
 
             builder.HasOne(ga => ga.DagAtelier)
                 .WithMany(da => da.GebruikerDagAteliers)
@@ -18,7 +18,7 @@ namespace kolveniershofBackend.Data.Mappers
 
             builder.HasOne(ga => ga.Gebruiker)
                 .WithMany()
-                .HasForeignKey(ga => ga.GebruikerId)
+                .HasForeignKey(ga => ga.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
 

@@ -13,6 +13,7 @@ namespace kolveniershofBackend.Data.Mappers
         public void Configure(EntityTypeBuilder<DagPlanning> builder)
         {
             builder.Property(dpt => dpt.Eten).IsRequired();
+            builder.Property(dpt => dpt.Datum).IsRequired();
 
             //dagplanning heeft een lijst van opmerkingen
             builder.HasMany(d => d.Opmerkingen).WithOne().OnDelete(DeleteBehavior.Cascade);

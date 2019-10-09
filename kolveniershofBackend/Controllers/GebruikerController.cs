@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using kolveniershofBackend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace kolveniershofBackend.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [AllowAnonymous]
     public class GebruikerController : Controller
     {
         private readonly IGebruikerRepository _gebruikerRepository;

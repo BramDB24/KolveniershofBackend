@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using kolveniershofBackend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace kolveniershofBackend.Controllers
 {
-   
+
     /// <summary>
     /// 
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [AllowAnonymous]
     public class DagPlanningController : ControllerBase
     {
         private readonly IDagPlanningTemplateRepository _dagPlanningRepository;
