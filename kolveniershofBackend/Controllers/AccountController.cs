@@ -71,8 +71,6 @@ namespace kolveniershofBackend.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<string>> Register(RegisterDTO model)
         {
-            //IdentityUser user = new IdentityUser { UserName = model.Email, Email = model.Email };
-
             Gebruiker g = new Gebruiker { Email = model.Email, Voornaam = model.Voornaam, Achternaam = model.Achternaam,
             Gemeente = model.Gemeente, Postcode = model.PostCode, Straatnaam = model.Straatnaam,
             Huisnummer = model.Huisnummer, Sfeergroep = model.Sfeergroep, Foto = model.Foto, Type = model.Type,
@@ -83,7 +81,6 @@ namespace kolveniershofBackend.Controllers
 
             if (result.Succeeded)
             {
-                _gebruikerRepository.Add(g);
                 _gebruikerRepository.SaveChanges();
                 string token = GetToken(g);
                 return Created("", token);

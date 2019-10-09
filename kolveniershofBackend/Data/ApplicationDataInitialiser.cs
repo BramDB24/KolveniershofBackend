@@ -140,14 +140,14 @@ namespace kolveniershofBackend.Data
                 }
                 _dbContext.SaveChanges();
 
-                //kokenOpMaandagVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
-                //zwemmenOpMaandagNamiddag.VoegGebruikerAanDagAtelierToe(frans);
-                //sportenOpDinsdagVolledigeDag.VoegGebruikerAanDagAtelierToe(lisa);
-                //expressieOpWoensdagVoormiddag.VoegGebruikerAanDagAtelierToe(thomas);
-                //toneelOpWoensdagNamiddag.VoegGebruikerAanDagAtelierToe(dieter);
-                //winkelenOpDonderdagVolledigeDag.VoegGebruikerAanDagAtelierToe(dina);
-                //paardrijdenOpVrijdagVoormiddag.VoegGebruikerAanDagAtelierToe(dieter);
-                //verhalenOpVrijdagNamiddag.VoegGebruikerAanDagAtelierToe(veerle);
+                kokenOpMaandagVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
+                zwemmenOpMaandagNamiddag.VoegGebruikerAanDagAtelierToe(frans);
+                sportenOpDinsdagVolledigeDag.VoegGebruikerAanDagAtelierToe(lisa);
+                expressieOpWoensdagVoormiddag.VoegGebruikerAanDagAtelierToe(thomas);
+                toneelOpWoensdagNamiddag.VoegGebruikerAanDagAtelierToe(dieter);
+                winkelenOpDonderdagVolledigeDag.VoegGebruikerAanDagAtelierToe(dina);
+                paardrijdenOpVrijdagVoormiddag.VoegGebruikerAanDagAtelierToe(dieter);
+                verhalenOpVrijdagNamiddag.VoegGebruikerAanDagAtelierToe(veerle);
 
                 _dbContext.SaveChanges();
 
