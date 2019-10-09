@@ -48,5 +48,21 @@ namespace kolveniershofBackend.Models
             DagMoment = dagMoment;
             Atelier = atelier;
         }
+
+        public void VoegGebruikerAanDagAtelierToe(Gebruiker gebruiker)
+        {
+            GebruikerDagAteliers.Add(new GebruikerDagAtelier(gebruiker, this));
+        }
+
+        public void VerwijderGebruikerUitAtelier(Gebruiker gebruiker)
+        {
+            GebruikerDagAteliers.Remove(GebruikerDagAteliers.FirstOrDefault(g => g.Gebruiker == gebruiker));
+        }
+
+        public IEnumerable<Gebruiker> GeefAlleGebruikersVanAtelier()
+        {
+            return GebruikerDagAteliers.Select(g => g.Gebruiker).OrderBy(g => g.Achternaam);
+        }
+
     }
 }

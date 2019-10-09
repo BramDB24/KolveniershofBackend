@@ -1,4 +1,5 @@
 ﻿using kolveniershofBackend.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,15 @@ namespace kolveniershofBackend.Data
     {
 
         private readonly ApplicationDbContext _dbContext;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ApplicationDataInitialiser(ApplicationDbContext dbContext)
+        public ApplicationDataInitialiser(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             _dbContext = dbContext;
+            _userManager = userManager;
         }
 
-        public void InitializeData()
+        public async Task InitializeData()
         {
             _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
@@ -57,6 +60,8 @@ namespace kolveniershofBackend.Data
                 foreach (Gebruiker g in gebruikers)
                 {
                     _dbContext.Gebruikers.Add(g);
+                   // IdentityUser user = new IdentityUser { UserName = g.Email, Email = g.Email };
+                   // await _userManager.CreateAsync(user, "password1010");
                 }
                 _dbContext.SaveChanges();
 
@@ -128,56 +133,72 @@ namespace kolveniershofBackend.Data
                 var dagAteliers = new List<DagAtelier> {kokenOpMaandagVoormiddag, zwemmenOpMaandagNamiddag, sportenOpDinsdagVolledigeDag,
                     expressieOpWoensdagVoormiddag,toneelOpWoensdagNamiddag, winkelenOpDonderdagVolledigeDag, paardrijdenOpVrijdagVoormiddag,
                     verhalenOpVrijdagNamiddag };
+
                 foreach (DagAtelier da in dagAteliers)
                 {
                     _dbContext.DagAteliers.Add(da);
                 }
                 _dbContext.SaveChanges();
 
+                kokenOpMaandagVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
+                zwemmenOpMaandagNamiddag.VoegGebruikerAanDagAtelierToe(frans);
+                sportenOpDinsdagVolledigeDag.VoegGebruikerAanDagAtelierToe(lisa);
+                expressieOpWoensdagVoormiddag.VoegGebruikerAanDagAtelierToe(thomas);
+                toneelOpWoensdagNamiddag.VoegGebruikerAanDagAtelierToe(dieter);
+                winkelenOpDonderdagVolledigeDag.VoegGebruikerAanDagAtelierToe(dina);
+                paardrijdenOpVrijdagVoormiddag.VoegGebruikerAanDagAtelierToe(dieter);
+                verhalenOpVrijdagNamiddag.VoegGebruikerAanDagAtelierToe(veerle);
+
+                _dbContext.SaveChanges();
+
                 //dagplanningTemplate
                 //week1
-                DagPlanningTemplate maandagWeek1 = new DagPlanningTemplate(1, Enums.Weekdag.Maandag, true);
-                DagPlanningTemplate dinsdagWeek1 = new DagPlanningTemplate(1, Enums.Weekdag.Dinsdag, true);
-                DagPlanningTemplate woensdagWeek1 = new DagPlanningTemplate(1, Enums.Weekdag.Woensdag, true);
-                DagPlanningTemplate donderdagWeek1 = new DagPlanningTemplate(1, Enums.Weekdag.Donderdag, true);
-                DagPlanningTemplate vrijdagWeek1 = new DagPlanningTemplate(1, Enums.Weekdag.Vrijdag, true);
+                DagPlanningTemplate maandagWeek1 = new DagPlanningTemplate(1, Enums.Weekdag.Maandag);
+                DagPlanningTemplate dinsdagWeek1 = new DagPlanningTemplate(1, Enums.Weekdag.Dinsdag);
+                DagPlanningTemplate woensdagWeek1 = new DagPlanningTemplate(1, Enums.Weekdag.Woensdag);
+                DagPlanningTemplate donderdagWeek1 = new DagPlanningTemplate(1, Enums.Weekdag.Donderdag);
+                DagPlanningTemplate vrijdagWeek1 = new DagPlanningTemplate(1, Enums.Weekdag.Vrijdag);
                 //week2
-                DagPlanningTemplate maandagWeek2 = new DagPlanningTemplate(2, Enums.Weekdag.Maandag, true);
-                DagPlanningTemplate dinsdagWeek2 = new DagPlanningTemplate(2, Enums.Weekdag.Dinsdag, true);
-                DagPlanningTemplate woensdagWeek2 = new DagPlanningTemplate(2, Enums.Weekdag.Woensdag, true);
-                DagPlanningTemplate donderdagWeek2 = new DagPlanningTemplate(2, Enums.Weekdag.Donderdag, true);
-                DagPlanningTemplate vrijdagWeek2 = new DagPlanningTemplate(2, Enums.Weekdag.Vrijdag, true);
+                DagPlanningTemplate maandagWeek2 = new DagPlanningTemplate(2, Enums.Weekdag.Maandag);
+                DagPlanningTemplate dinsdagWeek2 = new DagPlanningTemplate(2, Enums.Weekdag.Dinsdag);
+                DagPlanningTemplate woensdagWeek2 = new DagPlanningTemplate(2, Enums.Weekdag.Woensdag);
+                DagPlanningTemplate donderdagWeek2 = new DagPlanningTemplate(2, Enums.Weekdag.Donderdag);
+                DagPlanningTemplate vrijdagWeek2 = new DagPlanningTemplate(2, Enums.Weekdag.Vrijdag);
                 //week3
-                DagPlanningTemplate maandagWeek3 = new DagPlanningTemplate(3, Enums.Weekdag.Maandag, true);
-                DagPlanningTemplate dinsdagWeek3 = new DagPlanningTemplate(3, Enums.Weekdag.Dinsdag, true);
-                DagPlanningTemplate woensdagWeek3 = new DagPlanningTemplate(3, Enums.Weekdag.Woensdag, true);
-                DagPlanningTemplate donderdagWeek3 = new DagPlanningTemplate(3, Enums.Weekdag.Donderdag, true);
-                DagPlanningTemplate vrijdagWeek3 = new DagPlanningTemplate(3, Enums.Weekdag.Vrijdag, true);
+                DagPlanningTemplate maandagWeek3 = new DagPlanningTemplate(3, Enums.Weekdag.Maandag);
+                DagPlanningTemplate dinsdagWeek3 = new DagPlanningTemplate(3, Enums.Weekdag.Dinsdag);
+                DagPlanningTemplate woensdagWeek3 = new DagPlanningTemplate(3, Enums.Weekdag.Woensdag);
+                DagPlanningTemplate donderdagWeek3 = new DagPlanningTemplate(3, Enums.Weekdag.Donderdag);
+                DagPlanningTemplate vrijdagWeek3 = new DagPlanningTemplate(3, Enums.Weekdag.Vrijdag);
                 //week4
-                DagPlanningTemplate maandagWeek4 = new DagPlanningTemplate(4, Enums.Weekdag.Maandag, true);
-                DagPlanningTemplate dinsdagWeek4 = new DagPlanningTemplate(4, Enums.Weekdag.Dinsdag, true);
-                DagPlanningTemplate woensdagWeek4 = new DagPlanningTemplate(4, Enums.Weekdag.Woensdag, true);
-                DagPlanningTemplate donderdagWeek4 = new DagPlanningTemplate(4, Enums.Weekdag.Donderdag, true);
-                DagPlanningTemplate vrijdagWeek4 = new DagPlanningTemplate(4, Enums.Weekdag.Vrijdag, true);
+                DagPlanningTemplate maandagWeek4 = new DagPlanningTemplate(4, Enums.Weekdag.Maandag);
+                DagPlanningTemplate dinsdagWeek4 = new DagPlanningTemplate(4, Enums.Weekdag.Dinsdag);
+                DagPlanningTemplate woensdagWeek4 = new DagPlanningTemplate(4, Enums.Weekdag.Woensdag);
+                DagPlanningTemplate donderdagWeek4 = new DagPlanningTemplate(4, Enums.Weekdag.Donderdag);
+                DagPlanningTemplate vrijdagWeek4 = new DagPlanningTemplate(4, Enums.Weekdag.Vrijdag);
 
                 var DagPlanningTemplates = new List<DagPlanningTemplate> {maandagWeek1, dinsdagWeek1, woensdagWeek1, donderdagWeek1, vrijdagWeek1,
                 maandagWeek2, dinsdagWeek2, woensdagWeek2, donderdagWeek2, vrijdagWeek2,
                 maandagWeek3, dinsdagWeek3, woensdagWeek3, donderdagWeek3, vrijdagWeek3,
                 maandagWeek4, dinsdagWeek4, woensdagWeek4, donderdagWeek4, vrijdagWeek4};
+
                 foreach (DagPlanningTemplate dpt in DagPlanningTemplates)
                 {
                     _dbContext.DagPlanningen.Add(dpt);
                 }
                 _dbContext.SaveChanges();
 
+                maandagWeek1.VoegDagAtelierToeAanDagPlaningTemplate(kokenOpMaandagVoormiddag);
+                maandagWeek1.VoegDagAtelierToeAanDagPlaningTemplate(zwemmenOpMaandagNamiddag);
+
                 //dagplanningen
                 DateTime dt = DateTime.Today;
-                var dagplanning = new DagPlanning(1, false, new DateTime(2020, 5, 11), "balletjes in tomatensaus en friet");
+                var dagplanning = new DagPlanning(1, new DateTime(2020, 5, 11), "balletjes in tomatensaus en friet");
                 _dbContext.DagPlanningenConcreet.Add(dagplanning);
                 for(int i= 1; i<20; i++)
                 {
                     var date = dt.AddDays(i);
-                    var dp = new DagPlanning(2, false, date, "groenten, vlees en pasta");
+                    var dp = new DagPlanning(2, date, "groenten, vlees en pasta");
                     _dbContext.DagPlanningenConcreet.Add(dp);
                 }
                 Console.WriteLine(dt);
