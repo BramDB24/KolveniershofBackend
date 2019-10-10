@@ -117,8 +117,7 @@ namespace kolveniershofBackend.Data
                     sporten, toneel, vorming, winkelen};
 
                 _dbContext.Ateliers.AddRange(ateliers);
-                
-                
+
                 //dagAteliers
                 DagAtelier kokenOpMaandagVoormiddag = new DagAtelier(DagMoment.Voormiddag, koken);
                 DagAtelier zwemmenOpMaandagNamiddag = new DagAtelier(DagMoment.Namiddag, zwemmen);
