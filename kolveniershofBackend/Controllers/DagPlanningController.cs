@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using kolveniershofBackend.DTO;
 using kolveniershofBackend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +25,6 @@ namespace kolveniershofBackend.Controllers
         /// 
         /// </summary>
         /// <param name="dagPlanningRepository"></param>
-        /// /// <param name="atelierRepository"></param>
         public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository)
         {
             _dagPlanningRepository = dagPlanningRepository;
@@ -36,17 +36,44 @@ namespace kolveniershofBackend.Controllers
         /// <param name="datum"></param>
         /// <returns></returns>
         [HttpGet("{datum}")]
-        public ActionResult<DagPlanning> GetDagPlanning(string datum)
+        public ActionResult<DagplanningDTO> GetDagPlanning(string datum)
         {
             //identity
 
             //date object kan niet meegegeven worden via parameter
             //dit zet string om naar datum --> zo doen of datum gewoon als string opslaan?
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind); 
-            DagPlanning dp = _dagPlanningRepository.GetBy(datumFormatted);
-            if (dp == null)
+            DagPlanning dagplanning = _dagPlanningRepository.GetBy(datumFormatted);
+            if (dagplanning == null)
                 return NotFound();
-            return dp;
+
+            var dto = new DagplanningDTO()
+            {
+                DagplanningId = dagplanning.DagplanningId,
+                Datum = dagplanning.Datum,
+                Eten = dagplanning.Eten,
+
+                DagAteliers = dagplanning.DagAteliers.Select(da => new DagAtelierDTO()
+                {
+                    Atelier = new AtelierDTO() {
+                        AtelierId = da.Atelier.AtelierId,
+                        AtelierType = da.Atelier.AtelierType,
+                        Naam = da.Atelier.Naam,
+                    },
+                    DagAtelierId = da.DagAtelierId,
+                    DagMoment = da.DagMoment,
+                    Gebruikers = da.GebruikerDagAteliers.Select(gda => new BasicGebruikerDTO()
+                    {
+                        Id = gda.Gebruiker.Id,
+                        Achternaam = gda.Gebruiker.Achternaam,
+                        Voornaam = gda.Gebruiker.Voornaam,
+                        Foto = gda.Gebruiker.Foto,
+                        Type = gda.Gebruiker.Type,
+                    })
+                }),
+                //Opmerkingen = dagplanning.Opmerkingen,
+            };
+            return dto;
         }
 
         /// <summary>
