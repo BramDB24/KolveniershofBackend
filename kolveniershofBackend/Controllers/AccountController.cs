@@ -34,7 +34,6 @@ namespace kolveniershofBackend.Controllers
             _config = config;
         }
 
-        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<string>> CreateToken(LoginDTO model)
         {
@@ -67,7 +66,6 @@ namespace kolveniershofBackend.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult<string>> Register(RegisterDTO model)
         {
@@ -86,6 +84,52 @@ namespace kolveniershofBackend.Controllers
                 return Created("", token);
             }
             return BadRequest();
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<GebruikerDTO> GetGebruiker(string id)
+        {
+            GebruikerDTO g = new GebruikerDTO(_gebruikerRepository.GetBy(id));
+            if (g == null) return NotFound();
+            return g;
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<Gebruiker> VerwijderGebruiker(string id)
+        {
+            Gebruiker g = _gebruikerRepository.GetBy(id);
+            if (g == null)
+            {
+                return NotFound();
+            }
+            _gebruikerRepository.Delete(g);
+            _gebruikerRepository.SaveChanges();
+            return g;
+        }
+
+        [HttpGet]
+        public IEnumerable<GebruikerDTO> GetGebruikers()
+        {
+            return _gebruikerRepository.GetAll().ToList().Select(g => new GebruikerDTO(g));
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<Gebruiker> PutGebruiker(string id, Gebruiker gebruiker)
+        {
+            Gebruiker g = _gebruikerRepository.GetBy(id);
+            if (!g.Id.Equals(id))
+                return BadRequest();
+            _gebruikerRepository.Update(gebruiker);
+            _gebruikerRepository.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpPost]
+        public ActionResult<Gebruiker> PostGebruiker(Gebruiker gebruiker)
+        {
+            _gebruikerRepository.Add(gebruiker);
+            _gebruikerRepository.SaveChanges();
+            return CreatedAtAction(nameof(GetGebruiker), gebruiker.Id);
         }
     }
 
