@@ -11,6 +11,7 @@ namespace kolveniershofBackend.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<DagPlanningTemplate> DagPlanningen { get; set; }
+        public DbSet<Atelier> Ateliers { get; set; }
         public DbSet<Gebruiker> Gebruikers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
