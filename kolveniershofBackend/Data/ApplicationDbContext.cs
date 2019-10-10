@@ -13,7 +13,6 @@ namespace kolveniershofBackend.Data
         public DbSet<DagPlanningTemplate> DagPlanningen { get; set; }
         public DbSet<Atelier> Ateliers { get; set; }
         public DbSet<Gebruiker> Gebruikers { get; set; }
-        public DbSet<Atelier> Ateliers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
