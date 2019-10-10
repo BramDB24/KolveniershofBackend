@@ -71,7 +71,7 @@ namespace kolveniershofBackend
                 c.DocumentName = "apidocs";
                 c.Title = "Kolveniershof API";
                 c.Version = "v1";
-                c.Description = "The Recipe API documentation description.";
+                c.Description = "The Kolveniershof API documentation description.";
                 c.DocumentProcessors.Add(
                     new SecurityDefinitionAppender("JWT Token", new SwaggerSecurityScheme{
                         Type = SwaggerSecuritySchemeType.ApiKey,
@@ -118,9 +118,9 @@ namespace kolveniershofBackend
             services.AddOpenApiDocument(c =>
             {
                 c.DocumentName = "apidocs";
-                c.Title = "Chalender API";
+                c.Title = "Kolveniershof API";
                 c.Version = "v1";
-                c.Description = "The Chalender API documentation description.";
+                c.Description = "The Kolveniershof API documentation description.";
                 c.DocumentProcessors.Add(new SecurityDefinitionAppender("JWT Token", new SwaggerSecurityScheme
                 {
                     Type = SwaggerSecuritySchemeType.ApiKey,
@@ -178,6 +178,7 @@ namespace kolveniershofBackend
 
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.AddScoped<IDagPlanningTemplateRepository, DagPlanningTemplateRepository>();
+            services.AddScoped<IAtelierRepository, AtelierRepository>();
             services.AddScoped<ApplicationDataInitialiser>();
 
             services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin()));

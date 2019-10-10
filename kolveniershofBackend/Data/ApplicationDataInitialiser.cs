@@ -115,6 +115,8 @@ namespace kolveniershofBackend.Data
                 hout, kringgesprek, muziek, provinciaalDomein, snoezelen, uitstap, zwemmen, beleving, digitaal, kaarsen, kunst,
                 paardrijden, spikEnSpan, tievo, verhalen, werkplaats, bib, expressie, keukenEnAfwas, levensboeken, petanque,
                     sporten, toneel, vorming, winkelen};
+
+                _dbContext.Ateliers.AddRange(ateliers);
                 
                 
                 //dagAteliers

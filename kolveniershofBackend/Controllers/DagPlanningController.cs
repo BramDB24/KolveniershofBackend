@@ -20,11 +20,11 @@ namespace kolveniershofBackend.Controllers
     public class DagPlanningController : ControllerBase
     {
         private readonly IDagPlanningTemplateRepository _dagPlanningRepository;
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="dagPlanningRepository"></param>
+        /// /// <param name="atelierRepository"></param>
         public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository)
         {
             _dagPlanningRepository = dagPlanningRepository;
@@ -56,7 +56,7 @@ namespace kolveniershofBackend.Controllers
         /// <param name="dagPlanning"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public ActionResult<DagPlanningTemplate> PutDagPlanning(int id, DagPlanning dagPlanning)
+        public ActionResult<DagPlanningTemplate> PutDagPlanning(int id, DagPlanningTemplate dagPlanning)
         {
             if (id != dagPlanning.DagplanningId)
                 return BadRequest();
@@ -99,7 +99,5 @@ namespace kolveniershofBackend.Controllers
             _dagPlanningRepository.SaveChanges();
             return dp;
         }
-
-        
     }
 }
