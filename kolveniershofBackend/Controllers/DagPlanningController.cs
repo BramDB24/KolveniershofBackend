@@ -52,6 +52,8 @@ namespace kolveniershofBackend.Controllers
                 DagplanningId = dagplanning.DagplanningId,
                 Datum = dagplanning.Datum,
                 Eten = dagplanning.Eten,
+                Weekdag = dagplanning.Weekdag,
+                Weeknummer = dagplanning.Weeknummer,
 
                 DagAteliers = dagplanning.DagAteliers.Select(da => new DagAtelierDTO()
                 {
@@ -59,6 +61,7 @@ namespace kolveniershofBackend.Controllers
                         AtelierId = da.Atelier.AtelierId,
                         AtelierType = da.Atelier.AtelierType,
                         Naam = da.Atelier.Naam,
+                        PictoURL = da.Atelier.PictoURL
                     },
                     DagAtelierId = da.DagAtelierId,
                     DagMoment = da.DagMoment,

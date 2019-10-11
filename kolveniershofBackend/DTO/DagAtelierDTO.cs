@@ -13,6 +13,7 @@ namespace kolveniershofBackend.DTO
         public DagMoment DagMoment;
         public AtelierDTO Atelier;
         public IEnumerable<BasicGebruikerDTO> Gebruikers;
+
         public DagAtelierDTO() {
 
         }

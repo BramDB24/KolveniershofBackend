@@ -23,17 +23,17 @@ namespace kolveniershofBackend.DTO
 
         public GebruikerDTO(Gebruiker g)
         {
-            this.Voornaam = g.Voornaam;
-            this.Achternaam = g.Achternaam;
-            this.Commentaren = g.Commentaren;
-            this.Email = g.Email;
-            this.Sfeergroep = g.Sfeergroep;
-            this.Straatnaam = g.Straatnaam;
-            this.Huisnummer = g.Huisnummer;
-            this.Busnummer = g.Busnummer;
-            this.Gemeente = g.Gemeente;
-            this.Postcode = g.Postcode;
-            this.Type = g.Type;
+            Voornaam = g.Voornaam;
+            Achternaam = g.Achternaam;
+            Commentaren = g.Commentaren;
+            Email = g.Email;
+            Sfeergroep = g.Sfeergroep;
+            Straatnaam = g.Straatnaam;
+            Huisnummer = g.Huisnummer;
+            Busnummer = g.Busnummer;
+            Gemeente = g.Gemeente;
+            Postcode = g.Postcode;
+            Type = g.Type;
 
 
 

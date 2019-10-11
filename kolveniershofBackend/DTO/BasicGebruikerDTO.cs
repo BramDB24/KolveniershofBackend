@@ -13,5 +13,11 @@ namespace kolveniershofBackend.DTO
         public string Achternaam { get; set; }
         public GebruikerType Type { get; set; }
         public string Foto { get; set; }
+
+
+        public BasicGebruikerDTO()
+        {
+
+        } 
     }
 }
