@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using kolveniershofBackend.DTO;
+using kolveniershofBackend.Enums;
 using kolveniershofBackend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -86,12 +87,12 @@ namespace kolveniershofBackend.Controllers
             return BadRequest();
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<GebruikerDTO> GetGebruiker(string id)
+        [HttpGet("/viaId/{gebruikerId}")]
+        public ActionResult<GebruikerDTO> GetGebruikerViaID(string gebruikerId)
         {
-            GebruikerDTO g = new GebruikerDTO(_gebruikerRepository.GetBy(id));
+            Gebruiker g = _gebruikerRepository.GetBy(gebruikerId);
             if (g == null) return NotFound();
-            return g;
+            return new GebruikerDTO(g);
         }
 
         [HttpDelete("{id}")]
@@ -113,6 +114,13 @@ namespace kolveniershofBackend.Controllers
             return _gebruikerRepository.GetAll().ToList().Select(g => new GebruikerDTO(g));
         }
 
+        [HttpGet("/viaSfeergroep/{sfeergroep}")]
+        public IEnumerable<GebruikerDTO> GetGebruikersVanSpecifiekeSfeergroep(int sfeergroep)
+        {
+            return _gebruikerRepository.GetAll().Where(g=>g.Sfeergroep == (Sfeergroep)sfeergroep).
+                ToList().Select(g => new GebruikerDTO(g));
+        }
+
         [HttpPut("{id}")]
         public ActionResult<Gebruiker> PutGebruiker(string id, Gebruiker gebruiker)
         {
@@ -129,7 +137,7 @@ namespace kolveniershofBackend.Controllers
         {
             _gebruikerRepository.Add(gebruiker);
             _gebruikerRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetGebruiker), gebruiker.Id);
+            return CreatedAtAction(nameof(GetGebruikerViaID), gebruiker.Id);
         }
     }
 

@@ -199,6 +199,22 @@ namespace kolveniershofBackend.Data
                 vandaag.VoegDagAtelierToeAanDagPlaningTemplate(toneelOpWoensdagNamiddag);
 
                 _dbContext.SaveChanges();
+
+                //commentaar
+                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar);
+                laura.addCommentaar(commentaarBijGebruikerLaura1);
+
+                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar);
+                laura.addCommentaar(commentaarBijGebruikerLaura2);
+
+                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar);
+                lucas.addCommentaar(commentaarBijGebruikerLucas1);
+
+                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1 };
+                _dbContext.Commentaar.AddRange(commentaar);
+                _dbContext.SaveChanges();
+
+
             }
         }
 

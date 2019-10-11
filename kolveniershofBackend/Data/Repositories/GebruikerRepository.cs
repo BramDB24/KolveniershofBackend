@@ -36,17 +36,22 @@ namespace kolveniershofBackend.Data.Repositories
 
         public Gebruiker GetBy(string id)
         {
-            return _gebruikers.SingleOrDefault(r => r.Id == id);
+            return _gebruikers.Include(r=>r.Commentaren).SingleOrDefault(r => r.Id == id);
+        }
+
+        public Gebruiker GetByEmail(string email)
+        {
+            return _gebruikers.Include(r => r.Commentaren).SingleOrDefault(r => r.Email == email);
         }
 
         public Gebruiker GetBySfeergroep(Sfeergroep sfeergroep)
         {
-            return _gebruikers.SingleOrDefault(r => r.Sfeergroep == sfeergroep);
+            return _gebruikers.Include(r => r.Commentaren).SingleOrDefault(r => r.Sfeergroep == sfeergroep);
         }
 
         public Gebruiker GetByType(GebruikerType gebruikerType)
         {
-            return _gebruikers.SingleOrDefault(r => r.Type == gebruikerType);
+            return _gebruikers.Include(r => r.Commentaren).SingleOrDefault(r => r.Type == gebruikerType);
         }
 
         public void SaveChanges()
