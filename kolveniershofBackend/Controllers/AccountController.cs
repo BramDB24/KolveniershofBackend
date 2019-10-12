@@ -131,14 +131,6 @@ namespace kolveniershofBackend.Controllers
             _gebruikerRepository.SaveChanges();
             return NoContent();
         }
-
-        [HttpPost]
-        public ActionResult<Gebruiker> PostGebruiker(Gebruiker gebruiker)
-        {
-            _gebruikerRepository.Add(gebruiker);
-            _gebruikerRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetGebruikerViaID), gebruiker.Id);
-        }
     }
 
 }
