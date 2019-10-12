@@ -103,6 +103,7 @@ namespace kolveniershofBackend
 
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.AddScoped<IDagPlanningTemplateRepository, DagPlanningTemplateRepository>();
+            services.AddScoped<IOpmerkingRepository, OpmerkingRepository>();
             services.AddScoped<IAtelierRepository, AtelierRepository>();
             services.AddScoped<ApplicationDataInitialiser>();
 
@@ -126,7 +127,7 @@ namespace kolveniershofBackend
             app.UseMvc();
             app.UseSwaggerUi3();
             app.UseSwagger();
-            dataInitialiser.InitializeData().Wait();
+           // dataInitialiser.InitializeData().Wait();
         }
     }
 }

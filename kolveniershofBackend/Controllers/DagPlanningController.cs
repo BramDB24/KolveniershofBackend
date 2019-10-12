@@ -58,7 +58,7 @@ namespace kolveniershofBackend.Controllers
                 DagAteliers = dagplanning.DagAteliers.Select(da => new DagAtelierDTO()
                 {
                     Atelier = new AtelierDTO() {
-                        AtelierId = da.Atelier.AtelierId,
+                        //AtelierId = da.Atelier.AtelierId,
                         AtelierType = da.Atelier.AtelierType,
                         Naam = da.Atelier.Naam,
                         PictoURL = da.Atelier.PictoURL
