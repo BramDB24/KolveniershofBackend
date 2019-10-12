@@ -20,6 +20,7 @@ namespace kolveniershofBackend.DTO
         public string Gemeente { get; set; }
         public string Postcode { get; set; }
         public GebruikerType Type { get; set; }
+        public string Foto { get; set; }
 
         public GebruikerDTO(Gebruiker g)
         {
@@ -34,11 +35,7 @@ namespace kolveniershofBackend.DTO
             Gemeente = g.Gemeente;
             Postcode = g.Postcode;
             Type = g.Type;
-
-
-
-
-
+            Foto = g.Foto;
         }
     }
 }

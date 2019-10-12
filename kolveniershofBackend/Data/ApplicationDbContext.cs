@@ -13,6 +13,7 @@ namespace kolveniershofBackend.Data
         public DbSet<DagPlanningTemplate> DagPlanningen { get; set; }
         public DbSet<Atelier> Ateliers { get; set; }
         public DbSet<Gebruiker> Gebruikers { get; set; }
+        public DbSet<Commentaar> Commentaar { get; set; }
 
         public DbSet<Opmerking> Opmerkingen { get; set; }
 
