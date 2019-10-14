@@ -37,6 +37,13 @@ namespace kolveniershofBackend.Controllers
             return _opmerkingRepository.getAll();
         }
 
+        [HttpGet("opmerkingOp/{datum}")]
+        public IEnumerable<Opmerking> GetOpmerkingenVanSpecifiekeDag(string datum)
+        {
+            DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            return _opmerkingRepository.getByDate(datumFormatted);
+        }
+
         [HttpPost]
         public ActionResult<Opmerking> PostOpmerking(OpmerkingDTO opmerkingData)
         {

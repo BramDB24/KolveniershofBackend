@@ -9,6 +9,7 @@ namespace kolveniershofBackend.Models
     {
         Opmerking getBy(int id);
         IEnumerable<Opmerking> getAll();
+        IEnumerable<Opmerking> getByDate(DateTime date);
         Opmerking Add(Opmerking opmerking);
         void Update(Opmerking opmerking);
         void SaveChanges();

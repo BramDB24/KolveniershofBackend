@@ -41,10 +41,11 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpGet("/huidigeGebruiker/{datum}")]
-        public IEnumerable<Commentaar> GetCommentaarVanSpefiekeDagEnGebruiker(DateTime datum)
+        public IEnumerable<Commentaar> GetCommentaarVanSpefiekeDagEnGebruiker(string datum)
         {
+            DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
             Gebruiker huidigeGebruiker = _gebruikerRepository.GetByEmail(User.Identity.Name);
-            return huidigeGebruiker.GeefCommentaarVanHuidigeGebruiker().Where(c=>c.Datum == datum).ToList();
+            return huidigeGebruiker.GeefCommentaarVanHuidigeGebruiker().Where(c=>c.Datum == datumFormatted).ToList();
         }
 
         [HttpGet]

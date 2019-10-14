@@ -40,6 +40,11 @@ namespace kolveniershofBackend.Data.Repositories
             return _opmerkingen.FirstOrDefault(a => a.OpmerkingId == id);
         }
 
+        public IEnumerable<Opmerking> getByDate(DateTime datum)
+        {
+            return _opmerkingen.Where(a => a.Datum == datum).ToList();
+        }
+
         public void SaveChanges()
         {
             _context.SaveChanges();

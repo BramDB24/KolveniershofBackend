@@ -11,6 +11,7 @@ namespace kolveniershofBackend.Models
         #region Fields
         private OpmerkingType _opmerkingtype;
         private string _tekst;
+        private DateTime _datum;
         #endregion
 
         #region Properties
@@ -47,12 +48,34 @@ namespace kolveniershofBackend.Models
             }
         }
 
+        public DateTime Datum
+        {
+            get { return _datum; }
+            set
+            {
+                if (value != null && value >= DateTime.Today)
+                {
+                    _datum = value;
+                }
+
+                else
+                {
+                    throw new ArgumentException("Gelieve een datum in te vullen gelijk aan vandaag of later");
+                }
+            }
+        }
         #endregion
 
-        public Opmerking(OpmerkingType opmerkingType, string tekst)
+        protected Opmerking()
+        {
+
+        }
+
+        public Opmerking(OpmerkingType opmerkingType, string tekst, DateTime dagVanOpmerking): this()
         {
             OpmerkingType = opmerkingType;
             Tekst = tekst;
+            Datum = dagVanOpmerking;
         }
     }
 }

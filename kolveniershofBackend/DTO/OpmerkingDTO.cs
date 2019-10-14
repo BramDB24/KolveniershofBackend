@@ -11,11 +11,12 @@ namespace kolveniershofBackend.DTO
     {
         public OpmerkingType OpmerkingType { get; set; }
         public string Tekst { get; set; }
+        public DateTime Datum { get; set; }
 
 
         public Opmerking getOpmerking()
         {
-            return new Opmerking(this.OpmerkingType, this.Tekst);
+            return new Opmerking(OpmerkingType, Tekst, Datum);
         }
     }
 }
