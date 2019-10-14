@@ -32,13 +32,13 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Opmerking> GetAteliers()
+        public IEnumerable<Opmerking> GetOpmerkingen()
         {
             return _opmerkingRepository.getAll();
         }
 
         [HttpPost]
-        public ActionResult<Opmerking> PostAtelier(OpmerkingDTO opmerkingData)
+        public ActionResult<Opmerking> PostOpmerking(OpmerkingDTO opmerkingData)
         {
             Opmerking opm = _opmerkingRepository.Add(opmerkingData.getOpmerking());
             _opmerkingRepository.SaveChanges();
@@ -46,7 +46,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Atelier> PutAtelier(int id, OpmerkingDTO opmerkingData)
+        public ActionResult<Opmerking> PutOpmerking(int id, OpmerkingDTO opmerkingData)
         {
             if (opmerkingData == null)
                 return BadRequest();
