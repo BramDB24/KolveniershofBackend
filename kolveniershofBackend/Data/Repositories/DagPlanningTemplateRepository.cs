@@ -33,7 +33,7 @@ namespace kolveniershofBackend.Data.Repositories
                         .Include(d => d.DagAteliers).ThenInclude(a => a.GebruikerDagAteliers).ThenInclude(g => g.Gebruiker).ThenInclude(o => o.Commentaren).FirstOrDefault(d => ((DagPlanning)d).Datum == datum);
         }
 
-        public DagPlanningTemplate GetBy(int id)
+        public DagPlanningTemplate GetBy(int weeknummer, int dagnummer)
         {
             return _dagen.Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
                         .Include(d => d.DagAteliers).ThenInclude(a => a.GebruikerDagAteliers).ThenInclude(g => g.Gebruiker).FirstOrDefault(d => d.DagplanningId == id);

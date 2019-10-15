@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using kolveniershofBackend.DTO;
@@ -39,13 +40,27 @@ namespace kolveniershofBackend.Controllers
         public ActionResult<DagplanningDTO> GetDagPlanning(string datum)
         {
             //identity
+            
 
             //date object kan niet meegegeven worden via parameter
             //dit zet string om naar datum --> zo doen of datum gewoon als string opslaan?
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind); 
             DagPlanning dagplanning = _dagPlanningRepository.GetBy(datumFormatted);
             if (dagplanning == null)
-                return NotFound();
+            {
+                DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(datumFormatted);
+                if (day >= DayOfWeek.Tuesday && day <= DayOfWeek.Thursday)
+                {
+                    datumFormatted = datumFormatted.AddDays(3);
+                }
+
+                // Return the week of our adjusted day
+                var weeknummer = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(datumFormatted, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Tuesday);
+
+                var weeknummerDagPlanning = weeknummer % 4;
+            }
+            
+
 
             var dto = new DagplanningDTO()
             {
