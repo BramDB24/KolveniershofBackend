@@ -35,8 +35,9 @@ namespace kolveniershofBackend.Data.Repositories
 
         public DagPlanningTemplate GetBy(int weeknummer, int dagnummer)
         {
-            return _dagen.Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
-                        .Include(d => d.DagAteliers).ThenInclude(a => a.GebruikerDagAteliers).ThenInclude(g => g.Gebruiker).FirstOrDefault(d => d.DagplanningId == id);
+            return null;
+            //return _dagen.Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
+            //            .Include(d => d.DagAteliers).ThenInclude(a => a.GebruikerDagAteliers).ThenInclude(g => g.Gebruiker).FirstOrDefault(d => d.DagplanningId == id);
         }
 
         public void SaveChanges()
