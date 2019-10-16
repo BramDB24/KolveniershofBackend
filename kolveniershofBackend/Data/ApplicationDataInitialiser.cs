@@ -166,6 +166,8 @@ namespace kolveniershofBackend.Data
                 DagPlanningTemplate donderdagWeek4 = new DagPlanningTemplate(4, Weekdag.Donderdag);
                 DagPlanningTemplate vrijdagWeek4 = new DagPlanningTemplate(4, Weekdag.Vrijdag);
 
+
+                woensdagWeek1.DagAteliers.AddRange(dagAteliers);
                 //dagplanningen
                 DateTime dt = DateTime.Today;
                 var vandaag = new DagPlanning(1, dt, "balletjes in tomatensaus en friet");
@@ -176,6 +178,7 @@ namespace kolveniershofBackend.Data
                     var dp = new DagPlanning(2, date, "groenten, vlees en pasta");
                     _dbContext.DagPlanningen.Add(dp);
                 }
+
 
                 var dagPlanningTemplates = new List<DagPlanningTemplate> {maandagWeek1, dinsdagWeek1, woensdagWeek1, donderdagWeek1, vrijdagWeek1,
                 maandagWeek2, dinsdagWeek2, woensdagWeek2, donderdagWeek2, vrijdagWeek2,

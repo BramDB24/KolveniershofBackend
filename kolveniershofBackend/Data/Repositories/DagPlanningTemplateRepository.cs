@@ -1,4 +1,5 @@
-﻿using kolveniershofBackend.Models;
+﻿using kolveniershofBackend.Enums;
+using kolveniershofBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -33,11 +34,10 @@ namespace kolveniershofBackend.Data.Repositories
                         .Include(d => d.DagAteliers).ThenInclude(a => a.GebruikerDagAteliers).ThenInclude(g => g.Gebruiker).ThenInclude(o => o.Commentaren).FirstOrDefault(d => ((DagPlanning)d).Datum == datum);
         }
 
-        public DagPlanningTemplate GetBy(int weeknummer, int dagnummer)
+        public  DagPlanningTemplate GetBy(int weeknummer, Weekdag dagnummer)
         {
-            return null;
-            //return _dagen.Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
-            //            .Include(d => d.DagAteliers).ThenInclude(a => a.GebruikerDagAteliers).ThenInclude(g => g.Gebruiker).FirstOrDefault(d => d.DagplanningId == id);
+            return _dagen.Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
+                        .Include(d => d.DagAteliers).ThenInclude(a => a.GebruikerDagAteliers).ThenInclude(g => g.Gebruiker).FirstOrDefault(d => d.Weekdag == dagnummer && d.Weeknummer == weeknummer);
         }
 
         public void SaveChanges()

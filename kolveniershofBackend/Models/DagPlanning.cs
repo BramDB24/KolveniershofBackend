@@ -66,7 +66,7 @@ namespace kolveniershofBackend.Models
             Weekdag = ZetDayOfWeekOmNaarWeekdag(datum);
         }
 
-        public static Weekdag ZetDayOfWeekOmNaarWeekdag(DateTime datum)
+        public Weekdag ZetDayOfWeekOmNaarWeekdag(DateTime datum)
         {
             var dag = Weekdag.Undefined;
 

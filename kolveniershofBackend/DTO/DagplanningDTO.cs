@@ -3,6 +3,7 @@ using kolveniershofBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace kolveniershofBackend.DTO
@@ -11,7 +12,7 @@ namespace kolveniershofBackend.DTO
     {
         public int DagplanningId { get; set; }
         public string Eten;
-        public DateTime Datum;
+        public DateTime? Datum;
         public int Weeknummer;
         public Weekdag Weekdag;
         //public List<Opmerking> Opmerkingen { get; set; }
