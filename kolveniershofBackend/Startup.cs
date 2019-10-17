@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using kolveniershofBackend.Data;
@@ -100,6 +101,16 @@ namespace kolveniershofBackend
 
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ClientOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Cliënt"));
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+                options.AddPolicy("BegeleiderOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Begeleider"));
+
+
+            });
+
 
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.AddScoped<IDagPlanningTemplateRepository, DagPlanningTemplateRepository>();
@@ -109,6 +120,8 @@ namespace kolveniershofBackend
             services.AddScoped<ApplicationDataInitialiser>();
 
             services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin()));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
