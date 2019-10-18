@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using kolveniershofBackend.DTO;
 using kolveniershofBackend.Enums;
 using kolveniershofBackend.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +21,8 @@ namespace kolveniershofBackend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
-    [AllowAnonymous]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Policy = "AdminOnly")]
     public class DagPlanningController : ControllerBase
     {
         private readonly IDagPlanningTemplateRepository _dagPlanningRepository;
@@ -38,6 +41,7 @@ namespace kolveniershofBackend.Controllers
         /// <param name="datum"></param>
         /// <returns></returns>
         [HttpGet("{datum}")]
+        [Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagplanningDTO> GetDagPlanning(string datum)
         {
             //identity
@@ -48,8 +52,8 @@ namespace kolveniershofBackend.Controllers
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
             DagPlanning dagplanning = _dagPlanningRepository.GetBy(datumFormatted);
             DagplanningDTO dto;
-            var weekdag = (int)datumFormatted.DayOfWeek -1;
-            if(weekdag == (int)Weekdag.Undefined)
+            var weekdag = (int)datumFormatted.DayOfWeek - 1;
+            if (weekdag == (int)Weekdag.Undefined)
             {
                 weekdag = (int)Weekdag.Maandag;
             };
