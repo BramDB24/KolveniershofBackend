@@ -22,7 +22,6 @@ namespace kolveniershofBackend.Controllers
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Authorize(Policy = "AdminOnly")]
     public class DagPlanningController : ControllerBase
     {
         private readonly IDagPlanningTemplateRepository _dagPlanningRepository;
@@ -41,6 +40,7 @@ namespace kolveniershofBackend.Controllers
         /// <param name="datum"></param>
         /// <returns></returns>
         [HttpGet("{datum}")]
+        [Authorize(Policy = "AdminOnly")]
         [Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagplanningDTO> GetDagPlanning(string datum)
         {
@@ -139,6 +139,8 @@ namespace kolveniershofBackend.Controllers
         /// <param name="dagPlanning"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagPlanningTemplate> PutDagPlanning(int id, DagPlanningTemplate dagPlanning)
         {
             if (id != dagPlanning.DagplanningId)
@@ -154,6 +156,8 @@ namespace kolveniershofBackend.Controllers
         /// <param name="dagPlanning"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagPlanningTemplate> PostDagplanning(DagPlanning dagPlanning)
         {
             //Wordt DTO wss

@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace kolveniershofBackend.Controllers
 {
     [ApiConventionType(typeof(DefaultApiConventions))]
-    [AllowAnonymous]
+    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "BegeleidersOnly")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

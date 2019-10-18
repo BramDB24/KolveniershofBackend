@@ -4,13 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using kolveniershofBackend.DTO;
 using kolveniershofBackend.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace kolveniershofBackend.Controllers
 {
     [ApiConventionType(typeof(DefaultApiConventions))]
-    [AllowAnonymous]
+    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "BegeleidersOnly")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class OpmerkingController : ControllerBase
