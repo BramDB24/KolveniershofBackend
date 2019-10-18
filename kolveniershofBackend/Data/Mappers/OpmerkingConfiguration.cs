@@ -15,7 +15,6 @@ namespace kolveniershofBackend.Data.Mappers
             builder.HasKey(o => o.OpmerkingId);
             builder.Property(o => o.OpmerkingId).ValueGeneratedOnAdd();
             builder.Property(o => o.OpmerkingType).IsRequired();
-            builder.Property(o => o.Tekst).IsRequired();
         }
     }
 }

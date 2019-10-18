@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using kolveniershofBackend.DTO;
+using kolveniershofBackend.Enums;
 using kolveniershofBackend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,11 +38,38 @@ namespace kolveniershofBackend.Controllers
             return _opmerkingRepository.getAll();
         }
 
+        [HttpGet("opmerkingOp/{datum}/typeOpmerking/{type}")]
+        public IEnumerable<Opmerking> GetOpmerkingenVanSpecifiekeDagEnType(string datum, OpmerkingType type)
+        {
+            DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            return _opmerkingRepository.getByDateAndType(datumFormatted, type);
+        }
+
         [HttpGet("opmerkingOp/{datum}")]
         public IEnumerable<Opmerking> GetOpmerkingenVanSpecifiekeDag(string datum)
         {
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
-            return _opmerkingRepository.getByDate(datumFormatted);
+            IEnumerable<Opmerking> opmerkingenVanDatum = _opmerkingRepository.getByDate(datumFormatted);
+            ICollection<OpmerkingType> types = new List<OpmerkingType>() {OpmerkingType.AteliersEnWeekschema, OpmerkingType.Begeleiding, OpmerkingType.Cliënten,
+                OpmerkingType.Stagiairs, OpmerkingType.UurRegistratie, OpmerkingType.Varia, OpmerkingType.Vervoer, OpmerkingType.Vrijwilligers };
+            ICollection<Opmerking> nieuweOpmerkingen = new List<Opmerking>();
+
+            if (opmerkingenVanDatum.Count() == 0)
+            {
+                foreach (var item in types)
+                {
+                    Opmerking o = new Opmerking(item, "", datumFormatted);
+                    nieuweOpmerkingen.Add(o);
+                    _opmerkingRepository.Add(o);
+                    _opmerkingRepository.SaveChanges();
+                } 
+                return nieuweOpmerkingen;
+            }
+            else
+            {
+                return _opmerkingRepository.getByDate(datumFormatted);
+
+            }
         }
 
         [HttpPost]

@@ -13,6 +13,10 @@ namespace kolveniershofBackend.DTO
         public string Tekst { get; set; }
         public DateTime Datum { get; set; }
 
+        public OpmerkingDTO()
+        {
+
+        }
 
         public Opmerking getOpmerking()
         {

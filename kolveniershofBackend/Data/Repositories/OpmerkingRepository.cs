@@ -1,4 +1,5 @@
-﻿using kolveniershofBackend.Models;
+﻿using kolveniershofBackend.Enums;
+using kolveniershofBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,11 @@ namespace kolveniershofBackend.Data.Repositories
         public Opmerking getBy(int id)
         {
             return _opmerkingen.FirstOrDefault(a => a.OpmerkingId == id);
+        }
+
+        public IEnumerable<Opmerking> getByDateAndType(DateTime datum, OpmerkingType type)
+        {
+            return _opmerkingen.Where(a => a.Datum == datum && a.OpmerkingType == type).ToList();
         }
 
         public IEnumerable<Opmerking> getByDate(DateTime datum)
