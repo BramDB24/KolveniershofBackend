@@ -219,6 +219,22 @@ namespace kolveniershofBackend.Data
                 _dbContext.Commentaar.AddRange(commentaar);
                 _dbContext.SaveChanges();
 
+                Opmerking opmerking1 = new Opmerking(OpmerkingType.Begeleiding, "begeleiding test", DateTime.Today);
+                Opmerking opmerking2 = new Opmerking(OpmerkingType.Logistiek, "logistiek test", DateTime.Today);
+                Opmerking opmerking3 = new Opmerking(OpmerkingType.Varia, "varia test", DateTime.Today);
+                Opmerking opmerking4 = new Opmerking(OpmerkingType.Vervoer, "vervoer test", DateTime.Today);
+                Opmerking opmerking5 = new Opmerking(OpmerkingType.Cliënten, "clienten test", DateTime.Today);
+                Opmerking opmerking6 = new Opmerking(OpmerkingType.Stagiairs, "stagiars test", DateTime.Today);
+                Opmerking opmerking7 = new Opmerking(OpmerkingType.AteliersEnWeekschema, "atelier en weekschema test", DateTime.Today);
+                Opmerking opmerking8 = new Opmerking(OpmerkingType.Vrijwilligers, "vrijwilligers", DateTime.Today);
+                Opmerking opmerking9 = new Opmerking(OpmerkingType.UurRegistratie, "uurregistratie", DateTime.Today);
+
+                var opmerkingen = new List<Opmerking> { opmerking1, opmerking2, opmerking3, opmerking4, opmerking5, opmerking6,
+                opmerking7, opmerking8, opmerking9};
+                _dbContext.Opmerkingen.AddRange(opmerkingen);
+                _dbContext.SaveChanges();
+
+
 
             }
         }

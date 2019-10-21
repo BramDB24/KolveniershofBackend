@@ -1,4 +1,5 @@
-﻿using System;
+﻿using kolveniershofBackend.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace kolveniershofBackend.Models
     {
         Opmerking getBy(int id);
         IEnumerable<Opmerking> getAll();
+        IEnumerable<Opmerking> getByDateAndType(DateTime date, OpmerkingType type);
         IEnumerable<Opmerking> getByDate(DateTime date);
         Opmerking Add(Opmerking opmerking);
         void Update(Opmerking opmerking);

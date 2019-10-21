@@ -29,6 +29,8 @@ namespace kolveniershofBackend.Controllers
         /// 
         /// </summary>
         /// <param name="dagPlanningRepository"></param>
+        /// <param name="dagAtelierRepository"></param>
+        /// 
         public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository)
         {
             _dagPlanningRepository = dagPlanningRepository;
@@ -45,7 +47,6 @@ namespace kolveniershofBackend.Controllers
         public ActionResult<DagplanningDTO> GetDagPlanning(string datum)
         {
             //identity
-
 
             //date object kan niet meegegeven worden via parameter
             //dit zet string om naar datum --> zo doen of datum gewoon als string opslaan?
@@ -108,27 +109,26 @@ namespace kolveniershofBackend.Controllers
                     Weekdag = dagplanning.Weekdag,
                     Weeknummer = dagplanning.Weeknummer,
 
-                    DagAteliers = dagplanning.DagAteliers.Select(da => new DagAtelierDTO()
+                DagAteliers = dagplanning.DagAteliers.Select(da => new DagAtelierDTO()
+                {
+                    Atelier = new AtelierDTO() {
+                        AtelierId = da.Atelier.AtelierId,
+                        AtelierType = da.Atelier.AtelierType,
+                        Naam = da.Atelier.Naam,
+                        PictoURL = da.Atelier.PictoURL
+                    },
+                    DagAtelierId = da.DagAtelierId,
+                    DagMoment = da.DagMoment,
+                    Gebruikers = da.GebruikerDagAteliers.Select(gda => new BasicGebruikerDTO()
                     {
-                        Atelier = new AtelierDTO()
-                        {
-                            AtelierType = da.Atelier.AtelierType,
-                            Naam = da.Atelier.Naam,
-                            PictoURL = da.Atelier.PictoURL
-                        },
-                        DagAtelierId = da.DagAtelierId,
-                        DagMoment = da.DagMoment,
-                        Gebruikers = da.GebruikerDagAteliers.Select(gda => new BasicGebruikerDTO()
-                        {
-                            Id = gda.Gebruiker.Id,
-                            Achternaam = gda.Gebruiker.Achternaam,
-                            Voornaam = gda.Gebruiker.Voornaam,
-                            Foto = gda.Gebruiker.Foto,
-                            Type = gda.Gebruiker.Type,
-                        })
-                    }),
-                };
-            }
+                        Id = gda.Gebruiker.Id,
+                        Achternaam = gda.Gebruiker.Achternaam,
+                        Voornaam = gda.Gebruiker.Voornaam,
+                        Foto = gda.Gebruiker.Foto,
+                        Type = gda.Gebruiker.Type,
+                    })
+                }),
+            };
             return dto;
         }
 
@@ -148,6 +148,18 @@ namespace kolveniershofBackend.Controllers
             _dagPlanningRepository.Update(dagPlanning);
             _dagPlanningRepository.SaveChanges();
             return NoContent();
+        }
+
+        [HttpPost("{datumVanDagplanning}")]
+        public ActionResult<DagPlanning> DeleteDagAtelierUitDagplanning(string datumVanDagplanning, DagAtelier dagAtelier)
+        {
+            DateTime datumFormatted = DateTime.Parse(datumVanDagplanning, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            var planning = _dagPlanningRepository.GetBy(datumFormatted);
+            DagAtelier da = planning.DagAteliers.FirstOrDefault(d => d.DagAtelierId == dagAtelier.DagAtelierId);
+            planning.VerwijderDagAtlierVanDagPlanningTemplate(da);
+            _dagPlanningRepository.Update(planning);
+            _dagPlanningRepository.SaveChanges();
+            return CreatedAtAction(nameof(GetDagPlanning), new { datum = planning.Datum }, planning);
         }
 
         /// <summary>

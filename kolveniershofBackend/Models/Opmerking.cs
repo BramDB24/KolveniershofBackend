@@ -10,12 +10,14 @@ namespace kolveniershofBackend.Models
     {
         #region Fields
         private OpmerkingType _opmerkingtype;
-        private string _tekst;
-        private DateTime _datum;
         #endregion
 
         #region Properties
         public int OpmerkingId { get; set; }
+        public string Tekst { get; set; }
+        public DateTime Datum { get; set; }
+
+
         public OpmerkingType OpmerkingType
         {
             get { return _opmerkingtype; }
@@ -32,38 +34,7 @@ namespace kolveniershofBackend.Models
             }
         }
 
-        public string Tekst
-        {
-            get { return _tekst; }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("Gelieve tekst in te vullen voor de opmerking");
-                }
-                else
-                {
-                    _tekst = value;
-                }
-            }
-        }
-
-        public DateTime Datum
-        {
-            get { return _datum; }
-            set
-            {
-                if (value != null && value >= DateTime.Today)
-                {
-                    _datum = value;
-                }
-
-                else
-                {
-                    throw new ArgumentException("Gelieve een datum in te vullen gelijk aan vandaag of later");
-                }
-            }
-        }
+        
         #endregion
 
         protected Opmerking()
