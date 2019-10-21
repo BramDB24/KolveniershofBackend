@@ -109,29 +109,30 @@ namespace kolveniershofBackend.Controllers
                     Weekdag = dagplanning.Weekdag,
                     Weeknummer = dagplanning.Weeknummer,
 
-                DagAteliers = dagplanning.DagAteliers.Select(da => new DagAtelierDTO()
-                {
-                    Atelier = new AtelierDTO() {
-                        AtelierId = da.Atelier.AtelierId,
-                        AtelierType = da.Atelier.AtelierType,
-                        Naam = da.Atelier.Naam,
-                        PictoURL = da.Atelier.PictoURL
-                    },
-                    DagAtelierId = da.DagAtelierId,
-                    DagMoment = da.DagMoment,
-                    Gebruikers = da.GebruikerDagAteliers.Select(gda => new BasicGebruikerDTO()
+                    DagAteliers = dagplanning.DagAteliers.Select(da => new DagAtelierDTO()
                     {
-                        Id = gda.Gebruiker.Id,
-                        Achternaam = gda.Gebruiker.Achternaam,
-                        Voornaam = gda.Gebruiker.Voornaam,
-                        Foto = gda.Gebruiker.Foto,
-                        Type = gda.Gebruiker.Type,
-                    })
-                }),
-            };
+                        Atelier = new AtelierDTO()
+                        {
+                            AtelierId = da.Atelier.AtelierId,
+                            AtelierType = da.Atelier.AtelierType,
+                            Naam = da.Atelier.Naam,
+                            PictoURL = da.Atelier.PictoURL
+                        },
+                        DagAtelierId = da.DagAtelierId,
+                        DagMoment = da.DagMoment,
+                        Gebruikers = da.GebruikerDagAteliers.Select(gda => new BasicGebruikerDTO()
+                        {
+                            Id = gda.Gebruiker.Id,
+                            Achternaam = gda.Gebruiker.Achternaam,
+                            Voornaam = gda.Gebruiker.Voornaam,
+                            Foto = gda.Gebruiker.Foto,
+                            Type = gda.Gebruiker.Type,
+                        })
+                    }),
+                };
+            }
             return dto;
         }
-
         /// <summary>
         /// 
         /// </summary>
