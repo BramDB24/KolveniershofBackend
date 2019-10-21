@@ -16,9 +16,7 @@ namespace kolveniershofBackend.Data.Mappers
             builder.Property(dp => dp.Datum).IsRequired();
             builder.Property(dp => dp.Datum).HasColumnType("Date");
             
-            //dagplanning heeft een lijst van opmerkingen
-            builder.HasMany(d => d.Opmerkingen).WithOne().OnDelete(DeleteBehavior.Cascade);
-
+           
         }
     }
 }

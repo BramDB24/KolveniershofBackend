@@ -48,12 +48,10 @@ namespace kolveniershofBackend.Models
         }
 
 
-        public List<Opmerking> Opmerkingen { get; set; }
         #endregion
 
         public DagPlanning()
         {
-            Opmerkingen = new List<Opmerking>();
             DagAteliers = new List<DagAtelier>();
         }
 

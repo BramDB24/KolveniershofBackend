@@ -102,7 +102,6 @@ namespace kolveniershofBackend.Controllers
         /// <returns></returns>
         [HttpPost]
         public ActionResult<DagPlanningTemplate> PostDagplanning(DagPlanning dagPlanning) {
-            //Wordt DTO wss
 
             //Identity
             _dagPlanningRepository.Add(dagPlanning);
