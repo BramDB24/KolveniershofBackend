@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace kolveniershofBackend.Controllers
 {
     [ApiConventionType(typeof(DefaultApiConventions))]
-    [Authorize(Policy = "AdminOnly")]
-    [Authorize(Policy = "BegeleidersOnly")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(Policy = "AdminOnly")]
+    //[Authorize(Policy = "BegeleidersOnly")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class OpmerkingController : ControllerBase

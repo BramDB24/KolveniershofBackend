@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace kolveniershofBackend.Controllers
 {
     [ApiConventionType(typeof(DefaultApiConventions))]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class CommentaarController : ControllerBase
@@ -26,8 +26,8 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Policy = "AdminOnly")]
-        [Authorize(Policy = "BegeleidersOnly")]
+        //[Authorize(Policy = "AdminOnly")]
+        //[Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<Commentaar> GetCommentaar(int id)
         {
             var commentaar = _commentaarRepository.GetBy(id);
@@ -53,15 +53,15 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "AdminOnly")]
-        [Authorize(Policy = "BegeleidersOnly")]
+        //[Authorize(Policy = "AdminOnly")]
+        //[Authorize(Policy = "BegeleidersOnly")]
         public IEnumerable<Commentaar> GetAlleCommentaar()
         {
             return _commentaarRepository.GetAll();
         }
 
         [HttpPost]
-        [Authorize(Policy = "ClientOnly")]
+        //[Authorize(Policy = "ClientOnly")]
         public ActionResult<Commentaar> PostCommentaar(Commentaar commentaar) 
         {
             Gebruiker huidigeGebruiker = _gebruikerRepository.GetByEmail(User.Identity.Name);
@@ -74,7 +74,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Policy = "ClientOnly")]
+        //[Authorize(Policy = "ClientOnly")]
         public ActionResult<Commentaar> PutCommentaar(int id, Commentaar commentaar)
         {
             if (commentaar.CommentaarId != id)
@@ -86,7 +86,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = "ClientOnly")]
+        //[Authorize(Policy = "ClientOnly")]
         public ActionResult<Commentaar> DeleteCommentaar(int id)
         {
             Commentaar commentaar = _commentaarRepository.GetBy(id);
