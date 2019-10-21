@@ -8,6 +8,7 @@ namespace kolveniershofBackend.DTO
 {
     public class AtelierDTO
     { 
+        public int AtelierId { get; set; }
         public AtelierType AtelierType { get; set; }
         public string Naam { get; set; }
         public string PictoURL { get; set; }

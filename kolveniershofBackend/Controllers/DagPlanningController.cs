@@ -25,6 +25,8 @@ namespace kolveniershofBackend.Controllers
         /// 
         /// </summary>
         /// <param name="dagPlanningRepository"></param>
+        /// <param name="dagAtelierRepository"></param>
+        /// 
         public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository)
         {
             _dagPlanningRepository = dagPlanningRepository;
@@ -46,6 +48,7 @@ namespace kolveniershofBackend.Controllers
             DagPlanning dagplanning = _dagPlanningRepository.GetBy(datumFormatted);
             if (dagplanning == null)
                 return NotFound();
+            Console.WriteLine(dagplanning.DagplanningId);
 
             var dto = new DagplanningDTO()
             {
@@ -58,7 +61,7 @@ namespace kolveniershofBackend.Controllers
                 DagAteliers = dagplanning.DagAteliers.Select(da => new DagAtelierDTO()
                 {
                     Atelier = new AtelierDTO() {
-                        //AtelierId = da.Atelier.AtelierId,
+                        AtelierId = da.Atelier.AtelierId,
                         AtelierType = da.Atelier.AtelierType,
                         Naam = da.Atelier.Naam,
                         PictoURL = da.Atelier.PictoURL
@@ -74,7 +77,6 @@ namespace kolveniershofBackend.Controllers
                         Type = gda.Gebruiker.Type,
                     })
                 }),
-                //Opmerkingen = dagplanning.Opmerkingen,
             };
             return dto;
         }
@@ -93,6 +95,18 @@ namespace kolveniershofBackend.Controllers
             _dagPlanningRepository.Update(dagPlanning);
             _dagPlanningRepository.SaveChanges();
             return NoContent();
+        }
+
+        [HttpPost("{datumVanDagplanning}")]
+        public ActionResult<DagPlanning> DeleteDagAtelierUitDagplanning(string datumVanDagplanning, DagAtelier dagAtelier)
+        {
+            DateTime datumFormatted = DateTime.Parse(datumVanDagplanning, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            var planning = _dagPlanningRepository.GetBy(datumFormatted);
+            DagAtelier da = planning.DagAteliers.FirstOrDefault(d => d.DagAtelierId == dagAtelier.DagAtelierId);
+            planning.VerwijderDagAtlierVanDagPlanningTemplate(da);
+            _dagPlanningRepository.Update(planning);
+            _dagPlanningRepository.SaveChanges();
+            return CreatedAtAction(nameof(GetDagPlanning), new { datum = planning.Datum }, planning);
         }
 
         /// <summary>
