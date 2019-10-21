@@ -9,6 +9,7 @@ namespace kolveniershofBackend.Models
     public interface IDagPlanningTemplateRepository
     {
         DagPlanning GetBy(DateTime date);
+        DagPlanning GetById(int id);
         DagPlanningTemplate GetBy(int week, Weekdag dag);
         void Add(DagPlanningTemplate dagPlanning);
         void Delete(DagPlanningTemplate dagPlanning);

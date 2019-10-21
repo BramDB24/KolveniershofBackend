@@ -106,7 +106,7 @@ namespace kolveniershofBackend
             {
                 options.AddPolicy("ClientOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Cliënt"));
                 options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
-                options.AddPolicy("BegeleiderOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Begeleider"));
+                options.AddPolicy("BegeleidersOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Begeleider"));
 
 
             });

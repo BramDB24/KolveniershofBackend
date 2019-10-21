@@ -21,19 +21,20 @@ namespace kolveniershofBackend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class DagPlanningController : ControllerBase
     {
         private readonly IDagPlanningTemplateRepository _dagPlanningRepository;
+        private readonly IGebruikerRepository _gebruikerRepository;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="dagPlanningRepository"></param>
-        /// <param name="dagAtelierRepository"></param>
         /// 
-        public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository)
+        public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository, IGebruikerRepository gebruikerRepository)
         {
             _dagPlanningRepository = dagPlanningRepository;
+            _gebruikerRepository = gebruikerRepository;
         }
 
         /// <summary>
@@ -42,8 +43,8 @@ namespace kolveniershofBackend.Controllers
         /// <param name="datum"></param>
         /// <returns></returns>
         [HttpGet("{datum}")]
-        [Authorize(Policy = "AdminOnly")]
-        [Authorize(Policy = "BegeleidersOnly")]
+        //[Authorize(Policy = "AdminOnly")]
+        //[Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagplanningDTO> GetDagPlanning(string datum)
         {
             //identity
@@ -87,7 +88,7 @@ namespace kolveniershofBackend.Controllers
                         },
                         DagAtelierId = t.DagAtelierId,
                         DagMoment = t.DagMoment,
-                        Gebruikers = t.GebruikerDagAteliers.Select(gda => new BasicGebruikerDTO()
+                        Gebruikers = t.Gebruikers.Select(gda => new BasicGebruikerDTO()
                         {
                             Id = gda.Gebruiker.Id,
                             Achternaam = gda.Gebruiker.Achternaam,
@@ -120,7 +121,7 @@ namespace kolveniershofBackend.Controllers
                         },
                         DagAtelierId = da.DagAtelierId,
                         DagMoment = da.DagMoment,
-                        Gebruikers = da.GebruikerDagAteliers.Select(gda => new BasicGebruikerDTO()
+                        Gebruikers = da.Gebruikers.Select(gda => new BasicGebruikerDTO()
                         {
                             Id = gda.Gebruiker.Id,
                             Achternaam = gda.Gebruiker.Achternaam,
@@ -133,6 +134,7 @@ namespace kolveniershofBackend.Controllers
             }
             return dto;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -140,8 +142,8 @@ namespace kolveniershofBackend.Controllers
         /// <param name="dagPlanning"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        [Authorize(Policy = "AdminOnly")]
-        [Authorize(Policy = "BegeleidersOnly")]
+        //[Authorize(Policy = "AdminOnly")]
+        //[Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagPlanningTemplate> PutDagPlanning(int id, DagPlanningTemplate dagPlanning)
         {
             if (id != dagPlanning.DagplanningId)
@@ -169,8 +171,8 @@ namespace kolveniershofBackend.Controllers
         /// <param name="dagPlanning"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Policy = "AdminOnly")]
-        [Authorize(Policy = "BegeleidersOnly")]
+        //[Authorize(Policy = "AdminOnly")]
+        //[Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagPlanningTemplate> PostDagplanning(DagPlanning dagPlanning)
         {
             //Wordt DTO wss
@@ -182,23 +184,51 @@ namespace kolveniershofBackend.Controllers
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        //[HttpDelete("{id}")]
-        //public ActionResult<DagPlanningTemplate> DeleteDagPlanning(int id)
-        //{
-        //    //identity
-        //    DagPlanningTemplate dp = _dagPlanningRepository.GetBy(id);
-        //    if (dp == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    _dagPlanningRepository.Delete(dp);
-        //    _dagPlanningRepository.SaveChanges();
-        //    return dp;
-        //}
+        [HttpPut]
+        public ActionResult putDagPlanning(int id, DagAtelierDTO dto)
+        {
+            var dagPlanning = _dagPlanningRepository.GetById(id);
+            if (dagPlanning == null)
+            {
+                return NotFound();
+            }
+
+
+            DagAtelier atelier = new DagAtelier
+            {
+                Atelier = new Atelier
+                {
+                    AtelierId = dto.Atelier.AtelierId,
+                    AtelierType = dto.Atelier.AtelierType,
+                    Naam = dto.Atelier.Naam,
+                    PictoURL = dto.Atelier.PictoURL
+                },
+                DagAtelierId = dto.DagAtelierId,
+                DagMoment = dto.DagMoment
+            };
+
+            dto.Gebruikers.ToList().ForEach(e => atelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.Id)));
+
+            var x = new DagAtelier();
+            dagPlanning.DagAteliers.ForEach(e =>
+            {
+                if (e.Atelier.AtelierId == atelier.Atelier.AtelierId)
+                {
+                    x = e;
+                }
+            });
+
+            if (x.Atelier != null)
+            {
+                dagPlanning.DagAteliers.Remove(x);
+            }
+            dagPlanning.DagAteliers.Add(atelier);
+
+            var dagatelier = dagPlanning.DagAteliers;
+
+            _dagPlanningRepository.SaveChanges();
+
+            return Ok();
+        }
     }
 }

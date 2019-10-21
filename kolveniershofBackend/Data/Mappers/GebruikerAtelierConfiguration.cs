@@ -12,7 +12,7 @@ namespace kolveniershofBackend.Data.Mappers
             builder.HasKey(ga => new { ga.DagAtelierId, ga.Id });
 
             builder.HasOne(ga => ga.DagAtelier)
-                .WithMany(da => da.GebruikerDagAteliers)
+                .WithMany(da => da.Gebruikers)
                 .HasForeignKey(ga => ga.DagAtelierId)
                 .OnDelete(DeleteBehavior.Cascade);
 
