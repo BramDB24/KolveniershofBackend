@@ -30,6 +30,7 @@ namespace kolveniershofBackend.Controllers
         /// 
         /// </summary>
         /// <param name="dagPlanningRepository"></param>
+        /// <param name="gebruikerRepository"></param>
         /// 
         public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository, IGebruikerRepository gebruikerRepository)
         {
@@ -47,91 +48,41 @@ namespace kolveniershofBackend.Controllers
         //[Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagplanningDTO> GetDagPlanning(string datum)
         {
-            //identity
-
-            //date object kan niet meegegeven worden via parameter
-            //dit zet string om naar datum --> zo doen of datum gewoon als string opslaan?
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
             DagPlanning dagplanning = _dagPlanningRepository.GetBy(datumFormatted);
-            DagplanningDTO dto;
+
+            //Is nodig om te kunnen werken met de enums, de enum heeft (voor whatever reason) een undefined nodig die index 0 heeft, terwijl index 0 gewoon maandag moet zijn
             var weekdag = (int)datumFormatted.DayOfWeek - 1;
+
             if (weekdag == (int)Weekdag.Undefined)
             {
                 weekdag = (int)Weekdag.Maandag;
             };
-            if (dagplanning == null)
+            //Nodig om te berekenen in welke week en dag de dagplanning zit voor de opgegeven datum
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(datumFormatted);
+            if (day >= DayOfWeek.Tuesday && day <= DayOfWeek.Thursday)
             {
-                DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(datumFormatted);
-                if (day >= DayOfWeek.Tuesday && day <= DayOfWeek.Thursday)
-                {
-                    datumFormatted = datumFormatted.AddDays(3);
-                }
-
-                // Return the week of our adjusted day
-                var weeknummer = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(datumFormatted, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Tuesday);
-                var weeknummerDagPlanning = weeknummer % 4;
-
-                DagPlanningTemplate dagplaningTemplate = _dagPlanningRepository.GetBy(weeknummerDagPlanning, (Weekdag)weekdag);
-                dto = new DagplanningDTO()
-                {
-                    DagplanningId = dagplaningTemplate.DagplanningId,
-                    Eten = null,
-                    Weekdag = dagplaningTemplate.Weekdag,
-                    Weeknummer = dagplaningTemplate.Weeknummer,
-                    DagAteliers = dagplaningTemplate.DagAteliers.Select(t => new DagAtelierDTO()
-                    {
-                        Atelier = new AtelierDTO()
-                        {
-                            AtelierType = t.Atelier.AtelierType,
-                            Naam = t.Atelier.Naam,
-                            PictoURL = t.Atelier.PictoURL
-                        },
-                        DagAtelierId = t.DagAtelierId,
-                        DagMoment = t.DagMoment,
-                        Gebruikers = t.Gebruikers.Select(gda => new BasicGebruikerDTO()
-                        {
-                            Id = gda.Gebruiker.Id,
-                            Achternaam = gda.Gebruiker.Achternaam,
-                            Voornaam = gda.Gebruiker.Voornaam,
-                            Foto = gda.Gebruiker.Foto,
-                            Type = gda.Gebruiker.Type,
-                        })
-                    })
-                };
-
+                datumFormatted = datumFormatted.AddDays(3);
             }
-            else
+
+            //Herbereken de week met dinsdag als eerste dag
+            var weeknummer = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(datumFormatted, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Tuesday);
+            var weeknummerDagPlanning = weeknummer % 4;
+
+            DagPlanningTemplate dagPlanningTemplate = _dagPlanningRepository.GetBy(weeknummerDagPlanning, (Weekdag)weekdag);
+
+
+            //Als er geen dagplanning gevonden is voor de datum moet er een template gebruikt worden, daarvoor zijn allemaal de nullchecks nodig
+            DagplanningDTO dto = new DagplanningDTO()
             {
-                dto = new DagplanningDTO()
-                {
-                    DagplanningId = dagplanning.DagplanningId,
-                    Datum = dagplanning.Datum,
-                    Eten = dagplanning.Eten,
-                    Weekdag = dagplanning.Weekdag,
-                    Weeknummer = dagplanning.Weeknummer,
+                DagplanningId = dagplanning == null ? dagPlanningTemplate.DagplanningId : dagplanning.DagplanningId,
+                Eten = dagplanning == null ? null : dagplanning.Eten,
+                Weekdag = dagplanning == null ? dagPlanningTemplate.Weekdag : dagplanning.Weekdag,
+                Weeknummer = dagplanning == null ? dagPlanningTemplate.Weeknummer : dagplanning.Weeknummer,
+                Datum = dagplanning == null ? (DateTime?)null : dagplanning.Datum,
+                DagAteliers = dagplanning == null ? setDagAteliersTemplate(dagPlanningTemplate) : setDagAteliers(dagplanning)
+            };
 
-                    DagAteliers = dagplanning.DagAteliers.Select(da => new DagAtelierDTO()
-                    {
-                        Atelier = new AtelierDTO()
-                        {
-                            AtelierId = da.Atelier.AtelierId,
-                            AtelierType = da.Atelier.AtelierType,
-                            Naam = da.Atelier.Naam,
-                            PictoURL = da.Atelier.PictoURL
-                        },
-                        DagAtelierId = da.DagAtelierId,
-                        DagMoment = da.DagMoment,
-                        Gebruikers = da.Gebruikers.Select(gda => new BasicGebruikerDTO()
-                        {
-                            Id = gda.Gebruiker.Id,
-                            Achternaam = gda.Gebruiker.Achternaam,
-                            Voornaam = gda.Gebruiker.Voornaam,
-                            Foto = gda.Gebruiker.Foto,
-                            Type = gda.Gebruiker.Type,
-                        })
-                    }),
-                };
-            }
             return dto;
         }
 
@@ -165,34 +116,15 @@ namespace kolveniershofBackend.Controllers
             return CreatedAtAction(nameof(GetDagPlanning), new { datum = planning.Datum }, planning);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dagPlanning"></param>
-        /// <returns></returns>
-        [HttpPost]
-        //[Authorize(Policy = "AdminOnly")]
-        //[Authorize(Policy = "BegeleidersOnly")]
-        public ActionResult<DagPlanningTemplate> PostDagplanning(DagPlanning dagPlanning)
-        {
-            //Wordt DTO wss
-
-            //Identity
-            _dagPlanningRepository.Add(dagPlanning);
-            _dagPlanningRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetDagPlanning), new { datum = dagPlanning.Datum }, dagPlanning);
-
-        }
-
         [HttpPut]
         public ActionResult putDagPlanning(int id, DagAtelierDTO dto)
         {
             var dagPlanning = _dagPlanningRepository.GetById(id);
+
             if (dagPlanning == null)
             {
                 return NotFound();
             }
-
 
             DagAtelier atelier = new DagAtelier
             {
@@ -209,26 +141,72 @@ namespace kolveniershofBackend.Controllers
 
             dto.Gebruikers.ToList().ForEach(e => atelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.Id)));
 
-            var x = new DagAtelier();
+            bool modified = false;
             dagPlanning.DagAteliers.ForEach(e =>
             {
-                if (e.Atelier.AtelierId == atelier.Atelier.AtelierId)
+                if (e.Atelier.Naam == atelier.Atelier.Naam)
                 {
-                    x = e;
+                    e.Gebruikers = atelier.Gebruikers;
+                    modified = true;
                 }
             });
 
-            if (x.Atelier != null)
+            if (!modified)
             {
-                dagPlanning.DagAteliers.Remove(x);
+                dagPlanning.DagAteliers.Add(atelier);
             }
-            dagPlanning.DagAteliers.Add(atelier);
-
-            var dagatelier = dagPlanning.DagAteliers;
-
             _dagPlanningRepository.SaveChanges();
 
             return Ok();
+        }
+
+        //Helper methodes
+        private IEnumerable<DagAtelierDTO> setDagAteliers(DagPlanning dagPlanning)
+        {
+            return dagPlanning.DagAteliers.Select(da => new DagAtelierDTO()
+            {
+                Atelier = new AtelierDTO()
+                {
+                    AtelierId = da.Atelier.AtelierId,
+                    AtelierType = da.Atelier.AtelierType,
+                    Naam = da.Atelier.Naam,
+                    PictoURL = da.Atelier.PictoURL
+                },
+                DagAtelierId = da.DagAtelierId,
+                DagMoment = da.DagMoment,
+                Gebruikers = da.Gebruikers.Select(gda => new BasicGebruikerDTO()
+                {
+                    Id = gda.Gebruiker.Id,
+                    Achternaam = gda.Gebruiker.Achternaam,
+                    Voornaam = gda.Gebruiker.Voornaam,
+                    Foto = gda.Gebruiker.Foto,
+                    Type = gda.Gebruiker.Type,
+                })
+            });
+        }
+
+        private IEnumerable<DagAtelierDTO> setDagAteliersTemplate(DagPlanningTemplate dagPlanning)
+        {
+            return dagPlanning.DagAteliers.Select(t => new DagAtelierDTO()
+            {
+                Atelier = new AtelierDTO()
+                {
+                    AtelierType = t.Atelier.AtelierType,
+                    Naam = t.Atelier.Naam,
+                    PictoURL = t.Atelier.PictoURL
+                },
+                DagAtelierId = t.DagAtelierId,
+                DagMoment = t.DagMoment,
+                Gebruikers = t.Gebruikers.Select(gda => new BasicGebruikerDTO()
+                {
+                    Id = gda.Gebruiker.Id,
+                    Achternaam = gda.Gebruiker.Achternaam,
+                    Voornaam = gda.Gebruiker.Voornaam,
+                    Foto = gda.Gebruiker.Foto,
+                    Type = gda.Gebruiker.Type,
+                })
+            });
+
         }
     }
 }
