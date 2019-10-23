@@ -54,7 +54,7 @@ namespace kolveniershofBackend.Controllers
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
             IEnumerable<Opmerking> opmerkingenVanDatum = _opmerkingRepository.getByDate(datumFormatted);
             ICollection<OpmerkingType> types = new List<OpmerkingType>() {OpmerkingType.AteliersEnWeekschema, OpmerkingType.Begeleiding, OpmerkingType.Cliënten,
-                OpmerkingType.Stagiairs, OpmerkingType.UurRegistratie, OpmerkingType.Varia, OpmerkingType.Vervoer, OpmerkingType.Vrijwilligers };
+                OpmerkingType.Stagiairs, OpmerkingType.UurRegistratie, OpmerkingType.Varia, OpmerkingType.Vervoer, OpmerkingType.Vrijwilligers, OpmerkingType.Logistiek };
             ICollection<Opmerking> nieuweOpmerkingen = new List<Opmerking>();
 
             if (opmerkingenVanDatum.Count() == 0)
