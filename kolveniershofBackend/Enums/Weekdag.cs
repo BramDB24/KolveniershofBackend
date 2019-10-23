@@ -7,6 +7,6 @@ namespace kolveniershofBackend.Enums
 {
     public enum Weekdag
     {
-        Undefined, Maandag, Dinsdag, Woensdag, Donderdag, Vrijdag, Zaterdag, Zondag
+        Undefined, Dinsdag, Woensdag, Donderdag, Vrijdag, Zaterdag, Zondag, Maandag
     }
 }

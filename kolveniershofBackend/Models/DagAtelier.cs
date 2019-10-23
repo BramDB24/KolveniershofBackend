@@ -15,9 +15,6 @@ namespace kolveniershofBackend.Models
         #region Properties
         public int DagAtelierId { get; set; }
 
-        public Atelier Atelier { get; set; }
-        public int AtelierId { get; set; }
-
         public DagMoment DagMoment
         {
             get { return _dagMoment; }
@@ -34,13 +31,16 @@ namespace kolveniershofBackend.Models
             }
         }
 
-        public List<GebruikerDagAtelier> GebruikerDagAteliers { get; set; }
+        public Atelier Atelier { get; set; }
+
+
+        public List<GebruikerDagAtelier> Gebruikers { get; set; }
 
         #endregion
 
         public DagAtelier()
         {
-            GebruikerDagAteliers = new List<GebruikerDagAtelier>();
+            Gebruikers = new List<GebruikerDagAtelier>();
         }
 
         public DagAtelier(DagMoment dagMoment, Atelier atelier): this()
@@ -51,17 +51,17 @@ namespace kolveniershofBackend.Models
 
         public void VoegGebruikerAanDagAtelierToe(Gebruiker gebruiker)
         {
-            GebruikerDagAteliers.Add(new GebruikerDagAtelier(gebruiker, this));
+            Gebruikers.Add(new GebruikerDagAtelier(gebruiker, this));
         }
 
         public void VerwijderGebruikerUitAtelier(Gebruiker gebruiker)
         {
-            GebruikerDagAteliers.Remove(GebruikerDagAteliers.FirstOrDefault(g => g.Gebruiker == gebruiker));
+            Gebruikers.Remove(Gebruikers.FirstOrDefault(g => g.Gebruiker == gebruiker));
         }
 
         public IEnumerable<Gebruiker> GeefAlleGebruikersVanAtelier()
         {
-            return GebruikerDagAteliers.Select(g => g.Gebruiker).OrderBy(g => g.Achternaam);
+            return Gebruikers.Select(g => g.Gebruiker).OrderBy(g => g.Achternaam);
         }
 
     }

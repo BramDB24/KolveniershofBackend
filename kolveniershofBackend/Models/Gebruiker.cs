@@ -23,7 +23,7 @@ namespace kolveniershofBackend.Models
         private GebruikerType _gebruikerType;
 
         public List<Commentaar> Commentaren { get; set; }
-
+        public IdentityUserClaim<string> Role { get; set; }
         public string Voornaam {
             get {
                 return _voornaam;
