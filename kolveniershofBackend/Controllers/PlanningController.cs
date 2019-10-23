@@ -17,17 +17,11 @@ namespace kolveniershofBackend.Controllers
             _dagPlanningTemplateRepository = repo;
         }
 
-        public ActionResult PostDagplanning(ICollection<DagplanningDTO> dto)
+        public ActionResult PostDagplanning(DagplanningDTO dto)
         {
-            dto.ToList().ForEach(e =>
-            {
-                var local = _dagPlanningTemplateRepository.GetBy(e.Weeknummer, e.Weekdag);
-                e.DagAteliers.ToList().ForEach(t =>
-                {
-                    //local.VoegDagAtelierToeAanDagPlaningTemplate(t);
-                    
-                });
-            });
+
+            var template = _dagPlanningTemplateRepository.GetBy(dto.Weeknummer, dto.Weekdag);
+            //template.DagAteliers = dto.DagAteliers;
             return Ok();
         }
 

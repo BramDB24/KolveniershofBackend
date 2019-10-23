@@ -123,6 +123,7 @@ namespace kolveniershofBackend.Controllers
         {
             var dagPlanning = _dagPlanningRepository.GetById(id);
             var atelier = _atelierRepository.getBy(dto.Atelier.AtelierId);
+
             if (dagPlanning == null)
             {
                 return NotFound();
@@ -137,19 +138,15 @@ namespace kolveniershofBackend.Controllers
 
             dto.Gebruikers.ToList().ForEach(e => dagAtelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.GebruikerId)));
 
-            bool modified = false;
-            dagPlanning.DagAteliers.ForEach(e =>
-            {
-                if (e.Atelier.Naam == dagAtelier.Atelier.Naam)
-                {
-                    e.Gebruikers = dagAtelier.Gebruikers;
-                    modified = true;
-                }
-            });
-
-            if (!modified)
+            if (dto.DagAtelierId == 0)
             {
                 dagPlanning.DagAteliers.Add(dagAtelier);
+            } else
+            {
+                var temp = dagPlanning.DagAteliers.FirstOrDefault(t => t.DagAtelierId == dto.DagAtelierId);
+                temp.Gebruikers = dagAtelier.Gebruikers;
+                temp.Atelier = dagAtelier.Atelier;
+                temp.DagMoment = dagAtelier.DagMoment;
             }
             _dagPlanningRepository.SaveChanges();
 
