@@ -105,7 +105,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpPost("{datumVanDagplanning}")]
-        public ActionResult<DagPlanning> DeleteDagAtelierUitDagplanning(string datumVanDagplanning, DagAtelier dagAtelier)
+        public ActionResult<DagPlanning> DeleteDagAtelierUitDagplanning(string datumVanDagplanning, DagAtelierDTO dagAtelier)
         {
             DateTime datumFormatted = DateTime.Parse(datumVanDagplanning, null, System.Globalization.DateTimeStyles.RoundtripKind);
             var planning = _dagPlanningRepository.GetBy(datumFormatted);
