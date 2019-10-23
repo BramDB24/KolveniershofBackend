@@ -26,16 +26,18 @@ namespace kolveniershofBackend.Controllers
     {
         private readonly IDagPlanningTemplateRepository _dagPlanningRepository;
         private readonly IGebruikerRepository _gebruikerRepository;
+        private readonly IAtelierRepository _atelierRepository; 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="dagPlanningRepository"></param>
         /// <param name="gebruikerRepository"></param>
         /// 
-        public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository, IGebruikerRepository gebruikerRepository)
+        public DagPlanningController(IDagPlanningTemplateRepository dagPlanningRepository, IGebruikerRepository gebruikerRepository, IAtelierRepository repo)
         {
             _dagPlanningRepository = dagPlanningRepository;
             _gebruikerRepository = gebruikerRepository;
+            _atelierRepository = repo;
         }
 
         /// <summary>
@@ -120,40 +122,34 @@ namespace kolveniershofBackend.Controllers
         public ActionResult putDagPlanning(int id, DagAtelierDTO dto)
         {
             var dagPlanning = _dagPlanningRepository.GetById(id);
-
+            var atelier = _atelierRepository.getBy(dto.Atelier.AtelierId);
             if (dagPlanning == null)
             {
                 return NotFound();
             }
 
-            DagAtelier atelier = new DagAtelier
+            DagAtelier dagAtelier = new DagAtelier
             {
-                Atelier = new Atelier
-                {
-                    AtelierId = dto.Atelier.AtelierId,
-                    AtelierType = dto.Atelier.AtelierType,
-                    Naam = dto.Atelier.Naam,
-                    PictoURL = dto.Atelier.PictoURL
-                },
+                Atelier = atelier,
                 DagAtelierId = dto.DagAtelierId,
                 DagMoment = dto.DagMoment
             };
 
-            dto.Gebruikers.ToList().ForEach(e => atelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.Id)));
+            dto.Gebruikers.ToList().ForEach(e => dagAtelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.GebruikerId)));
 
             bool modified = false;
             dagPlanning.DagAteliers.ForEach(e =>
             {
-                if (e.Atelier.Naam == atelier.Atelier.Naam)
+                if (e.Atelier.Naam == dagAtelier.Atelier.Naam)
                 {
-                    e.Gebruikers = atelier.Gebruikers;
+                    e.Gebruikers = dagAtelier.Gebruikers;
                     modified = true;
                 }
             });
 
             if (!modified)
             {
-                dagPlanning.DagAteliers.Add(atelier);
+                dagPlanning.DagAteliers.Add(dagAtelier);
             }
             _dagPlanningRepository.SaveChanges();
 
@@ -176,7 +172,7 @@ namespace kolveniershofBackend.Controllers
                 DagMoment = da.DagMoment,
                 Gebruikers = da.Gebruikers.Select(gda => new BasicGebruikerDTO()
                 {
-                    Id = gda.Gebruiker.Id,
+                    GebruikerId = gda.Gebruiker.Id,
                     Achternaam = gda.Gebruiker.Achternaam,
                     Voornaam = gda.Gebruiker.Voornaam,
                     Foto = gda.Gebruiker.Foto,
@@ -199,7 +195,7 @@ namespace kolveniershofBackend.Controllers
                 DagMoment = t.DagMoment,
                 Gebruikers = t.Gebruikers.Select(gda => new BasicGebruikerDTO()
                 {
-                    Id = gda.Gebruiker.Id,
+                    GebruikerId = gda.Gebruiker.Id,
                     Achternaam = gda.Gebruiker.Achternaam,
                     Voornaam = gda.Gebruiker.Voornaam,
                     Foto = gda.Gebruiker.Foto,
