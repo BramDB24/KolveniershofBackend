@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using kolveniershofBackend.DTO;
 using kolveniershofBackend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -41,22 +42,49 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Atelier> PostAtelier(Atelier atelier) //dto?
+        public ActionResult<AtelierDTO> PostAtelier(AtelierDTO dto)
         {
+            Atelier atelier = new Atelier
+            {
+                AtelierId = dto.AtelierId,
+                AtelierType = dto.AtelierType,
+                Naam = dto.Naam,
+                PictoURL = dto.PictoURL
+            };
             _atelierRepository.Add(atelier);
             _atelierRepository.SaveChanges();
             return Redirect(nameof(GetAteliers));
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Atelier> PutAtelier(int id, Atelier atelier)
+        public ActionResult<AtelierDTO> PutAtelier(int id, AtelierDTO dto)
         {
-            if (atelier.AtelierId != id)
+            if (dto.AtelierId != id)
                 return BadRequest();
+            Atelier atelier = new Atelier
+            {
+                AtelierId = dto.AtelierId,
+                AtelierType = dto.AtelierType,
+                Naam = dto.Naam,
+                PictoURL = dto.PictoURL
+            };
             _atelierRepository.Update(atelier);
             _atelierRepository.SaveChanges();
             return NoContent();
         } 
+
+        [HttpDelete]
+        public ActionResult<Atelier> DeleteAtelier(int id)
+        {
+            Atelier atelier = _atelierRepository.getBy(id);
+            if (atelier == null)
+            {
+                return NotFound();
+            }
+            _atelierRepository.Delete(atelier);
+            _atelierRepository.SaveChanges();
+            return atelier;
+        }
 
     }
 }
