@@ -189,8 +189,8 @@ namespace kolveniershofBackend.Data
 
                 _dbContext.DagPlanningen.AddRange(dagPlanningTemplates);
 
-                maandagWeek1.VoegDagAtelierToeAanDagPlaningTemplate(kokenOpMaandagVoormiddag);
-                maandagWeek1.VoegDagAtelierToeAanDagPlaningTemplate(zwemmenOpMaandagNamiddag);
+                maandagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(kokenOpMaandagVoormiddag);
+                maandagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(zwemmenOpMaandagNamiddag);
 
                 // _dbContext.DagPlanningen                                                  _dbContext.Gebruikers
                 //      DAGPLANNINGEN       -->     DAGATELIERS     -->  DAGGEBRUIKERS    -->    GEBRUIKERS  
@@ -200,8 +200,8 @@ namespace kolveniershofBackend.Data
                 expressieOpWoensdagVoormiddag.VoegGebruikerAanDagAtelierToe(jonah);
                 expressieOpWoensdagVoormiddag.VoegGebruikerAanDagAtelierToe(lucas);
                 toneelOpWoensdagNamiddag.VoegGebruikerAanDagAtelierToe(nicolas);
-                vandaag.VoegDagAtelierToeAanDagPlaningTemplate(expressieOpWoensdagVoormiddag);
-                vandaag.VoegDagAtelierToeAanDagPlaningTemplate(toneelOpWoensdagNamiddag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(expressieOpWoensdagVoormiddag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(toneelOpWoensdagNamiddag);
 
                 _dbContext.SaveChanges();
 

@@ -11,6 +11,7 @@ namespace kolveniershofBackend.Models
         IEnumerable<Atelier> getAll();
         void Add(Atelier atelier);
         void Update(Atelier atelier);
+        void Delete(Atelier atelier);
         void SaveChanges();
     }
 }

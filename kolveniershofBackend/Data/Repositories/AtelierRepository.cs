@@ -38,6 +38,11 @@ namespace kolveniershofBackend.Data.Repositories
             _ateliers.Update(atelier);
         }
 
+        public void Delete(Atelier atelier)
+        {
+            _ateliers.Remove(atelier);
+        }
+
         public void SaveChanges()
         {
             _context.SaveChanges();

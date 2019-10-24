@@ -15,8 +15,8 @@ namespace kolveniershofBackend.DTO
         public DateTime? Datum;
         public int Weeknummer;
         public Weekdag Weekdag;
-        //public List<Opmerking> Opmerkingen { get; set; }
         public IEnumerable<DagAtelierDTO> DagAteliers { get; set; }
+        //public List<Opmerking> Opmerkingen { get; set; }
 
         public DagplanningDTO()
         {

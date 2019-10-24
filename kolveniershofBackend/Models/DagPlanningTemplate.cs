@@ -61,7 +61,7 @@ namespace kolveniershofBackend.Models
             Weekdag = weekdag;
         }
 
-        public void VoegDagAtelierToeAanDagPlaningTemplate(DagAtelier dagAtelier)
+        public void VoegDagAtelierToeAanDagPlanningTemplate(DagAtelier dagAtelier)
         {
             DagAteliers.Add(dagAtelier);
         }
