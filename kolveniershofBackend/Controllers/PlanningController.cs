@@ -8,21 +8,46 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace kolveniershofBackend.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class PlanningController : ControllerBase
     {
         private readonly IDagPlanningTemplateRepository _dagPlanningTemplateRepository;
+        private readonly IAtelierRepository _atelierRepository;
+        private readonly IGebruikerRepository _gebruikerRepository;
 
-        public PlanningController(IDagPlanningTemplateRepository repo)
+        public PlanningController(IDagPlanningTemplateRepository dagplanningRepository, IAtelierRepository atelierRepository, IGebruikerRepository gebruikerRepository)
         {
-            _dagPlanningTemplateRepository = repo;
+            _dagPlanningTemplateRepository = dagplanningRepository;
+            _atelierRepository = atelierRepository;
+            _gebruikerRepository = gebruikerRepository;
         }
 
-        public ActionResult PostDagplanning(DagplanningDTO dto)
+        [HttpPut]
+        public ActionResult PutDagplanning(DagplanningDTO dto)
         {
-
             var template = _dagPlanningTemplateRepository.GetBy(dto.Weeknummer, dto.Weekdag);
-            //template.DagAteliers = dto.DagAteliers;
+
+            dto.DagAteliers.ToList().ForEach(t =>
+            {
+                var atelier = _atelierRepository.getBy(t.Atelier.AtelierId);
+                DagAtelier dagAtelier = new DagAtelier
+                {
+                    Atelier = atelier,
+                    DagAtelierId = t.DagAtelierId,
+                    DagMoment = t.DagMoment
+                };
+
+                t.Gebruikers.ToList().ForEach(e => dagAtelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.GebruikerId)));
+                template.DagAteliers.Add(dagAtelier);
+                var d = template.DagAteliers;
+            });
+
+            _dagPlanningTemplateRepository.SaveChanges();
+
             return Ok();
+            
         }
 
 
