@@ -154,9 +154,22 @@ namespace kolveniershofBackend.Controllers
             return CreatedAtAction(nameof(GetDagPlanning), new { datum = planning.Datum }, planning);
         }
 
+        [HttpPost("week/{weeknr}/dag/{weekdag}")]
+        public ActionResult<DagPlanning> DeleteDagAtelierUitDagplanningTemplate(int weeknr, int weekdag, DagAtelierDTO dagAtelier)
+        {
+            DagPlanningTemplate dagPlanningTemplate = _dagPlanningRepository.GetBy(weeknr, (Weekdag)weekdag);
+            DagAtelier da = dagPlanningTemplate.DagAteliers.FirstOrDefault(d => d.DagAtelierId == dagAtelier.DagAtelierId);
+            dagPlanningTemplate.VerwijderDagAtlierVanDagPlanningTemplate(da);
+            _dagPlanningRepository.Update(dagPlanningTemplate);
+            _dagPlanningRepository.SaveChanges();
+            return CreatedAtAction(nameof(GetDagPlanningTemplate), new { week = dagPlanningTemplate.Weeknummer, weekdag = dagPlanningTemplate.Weekdag },
+                dagPlanningTemplate);
+        }
+
         [HttpPut("dagAtelier/{id}")]
         public ActionResult putDagPlanning(int id, DagAtelierDTO dto)
         {
+            //DagPlanningTemplate dagPlanning = _dagPlanningRepository.GetById(id);
             var dagPlanning = _dagPlanningRepository.GetById(id);
             var atelier = _atelierRepository.getBy(dto.Atelier.AtelierId);
 
