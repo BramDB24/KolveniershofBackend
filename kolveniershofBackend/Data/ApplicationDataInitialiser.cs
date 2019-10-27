@@ -121,27 +121,28 @@ namespace kolveniershofBackend.Data
                 _dbContext.Ateliers.AddRange(ateliers);
 
                 //dagAteliers
-                DagAtelier kokenOpMaandagVoormiddag = new DagAtelier(DagMoment.Voormiddag, koken);
-                DagAtelier zwemmenOpMaandagNamiddag = new DagAtelier(DagMoment.Namiddag, zwemmen);
-                DagAtelier sportenOpDinsdagVolledigeDag = new DagAtelier(DagMoment.VolledigeDag, sporten);
-                DagAtelier expressieOpWoensdagVoormiddag = new DagAtelier(DagMoment.Voormiddag, expressie);
-                DagAtelier toneelOpWoensdagNamiddag = new DagAtelier(DagMoment.Namiddag, toneel);
-                DagAtelier winkelenOpDonderdagVolledigeDag = new DagAtelier(DagMoment.VolledigeDag, winkelen);
-                DagAtelier paardrijdenOpVrijdagVoormiddag = new DagAtelier(DagMoment.Voormiddag, paardrijden);
-                DagAtelier verhalenOpVrijdagNamiddag = new DagAtelier(DagMoment.Namiddag, verhalen);
-                var dagAteliers = new List<DagAtelier> {kokenOpMaandagVoormiddag, zwemmenOpMaandagNamiddag, sportenOpDinsdagVolledigeDag,
-                    expressieOpWoensdagVoormiddag,toneelOpWoensdagNamiddag, winkelenOpDonderdagVolledigeDag, paardrijdenOpVrijdagVoormiddag,
-                    verhalenOpVrijdagNamiddag };
+                DagAtelier kokenVoormiddag = new DagAtelier(DagMoment.Voormiddag, koken);
+                DagAtelier zwemmenNamiddag = new DagAtelier(DagMoment.Namiddag, zwemmen);
+                DagAtelier sportenVolledigeDag = new DagAtelier(DagMoment.VolledigeDag, sporten);
+                DagAtelier expressieVoormiddag = new DagAtelier(DagMoment.Voormiddag, expressie);
+                DagAtelier toneelNamiddag = new DagAtelier(DagMoment.Namiddag, toneel);
+                DagAtelier winkelenVolledigeDag = new DagAtelier(DagMoment.VolledigeDag, winkelen);
+                DagAtelier paardrijdenVoormiddag = new DagAtelier(DagMoment.Voormiddag, paardrijden);
+                DagAtelier verhalenNamiddag = new DagAtelier(DagMoment.Namiddag, verhalen);
+                DagAtelier petanqueVoormiddag = new DagAtelier(DagMoment.VolledigeDag, petanque);
+                var dagAteliers = new List<DagAtelier> {kokenVoormiddag, zwemmenNamiddag, sportenVolledigeDag,
+                    expressieVoormiddag,toneelNamiddag, winkelenVolledigeDag, paardrijdenVoormiddag,
+                    verhalenNamiddag, petanqueVoormiddag };
 
-                kokenOpMaandagVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
-                zwemmenOpMaandagNamiddag.VoegGebruikerAanDagAtelierToe(frans);
-                sportenOpDinsdagVolledigeDag.VoegGebruikerAanDagAtelierToe(lisa);
-                expressieOpWoensdagVoormiddag.VoegGebruikerAanDagAtelierToe(thomas);
-                toneelOpWoensdagNamiddag.VoegGebruikerAanDagAtelierToe(dieter);
-                winkelenOpDonderdagVolledigeDag.VoegGebruikerAanDagAtelierToe(dina);
-                paardrijdenOpVrijdagVoormiddag.VoegGebruikerAanDagAtelierToe(dieter);
-                verhalenOpVrijdagNamiddag.VoegGebruikerAanDagAtelierToe(veerle);
-
+                kokenVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
+                zwemmenNamiddag.VoegGebruikerAanDagAtelierToe(frans);
+                sportenVolledigeDag.VoegGebruikerAanDagAtelierToe(lisa);
+                expressieVoormiddag.VoegGebruikerAanDagAtelierToe(thomas);
+                toneelNamiddag.VoegGebruikerAanDagAtelierToe(dieter);
+                winkelenVolledigeDag.VoegGebruikerAanDagAtelierToe(dina);
+                paardrijdenVoormiddag.VoegGebruikerAanDagAtelierToe(dieter);
+                verhalenNamiddag.VoegGebruikerAanDagAtelierToe(veerle);
+                petanqueVoormiddag.VoegGebruikerAanDagAtelierToe(dieter);
                 //dagplanningTemplate
                 //week1
                 DagPlanningTemplate maandagWeek1 = new DagPlanningTemplate(1, Weekdag.Maandag);
@@ -169,8 +170,22 @@ namespace kolveniershofBackend.Data
                 DagPlanningTemplate vrijdagWeek4 = new DagPlanningTemplate(4, Weekdag.Vrijdag);
 
 
-                woensdagWeek1.DagAteliers.AddRange(dagAteliers);
-                //dagplanningen
+                var dagPlanningTemplates = new List<DagPlanningTemplate> {maandagWeek1, dinsdagWeek1, woensdagWeek1, donderdagWeek1, vrijdagWeek1,
+                maandagWeek2, dinsdagWeek2, woensdagWeek2, donderdagWeek2, vrijdagWeek2,
+                maandagWeek3, dinsdagWeek3, woensdagWeek3, donderdagWeek3, vrijdagWeek3,
+                maandagWeek4, dinsdagWeek4, woensdagWeek4, donderdagWeek4, vrijdagWeek4,};
+
+                _dbContext.DagPlanningen.AddRange(dagPlanningTemplates);
+
+                maandagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(kokenVoormiddag);
+                maandagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(zwemmenNamiddag);
+                dinsdagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(sportenVolledigeDag);
+                woensdagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(petanqueVoormiddag);
+                donderdagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(winkelenVolledigeDag);
+                vrijdagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(paardrijdenVoormiddag);
+                vrijdagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(verhalenNamiddag);
+
+                //dagplanningen concreet
                 DateTime dt = DateTime.Today;
                 var vandaag = new DagPlanning(1, dt, "balletjes in tomatensaus en friet");
                 _dbContext.DagPlanningen.Add(vandaag);
@@ -182,26 +197,16 @@ namespace kolveniershofBackend.Data
                 }
 
 
-                var dagPlanningTemplates = new List<DagPlanningTemplate> {maandagWeek1, dinsdagWeek1, woensdagWeek1, donderdagWeek1, vrijdagWeek1,
-                maandagWeek2, dinsdagWeek2, woensdagWeek2, donderdagWeek2, vrijdagWeek2,
-                maandagWeek3, dinsdagWeek3, woensdagWeek3, donderdagWeek3, vrijdagWeek3,
-                maandagWeek4, dinsdagWeek4, woensdagWeek4, donderdagWeek4, vrijdagWeek4,};
-
-                _dbContext.DagPlanningen.AddRange(dagPlanningTemplates);
-
-                maandagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(kokenOpMaandagVoormiddag);
-                maandagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(zwemmenOpMaandagNamiddag);
-
                 // _dbContext.DagPlanningen                                                  _dbContext.Gebruikers
                 //      DAGPLANNINGEN       -->     DAGATELIERS     -->  DAGGEBRUIKERS    -->    GEBRUIKERS  
                 //                                      |
                 //                                  ATELIERS
 
-                expressieOpWoensdagVoormiddag.VoegGebruikerAanDagAtelierToe(jonah);
-                expressieOpWoensdagVoormiddag.VoegGebruikerAanDagAtelierToe(lucas);
-                toneelOpWoensdagNamiddag.VoegGebruikerAanDagAtelierToe(nicolas);
-                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(expressieOpWoensdagVoormiddag);
-                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(toneelOpWoensdagNamiddag);
+                expressieVoormiddag.VoegGebruikerAanDagAtelierToe(jonah);
+                expressieVoormiddag.VoegGebruikerAanDagAtelierToe(lucas);
+                toneelNamiddag.VoegGebruikerAanDagAtelierToe(nicolas);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(expressieVoormiddag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(toneelNamiddag);
 
                 _dbContext.SaveChanges();
 

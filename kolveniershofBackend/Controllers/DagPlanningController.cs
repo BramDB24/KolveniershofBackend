@@ -28,7 +28,7 @@ namespace kolveniershofBackend.Controllers
         private readonly IGebruikerRepository _gebruikerRepository;
         private readonly IAtelierRepository _atelierRepository; 
         /// <summary>
-        /// 
+        /// gebruik repos
         /// </summary>
         /// <param name="dagPlanningRepository"></param>
         /// <param name="gebruikerRepository"></param>
@@ -41,7 +41,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         /// <summary>
-        /// 
+        /// zoek dagplanning op datum
         /// </summary>
         /// <param name="datum"></param>
         /// <returns></returns>
@@ -89,7 +89,43 @@ namespace kolveniershofBackend.Controllers
         }
 
         /// <summary>
-        /// 
+        /// zoek dagplanning op datum
+        /// </summary>
+        /// <param name="week"></param>
+        /// <param name="weekdag"></param>
+        /// <returns></returns>
+        [HttpGet("vanWeek/{week}/vandag/{weekdag}")]
+        //[Authorize(Policy = "AdminOnly")]
+        //[Authorize(Policy = "BegeleidersOnly")]
+        public ActionResult<DagplanningDTO> GetDagPlanningTemplate(int week, int weekdag)
+        {
+            if (weekdag == (int)Weekdag.Undefined)
+            {
+                weekdag = (int)Weekdag.Maandag;
+            }
+
+            DagPlanningTemplate dagPlanningTemplate = _dagPlanningRepository.GetBy(week, (Weekdag)weekdag);
+            if(dagPlanningTemplate == null)
+            {
+                dagPlanningTemplate = new DagPlanningTemplate(week, (Weekdag)weekdag);
+            }
+
+            DagplanningDTO dto = new DagplanningDTO()
+            {
+                DagplanningId = dagPlanningTemplate.DagplanningId,
+                Eten = null,
+                Weekdag = dagPlanningTemplate.Weekdag,
+                Weeknummer = dagPlanningTemplate.Weeknummer,
+                Datum = null,
+                DagAteliers = setDagAteliersTemplate(dagPlanningTemplate)
+        };
+           
+            
+            return dto;
+        }
+
+        /// <summary>
+        /// update dagplanning met opgegeven dagplanning id en met template
         /// </summary>
         /// <param name="id"></param>
         /// <param name="dagPlanning"></param>
