@@ -88,7 +88,7 @@ namespace kolveniershofBackend.Controllers
                 };
                 // maak een nieuw dagplanning vandaag en start vanaf de eerste week
                 // dit wordt ook aangemaakt aangezien we de dag van vandaag als referentie gebruiken om de juiste template te vinden
-                DagPlanningTemplate dagPlanningTemplateVandaag = GeefDagPlanningTemplate(0, weekdagVandaag);
+                DagPlanningTemplate dagPlanningTemplateVandaag = GeefDagPlanningTemplate(1, weekdagVandaag);
                 dagplanningVandaag = new DagPlanning(dagPlanningTemplateVandaag, DateTime.Today);
                 _dagPlanningTemplateRepository.AddDagPlanning(dagplanningVandaag);
             }
@@ -118,11 +118,13 @@ namespace kolveniershofBackend.Controllers
          * Geeft de DagPlanningTemplate van een bepaald weeknummer en weekdag.
          * Als de DagPlanningTemplate niet bestaat in de databank dan wordt hij gegenereerd.
          */
-        [HttpGet("{weeknummer}/{weekdag}")]
+        [HttpGet("vanWeek/{weeknummer}/vanDag/{weekdag}")]
         public ActionResult<DagplanningDTO> GetDagPlanningTemplate(int weeknummer, int weekdag)
         {
             DagPlanningTemplate dagPlanningTemplate = GeefDagPlanningTemplate(weeknummer, weekdag);
-            return MaakDagPlanningDto(new DagPlanning(dagPlanningTemplate, DateTime.Today));
+            DagplanningDTO dagPlanningTemplateDto = MaakDagPlanningDto(new DagPlanning(dagPlanningTemplate, DateTime.Today));
+            dagPlanningTemplateDto.DagplanningId = dagPlanningTemplate.DagplanningId;
+            return dagPlanningTemplateDto;
         }
 
         /// <summary>
@@ -176,7 +178,7 @@ namespace kolveniershofBackend.Controllers
         [HttpPut("{id}/dagAtelier")]
         public ActionResult PutDagAtelier(int id, DagAtelierDTO dto)
         {
-            var dagPlanning = _dagPlanningTemplateRepository.GetById(id);
+            var dagPlanning = _dagPlanningTemplateRepository.GetByIdDagPlanningTemplate(id);
             var atelier = _atelierRepository.getBy(dto.Atelier.AtelierId);
 
             if (dagPlanning == null)

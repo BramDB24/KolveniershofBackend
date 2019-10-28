@@ -10,7 +10,8 @@ namespace kolveniershofBackend.Models
     {
         DagPlanning GetByDatum(DateTime date);
         DagPlanning GetByDatumGeenInclude(DateTime date);
-        DagPlanning GetById(int id);
+        DagPlanning GetByIdDagPlanning(int id);
+        DagPlanningTemplate GetByIdDagPlanningTemplate(int id);
         DagPlanningTemplate GetTemplateByWeeknummerEnDagnummer(int week, Weekdag dag);
         DagPlanningTemplate GetTemplateByWeeknummerEnDagnummerGeenInclude(int weeknummer, Weekdag dagnummer);
         void Add(DagPlanningTemplate dagPlanning);
