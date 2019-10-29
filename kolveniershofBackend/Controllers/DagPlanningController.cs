@@ -60,7 +60,7 @@ namespace kolveniershofBackend.Controllers
             // Eerst zoeken we naar de juiste template om te gebruiken. Hiervoor hebben we een weekdag en een weeknummer nodig.
 
             //Is nodig om te kunnen werken met de enums, de enum heeft (voor whatever reason) een undefined nodig die index 0 heeft, terwijl index 0 gewoon maandag moet zijn
-            var weekdag = (int)datumFormatted.DayOfWeek - 1;
+            var weekdag = ((int)datumFormatted.DayOfWeek - 1 + 7) % 7;
 
             if (weekdag == (int)Weekdag.Undefined)
             {
@@ -99,10 +99,10 @@ namespace kolveniershofBackend.Controllers
              * Hierdoor kunnen we het aantal weken berekenen door het verschil in dagen te nemen en dit te delen door 7.
              */
             var weeknummerVandaag = dagplanningVandaag.Weeknummer;
-            var maandagDezeWeek = MaandagVanWeek(DateTime.Today);
-            var maandagGegevenWeek = MaandagVanWeek(datumFormatted);
-            var aantalWekenVerschil = (maandagGegevenWeek - maandagDezeWeek).Days / 7;
-            int weeknummer = (weeknummerVandaag + aantalWekenVerschil) % 4;
+            var dinsdagDezeWeek = DinsdagVanWeek(DateTime.Today);
+            var dinsdagGegevenWeek = DinsdagVanWeek(datumFormatted);
+            var aantalWekenVerschil = (dinsdagGegevenWeek - dinsdagDezeWeek).Days / 7;
+            int weeknummer = (((weeknummerVandaag - 1) + aantalWekenVerschil + 4) % 4) + 1;
 
             DagPlanningTemplate dagPlanningTemplate = GeefDagPlanningTemplate(weeknummer, weekdag);
             
@@ -254,12 +254,12 @@ namespace kolveniershofBackend.Controllers
          * Geeft van een gegeven datum de maandag van de week waar deze datum in zit.
          * Dit wordt voornamelijk gebruikt om het verschil in weken te berekenen.
          */
-        private DateTime MaandagVanWeek(DateTime datum)
+        private DateTime DinsdagVanWeek(DateTime datum)
         {
-            //-1 toegevoegd aangezien DayOfWeek begint op zondag en niet op maandag
+            //-2 toegevoegd aangezien DayOfWeek begint op zondag en niet op dinsdag
             //+7 toegevoegd voor het geval dat datum een zondag is, zonder +7 is het resultaat -1 maar we hebben een 6 nodig
-            int dagenVerwijderedVanMaandag = ((int)datum.DayOfWeek - 1 + 7) % 7;
-            return new DateTime(datum.Year, datum.Month, datum.Day - dagenVerwijderedVanMaandag);
+            int dagenVerwijderedVanDinsdag = ((int)datum.DayOfWeek - 2 + 7) % 7;
+            return new DateTime(datum.Year, datum.Month, datum.Day - dagenVerwijderedVanDinsdag);
         }
 
 
