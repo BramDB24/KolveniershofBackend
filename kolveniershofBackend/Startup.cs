@@ -36,7 +36,7 @@ namespace kolveniershofBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => {
-                options.UseSqlServer(Configuration.GetConnectionString("Server=.\\sqlexpress;Database=Kolveniershof;Trusted_Connection=True"));
+                options.UseSqlServer(Configuration.GetConnectionString("KolveniershofContext"));
             });
 
             services.AddSession();
