@@ -14,36 +14,25 @@ namespace kolveniershofBackend.Models
         #endregion
 
         #region Properties
-        public DateTime Datum
-        {
+        public DateTime Datum {
             get { return _datum; }
-            set
-            {
-                if (value != null && value >= DateTime.Today)
+            set {
+                if (value != null)
                 {
                     _datum = value;
                 }
 
                 else
                 {
-                    throw new ArgumentException("Gelieve een datum in te vullen gelijk aan vandaag of later");
+                    throw new ArgumentException("Gelieve een datum in te vullen");
                 }
             }
         }
 
-        public string Eten
-        {
+        public string Eten {
             get { return _eten; }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("Gelieve de maaltijd in te geven");
-                }
-                else
-                {
-                    _eten = value;
-                }
+            set {
+                _eten = value;
             }
         }
 
@@ -64,6 +53,11 @@ namespace kolveniershofBackend.Models
             Weekdag = ZetDayOfWeekOmNaarWeekdag(datum);
         }
 
+        public DagPlanning(DagPlanningTemplate template, DateTime datum, string eten = "") : this(template.Weeknummer, datum, eten)
+        {
+            DagAteliers = template.DagAteliers;
+        }
+
         public Weekdag ZetDayOfWeekOmNaarWeekdag(DateTime datum)
         {
             var dag = Weekdag.Undefined;
@@ -72,7 +66,7 @@ namespace kolveniershofBackend.Models
             {
                 case DayOfWeek.Monday: dag = Weekdag.Maandag; break;
                 case DayOfWeek.Tuesday: dag = Weekdag.Dinsdag; break;
-                case DayOfWeek.Wednesday:dag = Weekdag.Woensdag; break;
+                case DayOfWeek.Wednesday: dag = Weekdag.Woensdag; break;
                 case DayOfWeek.Thursday: dag = Weekdag.Donderdag; break;
                 case DayOfWeek.Friday: dag = Weekdag.Vrijdag; break;
                 case DayOfWeek.Saturday: dag = Weekdag.Zaterdag; break;

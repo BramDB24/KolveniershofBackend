@@ -24,10 +24,11 @@ namespace kolveniershofBackend.Controllers
             _gebruikerRepository = gebruikerRepository;
         }
 
+        //Heeft deze methode nog nut?
         [HttpPut]
         public ActionResult PutDagplanning(DagplanningDTO dto)
         {
-            var template = _dagPlanningTemplateRepository.GetBy(dto.Weeknummer, dto.Weekdag);
+            var template = _dagPlanningTemplateRepository.GetTemplateByWeeknummerEnDagnummer(dto.Weeknummer, dto.Weekdag);
 
             dto.DagAteliers.ToList().ForEach(t =>
             {

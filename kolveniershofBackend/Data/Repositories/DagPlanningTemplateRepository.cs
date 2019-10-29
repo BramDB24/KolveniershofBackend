@@ -23,34 +23,48 @@ namespace kolveniershofBackend.Data.Repositories
             _dagen.Add(dagPlanning);
         }
 
+        public void AddDagPlanning(DagPlanning dagPlanning)
+        {
+            _dagen.Add(dagPlanning);
+        }
+
         public void Delete(DagPlanningTemplate dagPlanning)
         {
             _dagen.Remove(dagPlanning);
         }
 
-        public DagPlanning GetBy(DateTime datum)
+        public DagPlanning GetByDatum(DateTime datum)
         {
             return (DagPlanning)_dagen.Where(d => d.GetType() == typeof(DagPlanning)).Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
                         .Include(d => d.DagAteliers).ThenInclude(a => a.Gebruikers).ThenInclude(g => g.Gebruiker).ThenInclude(o => o.Commentaren).FirstOrDefault(d => ((DagPlanning)d).Datum == datum);
         }
 
-        public  DagPlanningTemplate GetBy(int weeknummer, Weekdag dagnummer)
+        public DagPlanning GetByDatumGeenInclude(DateTime datum)
         {
-            return _dagen.Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
-                        .Include(d => d.DagAteliers).ThenInclude(a => a.Gebruikers).ThenInclude(g => g.Gebruiker).FirstOrDefault(d => d.Weekdag == dagnummer && d.Weeknummer == weeknummer);
+            return (DagPlanning)_dagen.Where(d => d.GetType() == typeof(DagPlanning)).FirstOrDefault(d => ((DagPlanning)d).Datum == datum);
         }
 
-        //public DagPlanning GetById(int id)
-        //{
-        //    return (DagPlanning)_dagen.Where(d => d.GetType() == typeof(DagPlanning)).Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
-        //                 .Include(d => d.DagAteliers).ThenInclude(a => a.Gebruikers).ThenInclude(g => g.Gebruiker).ThenInclude(o => o.Commentaren).FirstOrDefault(d => ((DagPlanning)d).DagplanningId == id);
-        //}
-
-
-        public DagPlanningTemplate GetById(int id)
+        public DagPlanningTemplate GetTemplateByWeeknummerEnDagnummer(int weeknummer, Weekdag dagnummer)
         {
             return _dagen.Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
+                        .Include(d => d.DagAteliers).ThenInclude(a => a.Gebruikers).ThenInclude(g => g.Gebruiker).FirstOrDefault(d => d.IsTemplate && d.Weekdag == dagnummer && d.Weeknummer == weeknummer);
+        }
+
+        public DagPlanningTemplate GetTemplateByWeeknummerEnDagnummerGeenInclude(int weeknummer, Weekdag dagnummer)
+        {
+            return _dagen.FirstOrDefault(d => d.IsTemplate && d.Weekdag == dagnummer && d.Weeknummer == weeknummer);
+        }
+
+        public DagPlanning GetByIdDagPlanning(int id)
+        {
+            return (DagPlanning)_dagen.Where(d => !d.IsTemplate).Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
                          .Include(d => d.DagAteliers).ThenInclude(a => a.Gebruikers).ThenInclude(g => g.Gebruiker).ThenInclude(o => o.Commentaren).FirstOrDefault(d => ((DagPlanning)d).DagplanningId == id);
+        }
+
+        public DagPlanningTemplate GetByIdDagPlanningTemplate(int id)
+        {
+            return _dagen.Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
+                         .Include(d => d.DagAteliers).ThenInclude(a => a.Gebruikers).ThenInclude(g => g.Gebruiker).ThenInclude(o => o.Commentaren).FirstOrDefault(d => d.DagplanningId == id);
         }
 
         public void SaveChanges()
