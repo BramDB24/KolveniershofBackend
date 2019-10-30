@@ -122,7 +122,15 @@ namespace kolveniershofBackend.Controllers
         public ActionResult<DagplanningDTO> GetDagPlanningTemplate(int weeknummer, int weekdag)
         {
             DagPlanningTemplate dagPlanningTemplate = GeefDagPlanningTemplate(weeknummer, weekdag);
-            DagplanningDTO dagPlanningTemplateDto = MaakDagPlanningDto(new DagPlanning(dagPlanningTemplate, DateTime.Today));
+            DagplanningDTO dagPlanningTemplateDto = new DagplanningDTO()
+            {
+                DagplanningId = dagPlanningTemplate.DagplanningId,
+                Eten = null,
+                Weekdag = dagPlanningTemplate.Weekdag,
+                Weeknummer = dagPlanningTemplate.Weeknummer,
+                Datum = null,
+                DagAteliers = SetDagAteliers(dagPlanningTemplate)
+            };
             dagPlanningTemplateDto.DagplanningId = dagPlanningTemplate.DagplanningId;
             return dagPlanningTemplateDto;
         }
@@ -239,7 +247,7 @@ namespace kolveniershofBackend.Controllers
                 DagAteliers = SetDagAteliers(dagPlanning)
             };
         }
-        private IEnumerable<DagAtelierDTO> SetDagAteliers(DagPlanning dagPlanning)
+        private IEnumerable<DagAtelierDTO> SetDagAteliers(DagPlanningTemplate dagPlanning)
         {
             return dagPlanning.DagAteliers.Select(da => new DagAtelierDTO()
             {
