@@ -75,14 +75,6 @@ namespace kolveniershofBackend.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult<Opmerking> PostOpmerking(OpmerkingDTO opmerkingData)
-        {
-            Opmerking opm = _opmerkingRepository.Add(opmerkingData.getOpmerking());
-            _opmerkingRepository.SaveChanges();
-            return Ok(opm);
-        }
-
         [HttpPut("{id}")]
         public ActionResult<Opmerking> PutOpmerking(int id, OpmerkingDTO opmerkingData)
         {
