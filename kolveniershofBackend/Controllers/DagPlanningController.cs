@@ -136,6 +136,20 @@ namespace kolveniershofBackend.Controllers
         }
 
         /// <summary>
+        /// Geeft een dagplanning terug met enkel de dagatelier van de gegeven persoon.
+        /// </summary>
+        /// <param name="datum"></param>
+        /// <param name="gebruikerId"></param>
+        /// <returns></returns>
+        [HttpGet("{datum}/Gebruiker/{gebruikerId}")]
+        public ActionResult<DagplanningDTO> GetDagPlanningVanEenPersoon(string datum, string gebruikerId)
+        {
+            var dagPlanningDto = GetDagPlanning(datum).Value;
+            dagPlanningDto.DagAteliers = dagPlanningDto.DagAteliers.Where(da => da.Gebruikers.Any(g => g.GebruikerId == gebruikerId));
+            return dagPlanningDto;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
@@ -280,7 +294,7 @@ namespace kolveniershofBackend.Controllers
             //-2 toegevoegd aangezien DayOfWeek begint op zondag en niet op dinsdag
             //+7 toegevoegd voor het geval dat datum een zondag is, zonder +7 is het resultaat -1 maar we hebben een 6 nodig
             int dagenVerwijderedVanDinsdag = ((int)datum.DayOfWeek - 2 + 7) % 7;
-            return new DateTime(datum.Year, datum.Month, datum.Day - dagenVerwijderedVanDinsdag);
+            return new DateTime(datum.Year, datum.Month, datum.Day).AddDays(dagenVerwijderedVanDinsdag * -1);
         }
 
 
