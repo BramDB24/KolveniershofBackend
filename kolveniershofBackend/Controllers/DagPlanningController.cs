@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using kolveniershofBackend.DTO;
+using kolveniershofBackend.DTO.Picto;
 using kolveniershofBackend.Enums;
 using kolveniershofBackend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -142,11 +143,31 @@ namespace kolveniershofBackend.Controllers
         /// <param name="gebruikerId"></param>
         /// <returns></returns>
         [HttpGet("{datum}/Gebruiker/{gebruikerId}")]
-        public ActionResult<DagplanningDTO> GetDagPlanningVanEenPersoon(string datum, string gebruikerId)
+        public ActionResult<PictoDagDTO> GetDagPlanningVanEenPersoon(string datum, string gebruikerId)
         {
+            DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            DagPlanning dagplanning = _dagPlanningTemplateRepository.GetByDatum(datumFormatted);
+            var pictoDagDTO = new PictoDagDTO()
+            {
+                Eten = dagplanning.Eten,
+                Datum = dagplanning.Datum,
+                //methode in repository maken zodat filter op gebruiker niet hier hoeft te gebeuren?
+                Ateliers = dagplanning.DagAteliers.Where(da => da.Gebruikers.Any(g => g.Id == gebruikerId)).Select(da => new PictoAtelierDTO()
+                {
+                    AtelierImg = da.Atelier.PictoURL,
+                    //ook beter in methode (geefBegeleiderFotos ofzo) + nullchecks?
+                    BegeleiderImages = da.GeefAlleGebruikersVanAtelier().Where(g => g.Type == GebruikerType.Begeleider).Select(g => g.Foto),
+                    AtelierType = da.Atelier.AtelierType.ToString(),
+                    dagMoment = da.DagMoment.ToString()
+                })
+            };
+            return pictoDagDTO;
+
+            /**
             var dagPlanningDto = GetDagPlanning(datum).Value;
             dagPlanningDto.DagAteliers = dagPlanningDto.DagAteliers.Where(da => da.Gebruikers.Any(g => g.GebruikerId == gebruikerId));
             return dagPlanningDto;
+            **/
         }
 
         /// <summary>
