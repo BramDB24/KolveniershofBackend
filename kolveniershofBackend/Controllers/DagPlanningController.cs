@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using kolveniershofBackend.DTO;
+using kolveniershofBackend.DTO.Picto;
 using kolveniershofBackend.Enums;
 using kolveniershofBackend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -136,17 +137,31 @@ namespace kolveniershofBackend.Controllers
         }
 
         /// <summary>
-        /// Geeft een dagplanning terug met enkel de dagatelier van de gegeven persoon.
+        /// Geeft een pictodto terug met enkel de picto gegevens van de gegeven persoon.
         /// </summary>
         /// <param name="datum"></param>
         /// <param name="gebruikerId"></param>
         /// <returns></returns>
         [HttpGet("{datum}/Gebruiker/{gebruikerId}")]
-        public ActionResult<DagplanningDTO> GetDagPlanningVanEenPersoon(string datum, string gebruikerId)
+        public ActionResult<PictoDagDTO> GetDagPlanningVanEenPersoon(string datum, string gebruikerId)
         {
-            var dagPlanningDto = GetDagPlanning(datum).Value;
-            dagPlanningDto.DagAteliers = dagPlanningDto.DagAteliers.Where(da => da.Gebruikers.Any(g => g.GebruikerId == gebruikerId));
-            return dagPlanningDto;
+            DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            DagPlanning dagplanning = _dagPlanningTemplateRepository.GetByDatum(datumFormatted);
+            if (dagplanning == null)
+                return NotFound();
+            var pictoDagDTO = new PictoDagDTO()
+            {
+                Eten = dagplanning.Eten,
+                Datum = dagplanning.Datum,
+                Ateliers = dagplanning.GetDagAteliersGebruiker(gebruikerId).Select(da => new PictoAtelierDTO()
+                {
+                    AtelierImg = da.Atelier.PictoURL,
+                    BegeleiderImages = da.GeefAlleBegeleiders().Select(g => g.Foto),
+                    AtelierType = da.Atelier.AtelierType.ToString(),
+                    dagMoment = da.DagMoment.ToString()
+                }) //?? new List<PictoAtelierDTO>()  --> null of new list teruggeven?
+            };
+            return pictoDagDTO;
         }
 
         /// <summary>

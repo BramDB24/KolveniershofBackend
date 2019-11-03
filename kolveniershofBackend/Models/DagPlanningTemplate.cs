@@ -70,5 +70,10 @@ namespace kolveniershofBackend.Models
         { 
             DagAteliers.Remove(dagAtelier);
         }
+
+        public IEnumerable<DagAtelier> GetDagAteliersGebruiker(string gebruikerId)
+        {
+            return DagAteliers.Where(da => da.Gebruikers.Any(g => g.Id == gebruikerId));
+        }
     }
 }
