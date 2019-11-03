@@ -64,5 +64,10 @@ namespace kolveniershofBackend.Models
             return Gebruikers.Select(g => g.Gebruiker).OrderBy(g => g.Achternaam);
         }
 
+        public IEnumerable<Gebruiker> GeefAlleBegeleiders()
+        {
+            return Gebruikers.Select(g => g.Gebruiker).Where(g => g.Type == GebruikerType.Begeleider);
+        }
+
     }
 }

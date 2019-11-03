@@ -137,7 +137,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         /// <summary>
-        /// Geeft een dagplanning terug met enkel de dagatelier van de gegeven persoon.
+        /// Geeft een pictodto terug met enkel de picto gegevens van de gegeven persoon.
         /// </summary>
         /// <param name="datum"></param>
         /// <param name="gebruikerId"></param>
@@ -147,27 +147,21 @@ namespace kolveniershofBackend.Controllers
         {
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
             DagPlanning dagplanning = _dagPlanningTemplateRepository.GetByDatum(datumFormatted);
+            if (dagplanning == null)
+                return NotFound();
             var pictoDagDTO = new PictoDagDTO()
             {
                 Eten = dagplanning.Eten,
                 Datum = dagplanning.Datum,
-                //methode in repository maken zodat filter op gebruiker niet hier hoeft te gebeuren?
-                Ateliers = dagplanning.DagAteliers.Where(da => da.Gebruikers.Any(g => g.Id == gebruikerId)).Select(da => new PictoAtelierDTO()
+                Ateliers = dagplanning.GetDagAteliersGebruiker(gebruikerId).Select(da => new PictoAtelierDTO()
                 {
                     AtelierImg = da.Atelier.PictoURL,
-                    //ook beter in methode (geefBegeleiderFotos ofzo) + nullchecks?
-                    BegeleiderImages = da.GeefAlleGebruikersVanAtelier().Where(g => g.Type == GebruikerType.Begeleider).Select(g => g.Foto),
+                    BegeleiderImages = da.GeefAlleBegeleiders().Select(g => g.Foto),
                     AtelierType = da.Atelier.AtelierType.ToString(),
                     dagMoment = da.DagMoment.ToString()
-                })
+                }) //?? new List<PictoAtelierDTO>()  --> null of new list teruggeven?
             };
             return pictoDagDTO;
-
-            /**
-            var dagPlanningDto = GetDagPlanning(datum).Value;
-            dagPlanningDto.DagAteliers = dagPlanningDto.DagAteliers.Where(da => da.Gebruikers.Any(g => g.GebruikerId == gebruikerId));
-            return dagPlanningDto;
-            **/
         }
 
         /// <summary>
