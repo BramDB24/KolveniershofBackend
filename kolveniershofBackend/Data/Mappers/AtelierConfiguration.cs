@@ -17,6 +17,8 @@ namespace kolveniershofBackend.Data.Mappers
             builder.Property(a => a.Naam).IsRequired();
             builder.Property(a => a.PictoURL).IsRequired();
             builder.Property(a => a.AtelierType).IsRequired();
+            //atelier kent haar dagateliers
+            builder.HasMany(a => a.DagAteliers).WithOne(da=>da.Atelier).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

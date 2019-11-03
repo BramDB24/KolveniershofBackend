@@ -150,7 +150,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         /// <summary>
-        /// 
+        /// aanpassingen aan dagplanningtemplate
         /// </summary>
         /// <param name="id"></param>
         /// <param name="dagPlanning"></param>

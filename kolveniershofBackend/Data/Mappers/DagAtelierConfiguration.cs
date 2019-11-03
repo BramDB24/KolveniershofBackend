@@ -17,7 +17,7 @@ namespace kolveniershofBackend.Data.Mappers
             builder.Property(da => da.DagMoment).IsRequired();
 
             //dagatelier kent haar atelier
-            builder.HasOne(da => da.Atelier).WithMany();
+            builder.HasOne(da => da.Atelier).WithMany(a => a.DagAteliers);
         }
     }
 }
