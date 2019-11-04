@@ -71,8 +71,7 @@ namespace kolveniershofBackend.Controllers
         public async Task<ActionResult<string>> Register(RegisterDTO model)
         {
             Gebruiker g = new Gebruiker { Email = model.Email, Voornaam = model.Voornaam, Achternaam = model.Achternaam,
-            Gemeente = model.Gemeente, Postcode = model.PostCode, Straatnaam = model.Straatnaam,
-            Huisnummer = model.Huisnummer, Sfeergroep = model.Sfeergroep, Foto = model.Foto, Type = model.Type,
+            Sfeergroep = model.Sfeergroep, Foto = model.Foto, Type = model.Type,
             UserName = model.Email
             };
 

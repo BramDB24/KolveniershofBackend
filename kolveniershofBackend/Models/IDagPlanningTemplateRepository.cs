@@ -14,6 +14,8 @@ namespace kolveniershofBackend.Models
         DagPlanningTemplate GetByIdDagPlanningTemplate(int id);
         DagPlanningTemplate GetTemplateByWeeknummerEnDagnummer(int week, Weekdag dag);
         DagPlanningTemplate GetTemplateByWeeknummerEnDagnummerGeenInclude(int weeknummer, Weekdag dagnummer);
+        DagPlanning GetEersteDagPlanning();
+        bool IsDagPlanningenLeeg();
         void Add(DagPlanningTemplate dagPlanning);
         void AddDagPlanning(DagPlanning dagPlanning);
         void Delete(DagPlanningTemplate dagPlanning);

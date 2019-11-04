@@ -67,6 +67,16 @@ namespace kolveniershofBackend.Data.Repositories
                          .Include(d => d.DagAteliers).ThenInclude(a => a.Gebruikers).ThenInclude(g => g.Gebruiker).ThenInclude(o => o.Commentaren).FirstOrDefault(d => d.DagplanningId == id);
         }
 
+        public DagPlanning GetEersteDagPlanning()
+        {
+            return (DagPlanning)_dagen.FirstOrDefault(d => !d.IsTemplate);
+        }
+
+        public bool IsDagPlanningenLeeg()
+        {
+            return !_dagen.Where(d => !d.IsTemplate).Any();
+        }
+
         public void SaveChanges()
         {
             _dbContext.SaveChanges();

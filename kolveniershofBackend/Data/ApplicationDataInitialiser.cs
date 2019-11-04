@@ -29,35 +29,35 @@ namespace kolveniershofBackend.Data
                 //gebruikers   
                 //admin
                 Gebruiker dina = new Gebruiker("dina", "dobbelaar", "dinadobbelaar@hotmail.com", Sfeergroep.Undefined,
-                    "SomeURL", "kerkstraat", "55", "0", "Leuven", "4000", GebruikerType.Admin);
+                    "SomeURL", GebruikerType.Admin);
 
-                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, "url", "straat", "10", "11", "MiddleOfNoWhere", "9000", GebruikerType.Admin);
+                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, "url", GebruikerType.Admin);
                 //begeleiders
                 Gebruiker dieter = new Gebruiker("dieter", "dobbeleer", "dieterdobbeleer@hotmail.com", Sfeergroep.Undefined,
-                    "SomeURL", "kerkstraat", "55", "0", "Leuven", "4000", GebruikerType.Begeleider);
+                    "SomeURL", GebruikerType.Begeleider);
                 Gebruiker lucas = new Gebruiker("lucas", "vermeulen", "lucas@gmail.com", Sfeergroep.Undefined,
-                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", GebruikerType.Begeleider);
+                    "SomeURL", GebruikerType.Begeleider);
                 //sfeergroep 1
                 Gebruiker karo = new Gebruiker("karo", "dewez", "karo@hotmail.com", Sfeergroep.Sfeergroep1,
-                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", GebruikerType.Cliënt);
+                    "SomeURL", GebruikerType.Cliënt);
                 Gebruiker thomas = new Gebruiker("thomas", "deweert", "thomas@hotmail.com", Sfeergroep.Sfeergroep1,
-                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", GebruikerType.Cliënt);
+                    "SomeURL", GebruikerType.Cliënt);
                 Gebruiker frans = new Gebruiker("frans", "vermalen", "frans@gmail.com", Sfeergroep.Sfeergroep1,
-                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", GebruikerType.Cliënt);
+                    "SomeURL", GebruikerType.Cliënt);
                 //sfeergroep 2
                 Gebruiker jos = new Gebruiker("jos", "faas", "jos@hotmail.com", Sfeergroep.Sfeergroep2,
-                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", GebruikerType.Cliënt);
+                    "SomeURL", GebruikerType.Cliënt);
                 Gebruiker laura = new Gebruiker("laura", "cramers", "laure@hotmail.com", Sfeergroep.Sfeergroep2,
-                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", GebruikerType.Cliënt);
+                    "SomeURL", GebruikerType.Cliënt);
                 Gebruiker veerle = new Gebruiker("veerle", "denoode", "veerle@gmail.com", Sfeergroep.Sfeergroep2,
-                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", GebruikerType.Cliënt);
+                    "SomeURL", GebruikerType.Cliënt);
                 //sfeergroep 3
                 Gebruiker ken = new Gebruiker("ken", "deblezer", "ken@outlook.com", Sfeergroep.Sfeergroep3,
-                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", GebruikerType.Cliënt);
+                    "SomeURL", GebruikerType.Cliënt);
                 Gebruiker nicolas = new Gebruiker("nicolas", "planckaer", "nicolas@gmail.com", Sfeergroep.Sfeergroep3,
-                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", GebruikerType.Cliënt);
+                    "SomeURL", GebruikerType.Cliënt);
                 Gebruiker lisa = new Gebruiker("lisa", "janssens", "lisa@gmail.be", Sfeergroep.Sfeergroep3,
-                    "SomeURL", "Arendstraat", "5", "1", "Gent", "9000", GebruikerType.Cliënt);
+                    "SomeURL", GebruikerType.Cliënt);
 
                 var gebruikers = new List<Gebruiker> { dina, jonah, dieter, lucas, karo, thomas, frans,
                     jos, laura, veerle, ken, nicolas, lisa };

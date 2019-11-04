@@ -21,7 +21,7 @@ namespace kolveniershofBackend.Models
             get { return _weeknummer; }
             set
             {
-                if (value <= 0)
+                if (value <= 0 || value > 4)
                 {
                     throw new ArgumentException("Gelieve een weeknummer te kiezen");
                 }
@@ -38,7 +38,7 @@ namespace kolveniershofBackend.Models
             get { return _weekdag; }
             set
             {
-                if (value == Weekdag.Undefined)
+                if (value == Weekdag.Undefined || !Enum.IsDefined(typeof(Weekdag), value))
                 {
                     throw new ArgumentException("Selecteer een weekdag");
                 }

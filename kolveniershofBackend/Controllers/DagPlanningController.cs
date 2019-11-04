@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Web.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using kolveniershofBackend.DTO;
@@ -50,7 +52,15 @@ namespace kolveniershofBackend.Controllers
         //[Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagplanningDTO> GetDagPlanning(string datum)
         {
-            DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            DateTime datumFormatted = DateTime.Now;
+            try
+            {
+                datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            }
+            catch
+            {
+                return BadRequest();
+            }
             DagPlanning dagplanning = _dagPlanningTemplateRepository.GetByDatum(datumFormatted);
             if (dagplanning != null)
             {
@@ -68,14 +78,15 @@ namespace kolveniershofBackend.Controllers
             }
 
             /**
-             * We kunnen de dagplanning van vandaag gebruiken om te controleren hoe veel weken de datum van de parameter
-             * verschilt met de datum van vandaag
+             * We kunnen een willekeurige, reeds bestaande DagPlanning nemen om te controleren hoe veel weken de datum van de parameter
+             * verschilt met de datum van de willekeurige DagPlanning
+             * Hiermee kunnen we het weeknummer voor de nieuwe DagPlanning bepalen.
              */
-            DagPlanning dagplanningVandaag = _dagPlanningTemplateRepository.GetByDatumGeenInclude(DateTime.Today);
-            if (dagplanningVandaag == null)
+            DagPlanning controleDagPlanning = null;
+            if (_dagPlanningTemplateRepository.IsDagPlanningenLeeg())
             {
                 /**
-                 * Als er nog geen dagplanning is voor vandaag dan gaan we er een aanmaken met 
+                 * Als er nog geen dagplanningen zijn dan gaan we er één aanmaken voor de dag van vandaag met 
                  * de week waar we vandaag in zitten als de start van de 4 weekse planning
                  */
 
@@ -89,8 +100,11 @@ namespace kolveniershofBackend.Controllers
                 // maak een nieuw dagplanning vandaag en start vanaf de eerste week
                 // dit wordt ook aangemaakt aangezien we de dag van vandaag als referentie gebruiken om de juiste template te vinden
                 DagPlanningTemplate dagPlanningTemplateVandaag = GeefDagPlanningTemplate(1, weekdagVandaag);
-                dagplanningVandaag = new DagPlanning(dagPlanningTemplateVandaag, DateTime.Today);
-                _dagPlanningTemplateRepository.AddDagPlanning(dagplanningVandaag);
+                controleDagPlanning = new DagPlanning(dagPlanningTemplateVandaag, DateTime.Today);
+                _dagPlanningTemplateRepository.AddDagPlanning(controleDagPlanning);
+            } else
+            {
+                controleDagPlanning = _dagPlanningTemplateRepository.GetEersteDagPlanning();
             }
 
             /**
@@ -98,11 +112,11 @@ namespace kolveniershofBackend.Controllers
              * naar de maandag van de week waar ze in zitten.
              * Hierdoor kunnen we het aantal weken berekenen door het verschil in dagen te nemen en dit te delen door 7.
              */
-            var weeknummerVandaag = dagplanningVandaag.Weeknummer;
-            var dinsdagDezeWeek = DinsdagVanWeek(DateTime.Today);
+            var weeknummerControle = controleDagPlanning.Weeknummer;
+            var dinsdagControleWeek = DinsdagVanWeek(controleDagPlanning.Datum);
             var dinsdagGegevenWeek = DinsdagVanWeek(datumFormatted);
-            var aantalWekenVerschil = (dinsdagGegevenWeek - dinsdagDezeWeek).Days / 7;
-            int weeknummer = (((weeknummerVandaag - 1) + aantalWekenVerschil + 4) % 4) + 1;
+            var aantalWekenVerschil = (dinsdagGegevenWeek - dinsdagControleWeek).Days / 7;
+            int weeknummer = (((((weeknummerControle - 1) + aantalWekenVerschil + 4) % 4) + 4) % 4) + 1;
 
             DagPlanningTemplate dagPlanningTemplate = GeefDagPlanningTemplate(weeknummer, weekdag);
 
@@ -121,7 +135,15 @@ namespace kolveniershofBackend.Controllers
         [HttpGet("vanWeek/{weeknummer}/vanDag/{weekdag}")]
         public ActionResult<DagplanningDTO> GetDagPlanningTemplate(int weeknummer, int weekdag)
         {
-            DagPlanningTemplate dagPlanningTemplate = GeefDagPlanningTemplate(weeknummer, weekdag);
+            DagPlanningTemplate dagPlanningTemplate = null;
+            try
+            {
+                dagPlanningTemplate = GeefDagPlanningTemplate(weeknummer, weekdag);
+            }
+            catch
+            {
+                return BadRequest();
+            }
             DagplanningDTO dagPlanningTemplateDto = new DagplanningDTO()
             {
                 DagplanningId = dagPlanningTemplate.DagplanningId,
@@ -185,7 +207,7 @@ namespace kolveniershofBackend.Controllers
             return NoContent();
         }
 
-        [HttpPost("{datumVanDagplanning}")]
+        [HttpPost("{datumVanDagplanning}/dagateliers")]
         public ActionResult<DagPlanning> DeleteDagAtelierUitDagplanning(string datumVanDagplanning, DagAtelierDTO dagAtelier)
         {
             DateTime datumFormatted = DateTime.Parse(datumVanDagplanning, null, System.Globalization.DateTimeStyles.RoundtripKind);
@@ -197,7 +219,7 @@ namespace kolveniershofBackend.Controllers
             return CreatedAtAction(nameof(GetDagPlanning), new { datum = planning.Datum }, planning);
         }
 
-        [HttpPost("week/{weeknr}/dag/{weekdag}")]
+        [HttpPost("week/{weeknr}/dag/{weekdag}/dagateliers")]
         public ActionResult<DagPlanning> DeleteDagAtelierUitDagplanningTemplate(int weeknr, int weekdag, DagAtelierDTO dagAtelier)
         {
             DagPlanningTemplate dagPlanningTemplate = _dagPlanningTemplateRepository.GetTemplateByWeeknummerEnDagnummer(weeknr, (Weekdag)weekdag);

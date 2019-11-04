@@ -15,11 +15,6 @@ namespace kolveniershofBackend.Models
         private string _achternaam;
         private string _email;
         private string _foto;
-        private string _straatnaam;
-        private string _huisnummer;
-        private string _busnummer;
-        private string _gemeente;
-        private string _postcode;
         private GebruikerType _gebruikerType;
 
         public List<Commentaar> Commentaren { get; set; }
@@ -79,87 +74,6 @@ namespace kolveniershofBackend.Models
             }
         }
 
-        public string Straatnaam
-        {
-            get
-            {
-                return _straatnaam;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Een gebruiker moet een straat opgeven");
-                _straatnaam = value;
-            }
-        }
-
-        public string Huisnummer
-        {
-            get
-            {
-                return _huisnummer;
-            }
-            set
-            {
-                if (!Regex.IsMatch(value, @"^[0-9]{1,4}[a-zA-Z]{0,2}$", RegexOptions.IgnoreCase))
-                {
-                    throw new ArgumentException("Ongeldig huisnummer");
-                }
-                else
-                {
-                    _huisnummer = value;
-                }
-            }
-        }
-
-        public string Busnummer
-        {
-            get
-            {
-                return _busnummer;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    _busnummer = null;
-                }
-                else if (!Regex.IsMatch(value, @"^$|^[A-Za-z0-9 \\.]*[A-Za-z0-9][A-Za-z0-9 \\.]*$", RegexOptions.IgnoreCase))
-                {
-                    throw new ArgumentException("Ongeldig busnummer");
-                }
-                else
-                {
-                    _busnummer = value;
-                }
-            }
-        }
-
-        public string Gemeente
-        {
-            get
-            {
-                return _gemeente;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Een gebruiker moet een gemeente opgeven");
-                _gemeente = value;
-            }
-        }
-
-        public string Postcode {
-            get {
-                return _postcode;
-            }
-            set {
-                if (value.Length != 4)
-                    throw new ArgumentException("Een postcode moet uit 4 getallen bestaan");
-                _postcode = value;
-            }
-        }
-
         public GebruikerType Type
         {
             get { return _gebruikerType; }
@@ -181,19 +95,13 @@ namespace kolveniershofBackend.Models
             Commentaren = new List<Commentaar>();
         }
 
-        public Gebruiker(string voornaam, string achternaam, string email, Sfeergroep sfeergroep, string foto, 
-            string straatnaam, string huisnummer, string busnummer, string gemeente, string postcode, GebruikerType type) : this()
+        public Gebruiker(string voornaam, string achternaam, string email, Sfeergroep sfeergroep, string foto, GebruikerType type) : this()
         {
             Voornaam = voornaam;
             Achternaam = achternaam;
             Email = email;
             Sfeergroep = sfeergroep;
             Foto = foto;
-            Straatnaam = straatnaam;
-            Huisnummer = huisnummer;
-            Busnummer = busnummer;
-            Gemeente = gemeente;
-            Postcode = postcode;
             Type = type;
             UserName = email;
         }
