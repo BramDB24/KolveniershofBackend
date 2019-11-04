@@ -12,6 +12,7 @@ namespace kolveniershofBackend.Models
         private AtelierType _ateliertype;
         private string _naam;
         private string _pictoURL;
+
         #endregion
 
         #region Properties
@@ -65,12 +66,15 @@ namespace kolveniershofBackend.Models
             }
         }
 
+        public List<DagAtelier> DagAteliers { get; set; }
+
         #endregion
 
         public Atelier()
         {
-
+            DagAteliers = new List<DagAtelier>();
         }
+    
 
         public Atelier(AtelierType atelierType, string naam, string picto)
         {

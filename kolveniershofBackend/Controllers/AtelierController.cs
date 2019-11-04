@@ -46,14 +46,13 @@ namespace kolveniershofBackend.Controllers
         {
             Atelier atelier = new Atelier
             {
-                AtelierId = dto.AtelierId,
                 AtelierType = dto.AtelierType,
                 Naam = dto.Naam,
                 PictoURL = dto.PictoURL
             };
             _atelierRepository.Add(atelier);
             _atelierRepository.SaveChanges();
-            return Redirect(nameof(GetAteliers));
+            return CreatedAtAction(nameof(GetAteliers), new { id = atelier.AtelierId }, atelier);
         }
 
         [HttpPut("{id}")]
@@ -71,9 +70,9 @@ namespace kolveniershofBackend.Controllers
             _atelierRepository.Update(atelier);
             _atelierRepository.SaveChanges();
             return NoContent();
-        } 
+        }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult<Atelier> DeleteAtelier(int id)
         {
             Atelier atelier = _atelierRepository.getBy(id);
