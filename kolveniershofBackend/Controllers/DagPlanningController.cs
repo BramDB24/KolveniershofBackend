@@ -129,6 +129,37 @@ namespace kolveniershofBackend.Controllers
             return MaakDagPlanningDto(dagplanning);
         }
 
+        /// <summary>
+        /// Geeft alle aanwezige gebruikers terug volgens de dagplanning van vandaag
+        /// </summary>
+        /// <param name="datum"></param>
+        /// <returns></returns>
+        [HttpGet("{datum}/aanwezigen")]
+        public ActionResult<IEnumerable<BasicGebruikerDTO>> GetAanwezigeGebruikers(string datum)
+        {
+            DagplanningDTO huidigeDagPlanning = GetDagPlanning(datum).Value;
+            HashSet<BasicGebruikerDTO> aanwezigeGebruikers = new HashSet<BasicGebruikerDTO>();
+            AtelierType[] afwezigeAtelierTypes = new AtelierType[] { AtelierType.Afwezig, AtelierType.Thuis, AtelierType.Ziek };
+            foreach(var dagAtelier in huidigeDagPlanning.DagAteliers)
+            {
+                if (!afwezigeAtelierTypes.Contains(dagAtelier.Atelier.AtelierType))
+                {
+                    //dagAtelier bevat aanwezige gebruikers
+                    foreach(var gebruiker in dagAtelier.Gebruikers)
+                    {
+                        if (!aanwezigeGebruikers.Any(g => g.GebruikerId == gebruiker.GebruikerId))
+                        {
+                            aanwezigeGebruikers.Add(gebruiker);
+                        }
+                    }
+                    
+                }
+            }
+
+            return aanwezigeGebruikers;
+
+        }
+
         /**
          * Geeft de DagPlanningTemplate van een bepaald weeknummer en weekdag.
          * Als de DagPlanningTemplate niet bestaat in de databank dan wordt hij gegenereerd.
