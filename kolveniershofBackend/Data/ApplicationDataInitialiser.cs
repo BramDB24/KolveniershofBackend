@@ -430,19 +430,19 @@ namespace kolveniershofBackend.Data
                 //dagplanningen concreet
                 DateTime dt = DateTime.Today;
                 var vandaag = new DagPlanning(1, dt, "balletjes in tomatensaus en friet");
-                //_dbContext.DagPlanningen.Add(vandaag);
+                _dbContext.DagPlanningen.Add(vandaag);
 
-                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(ziekVolledigDag);
-                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(vervoerVanDeDag);
-                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(thuisvervofVolledigeDag);
-                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(afwezigVolledigeDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(ziekVolledigDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(vervoerVanDeDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(thuisvervofVolledigeDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(afwezigVolledigeDag);
 
-                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(kokenVoormiddag);
-                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(zwemmenNamiddag);
-                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(paardrijdenVoormiddag);
-                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(expressieVoormiddag);
-                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(petanqueVoormiddag);
-                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(toneelNamiddag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(kokenVoormiddag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(zwemmenNamiddag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(paardrijdenVoormiddag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(expressieVoormiddag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(petanqueVoormiddag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(toneelNamiddag);
 
                 _dbContext.SaveChanges();
 
