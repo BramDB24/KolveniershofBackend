@@ -20,14 +20,7 @@ namespace kolveniershofBackend.Models
             get { return _dagMoment; }
             set
             {
-                if (value == DagMoment.Undefined)
-                {
-                    throw new ArgumentException("Selecteer het dagmoment");
-                }
-                else
-                {
-                    _dagMoment = value;
-                }
+                _dagMoment = value;
             }
         }
 
@@ -47,6 +40,11 @@ namespace kolveniershofBackend.Models
         {
             DagMoment = dagMoment;
             Atelier = atelier;
+        }
+
+        public void VoegGebruikersToe(List<Gebruiker> g)
+        {
+            g.ForEach(t => Gebruikers.Add(new GebruikerDagAtelier(t, this)));
         }
 
         public void VoegGebruikerAanDagAtelierToe(Gebruiker gebruiker)

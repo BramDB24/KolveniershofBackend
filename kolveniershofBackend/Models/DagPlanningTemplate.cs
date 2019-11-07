@@ -66,6 +66,20 @@ namespace kolveniershofBackend.Models
             DagAteliers.Add(dagAtelier);
         }
 
+        public DagAtelier VoegDagateliersToe(Atelier atelier)
+        {
+            Array values = Enum.GetValues(typeof(DagMoment));
+            Random r = new Random();
+            DagMoment randomMoment = (DagMoment)values.GetValue(r.Next(values.Length));
+            DagAtelier dagatelier = new DagAtelier
+            {
+                Atelier = atelier,
+                DagMoment = randomMoment,
+            };
+            DagAteliers.Add(dagatelier);
+            return dagatelier;
+        }
+
         public void VerwijderDagAtlierVanDagPlanningTemplate(DagAtelier dagAtelier)
         { 
             DagAteliers.Remove(dagAtelier);

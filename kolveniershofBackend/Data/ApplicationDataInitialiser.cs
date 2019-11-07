@@ -29,35 +29,35 @@ namespace kolveniershofBackend.Data
                 //gebruikers   
                 //admin
                 Gebruiker dina = new Gebruiker("dina", "dobbelaar", "dinadobbelaar@hotmail.com", Sfeergroep.Undefined,
-                    "SomeURL", GebruikerType.Admin);
+                     "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Admin);
 
-                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, "url", GebruikerType.Admin);
+                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Admin);
                 //begeleiders
                 Gebruiker dieter = new Gebruiker("dieter", "dobbeleer", "dieterdobbeleer@hotmail.com", Sfeergroep.Undefined,
-                    "SomeURL", GebruikerType.Begeleider);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Begeleider);
                 Gebruiker lucas = new Gebruiker("lucas", "vermeulen", "lucas@gmail.com", Sfeergroep.Undefined,
-                    "SomeURL", GebruikerType.Begeleider);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Begeleider);
                 //sfeergroep 1
                 Gebruiker karo = new Gebruiker("karo", "dewez", "karo@hotmail.com", Sfeergroep.Sfeergroep1,
-                    "SomeURL", GebruikerType.Cliënt);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
                 Gebruiker thomas = new Gebruiker("thomas", "deweert", "thomas@hotmail.com", Sfeergroep.Sfeergroep1,
-                    "SomeURL", GebruikerType.Cliënt);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
                 Gebruiker frans = new Gebruiker("frans", "vermalen", "frans@gmail.com", Sfeergroep.Sfeergroep1,
-                    "SomeURL", GebruikerType.Cliënt);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
                 //sfeergroep 2
                 Gebruiker jos = new Gebruiker("jos", "faas", "jos@hotmail.com", Sfeergroep.Sfeergroep2,
-                    "SomeURL", GebruikerType.Cliënt);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
                 Gebruiker laura = new Gebruiker("laura", "cramers", "laure@hotmail.com", Sfeergroep.Sfeergroep2,
-                    "SomeURL", GebruikerType.Cliënt);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
                 Gebruiker veerle = new Gebruiker("veerle", "denoode", "veerle@gmail.com", Sfeergroep.Sfeergroep2,
-                    "SomeURL", GebruikerType.Cliënt);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
                 //sfeergroep 3
                 Gebruiker ken = new Gebruiker("ken", "deblezer", "ken@outlook.com", Sfeergroep.Sfeergroep3,
-                    "SomeURL", GebruikerType.Cliënt);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
                 Gebruiker nicolas = new Gebruiker("nicolas", "planckaer", "nicolas@gmail.com", Sfeergroep.Sfeergroep3,
-                    "SomeURL", GebruikerType.Cliënt);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
                 Gebruiker lisa = new Gebruiker("lisa", "janssens", "lisa@gmail.be", Sfeergroep.Sfeergroep3,
-                    "SomeURL", GebruikerType.Cliënt);
+                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
 
                 var gebruikers = new List<Gebruiker> { dina, jonah, dieter, lucas, karo, thomas, frans,
                     jos, laura, veerle, ken, nicolas, lisa };
@@ -116,7 +116,7 @@ namespace kolveniershofBackend.Data
                 var ateliers = new List<Atelier> {bakken, feest, koken, markt, praatcafe, textiel, tuin, wandelen, yoga, balanske, crea,
                 hout, kringgesprek, muziek, provinciaalDomein, snoezelen, uitstap, zwemmen, beleving, digitaal, kaarsen, kunst,
                 paardrijden, spikEnSpan, tievo, verhalen, werkplaats, bib, expressie, keukenEnAfwas, levensboeken, petanque,
-                    sporten, toneel, vorming, winkelen};
+                    sporten, toneel, vorming, winkelen, afwezig, vervoer, ziek, thuisVerlof};
 
                 _dbContext.Ateliers.AddRange(ateliers);
 
@@ -130,19 +130,91 @@ namespace kolveniershofBackend.Data
                 DagAtelier paardrijdenVoormiddag = new DagAtelier(DagMoment.Voormiddag, paardrijden);
                 DagAtelier verhalenNamiddag = new DagAtelier(DagMoment.Namiddag, verhalen);
                 DagAtelier petanqueVoormiddag = new DagAtelier(DagMoment.VolledigeDag, petanque);
+                DagAtelier afwezigVolledigeDag = new DagAtelier(DagMoment.Undefined, afwezig);
+                DagAtelier vervoerVanDeDag = new DagAtelier(DagMoment.Undefined, vervoer);
+                DagAtelier ziekVolledigDag = new DagAtelier(DagMoment.Undefined, ziek);
+                DagAtelier thuisvervofVolledigeDag = new DagAtelier(DagMoment.Undefined, thuisVerlof);
+
                 var dagAteliers = new List<DagAtelier> {kokenVoormiddag, zwemmenNamiddag, sportenVolledigeDag,
                     expressieVoormiddag,toneelNamiddag, winkelenVolledigeDag, paardrijdenVoormiddag,
-                    verhalenNamiddag, petanqueVoormiddag };
+                    verhalenNamiddag, petanqueVoormiddag, afwezigVolledigeDag, vervoerVanDeDag, ziekVolledigDag, thuisvervofVolledigeDag };
+
+
+                #region Gebruikerstoevoegen
+                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(karo);
+                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(jos);
+                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(laura);
+                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(veerle);
+                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(frans);
+                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(thomas);
+
+                afwezigVolledigeDag.VoegGebruikerAanDagAtelierToe(ken);
+                afwezigVolledigeDag.VoegGebruikerAanDagAtelierToe(nicolas);
+                afwezigVolledigeDag.VoegGebruikerAanDagAtelierToe(laura);
+
+                thuisvervofVolledigeDag.VoegGebruikerAanDagAtelierToe(dieter);
+                thuisvervofVolledigeDag.VoegGebruikerAanDagAtelierToe(lucas);
 
                 kokenVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
+                kokenVoormiddag.VoegGebruikerAanDagAtelierToe(jos);
+                kokenVoormiddag.VoegGebruikerAanDagAtelierToe(laura);
+                kokenVoormiddag.VoegGebruikerAanDagAtelierToe(veerle);
+                kokenVoormiddag.VoegGebruikerAanDagAtelierToe(ken);
+                kokenVoormiddag.VoegGebruikerAanDagAtelierToe(nicolas);
+                kokenVoormiddag.VoegGebruikerAanDagAtelierToe(lucas);
+
                 zwemmenNamiddag.VoegGebruikerAanDagAtelierToe(frans);
-                sportenVolledigeDag.VoegGebruikerAanDagAtelierToe(lisa);
+                zwemmenNamiddag.VoegGebruikerAanDagAtelierToe(karo);
+                zwemmenNamiddag.VoegGebruikerAanDagAtelierToe(dina);
+                zwemmenNamiddag.VoegGebruikerAanDagAtelierToe(dieter);
+
+                sportenVolledigeDag.VoegGebruikerAanDagAtelierToe(karo);
+                sportenVolledigeDag.VoegGebruikerAanDagAtelierToe(jos);
+                sportenVolledigeDag.VoegGebruikerAanDagAtelierToe(laura);
+                sportenVolledigeDag.VoegGebruikerAanDagAtelierToe(veerle);
+                sportenVolledigeDag.VoegGebruikerAanDagAtelierToe(ken);
+                sportenVolledigeDag.VoegGebruikerAanDagAtelierToe(nicolas);
+                sportenVolledigeDag.VoegGebruikerAanDagAtelierToe(lucas);
+
+                expressieVoormiddag.VoegGebruikerAanDagAtelierToe(frans);
+                expressieVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
+                expressieVoormiddag.VoegGebruikerAanDagAtelierToe(dina);
                 expressieVoormiddag.VoegGebruikerAanDagAtelierToe(thomas);
-                toneelNamiddag.VoegGebruikerAanDagAtelierToe(dieter);
+
+                toneelNamiddag.VoegGebruikerAanDagAtelierToe(frans);
+                toneelNamiddag.VoegGebruikerAanDagAtelierToe(veerle);
+                toneelNamiddag.VoegGebruikerAanDagAtelierToe(dina);
+                toneelNamiddag.VoegGebruikerAanDagAtelierToe(jos);
+
+                winkelenVolledigeDag.VoegGebruikerAanDagAtelierToe(frans);
+                winkelenVolledigeDag.VoegGebruikerAanDagAtelierToe(karo);
                 winkelenVolledigeDag.VoegGebruikerAanDagAtelierToe(dina);
+                winkelenVolledigeDag.VoegGebruikerAanDagAtelierToe(dieter);
+
                 paardrijdenVoormiddag.VoegGebruikerAanDagAtelierToe(dieter);
-                verhalenNamiddag.VoegGebruikerAanDagAtelierToe(veerle);
+                paardrijdenVoormiddag.VoegGebruikerAanDagAtelierToe(nicolas);
+                paardrijdenVoormiddag.VoegGebruikerAanDagAtelierToe(dina);
+                paardrijdenVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
+
+                verhalenNamiddag.VoegGebruikerAanDagAtelierToe(karo);
+                verhalenNamiddag.VoegGebruikerAanDagAtelierToe(jos);
+                verhalenNamiddag.VoegGebruikerAanDagAtelierToe(laura);
+                verhalenNamiddag.VoegGebruikerAanDagAtelierToe(dieter);
+                verhalenNamiddag.VoegGebruikerAanDagAtelierToe(ken);
+                verhalenNamiddag.VoegGebruikerAanDagAtelierToe(dina);
+                verhalenNamiddag.VoegGebruikerAanDagAtelierToe(lucas);
+
+                petanqueVoormiddag.VoegGebruikerAanDagAtelierToe(frans);
+                petanqueVoormiddag.VoegGebruikerAanDagAtelierToe(karo);
+                petanqueVoormiddag.VoegGebruikerAanDagAtelierToe(dina);
                 petanqueVoormiddag.VoegGebruikerAanDagAtelierToe(dieter);
+
+                ziekVolledigDag.VoegGebruikerAanDagAtelierToe(frans);
+                ziekVolledigDag.VoegGebruikerAanDagAtelierToe(veerle);
+                ziekVolledigDag.VoegGebruikerAanDagAtelierToe(thomas);
+
+                #endregion
+
                 //dagplanningTemplate
                 //week1
                 DagPlanningTemplate maandagWeek1 = new DagPlanningTemplate(1, Weekdag.Maandag);
@@ -177,36 +249,200 @@ namespace kolveniershofBackend.Data
 
                 _dbContext.DagPlanningen.AddRange(dagPlanningTemplates);
 
-                maandagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(kokenVoormiddag);
-                maandagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(zwemmenNamiddag);
-                dinsdagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(sportenVolledigeDag);
-                woensdagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(petanqueVoormiddag);
-                donderdagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(winkelenVolledigeDag);
-                vrijdagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(paardrijdenVoormiddag);
-                vrijdagWeek1.VoegDagAtelierToeAanDagPlanningTemplate(verhalenNamiddag);
+
+                #region Template seeding
+
+                maandagWeek1.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek1.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek1.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek1.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek1.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek1.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek1.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek1.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek1.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                dinsdagWeek1.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek1.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek1.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek1.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek1.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek1.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                woensdagWeek1.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek1.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek1.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek1.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek1.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek1.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek1.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek1.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek1.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                donderdagWeek1.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek1.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek1.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek1.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek1.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek1.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek1.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                vrijdagWeek1.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek1.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek1.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek1.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek1.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek1.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek1.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                maandagWeek2.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek2.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek2.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek2.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek2.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek2.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek2.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek2.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek2.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                dinsdagWeek2.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek2.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek2.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek2.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek2.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek2.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                woensdagWeek2.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek2.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek2.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek2.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek2.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek2.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek2.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek2.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek2.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                donderdagWeek2.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek2.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek2.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek2.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek2.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek2.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek2.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                vrijdagWeek2.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek2.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek2.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek2.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek2.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek2.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek2.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                maandagWeek3.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek3.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek3.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek3.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek3.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek3.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek3.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek3.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek3.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                dinsdagWeek3.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek3.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek3.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek3.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek3.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek3.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                woensdagWeek3.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek3.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek3.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek3.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek3.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek3.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek3.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek3.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek3.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                donderdagWeek3.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek3.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek3.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek3.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek3.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek3.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek3.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                vrijdagWeek3.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek3.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek3.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek3.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek3.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek3.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek3.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                maandagWeek4.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek4.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek4.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek4.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek4.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek4.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek4.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek4.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                maandagWeek4.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                dinsdagWeek4.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek4.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek4.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek4.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek4.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                dinsdagWeek4.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                woensdagWeek4.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek4.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek4.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek4.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek4.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek4.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek4.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek4.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                woensdagWeek4.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                donderdagWeek4.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek4.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek4.VoegDagateliersToe(winkelen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek4.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek4.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek4.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                donderdagWeek4.VoegDagateliersToe(verhalen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                vrijdagWeek4.VoegDagateliersToe(ziek).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek4.VoegDagateliersToe(koken).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek4.VoegDagateliersToe(zwemmen).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek4.VoegDagateliersToe(paardrijden).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek4.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek4.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                vrijdagWeek4.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+
+                #endregion
+
 
                 //dagplanningen concreet
                 DateTime dt = DateTime.Today;
                 var vandaag = new DagPlanning(1, dt, "balletjes in tomatensaus en friet");
-                _dbContext.DagPlanningen.Add(vandaag);
-                for (int i = 1; i < 20; i++)
-                {
-                    var date = dt.AddDays(i);
-                    var dp = new DagPlanning(2, date, "groenten, vlees en pasta");
-                    _dbContext.DagPlanningen.Add(dp);
-                }
+                //_dbContext.DagPlanningen.Add(vandaag);
 
+                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(ziekVolledigDag);
+                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(vervoerVanDeDag);
+                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(thuisvervofVolledigeDag);
+                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(afwezigVolledigeDag);
 
-                // _dbContext.DagPlanningen                                                  _dbContext.Gebruikers
-                //      DAGPLANNINGEN       -->     DAGATELIERS     -->  DAGGEBRUIKERS    -->    GEBRUIKERS  
-                //                                      |
-                //                                  ATELIERS
-
-                expressieVoormiddag.VoegGebruikerAanDagAtelierToe(jonah);
-                expressieVoormiddag.VoegGebruikerAanDagAtelierToe(lucas);
-                toneelNamiddag.VoegGebruikerAanDagAtelierToe(nicolas);
-                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(expressieVoormiddag);
-                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(toneelNamiddag);
+                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(kokenVoormiddag);
+                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(zwemmenNamiddag);
+                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(paardrijdenVoormiddag);
+                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(expressieVoormiddag);
+                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(petanqueVoormiddag);
+                //vandaag.VoegDagAtelierToeAanDagPlanningTemplate(toneelNamiddag);
 
                 _dbContext.SaveChanges();
 
@@ -233,7 +469,7 @@ namespace kolveniershofBackend.Data
                 Opmerking opmerking7 = new Opmerking(OpmerkingType.Vervoer, "vervoer test", DateTime.Today);
                 Opmerking opmerking8 = new Opmerking(OpmerkingType.Vrijwilligers, "vrijwilligers", DateTime.Today);
                 Opmerking opmerking9 = new Opmerking(OpmerkingType.Logistiek, "logistiek test", DateTime.Today);
-                
+
 
                 var opmerkingen = new List<Opmerking> { opmerking1, opmerking2, opmerking3, opmerking4, opmerking5, opmerking6,
                 opmerking7, opmerking8, opmerking9};
@@ -250,6 +486,22 @@ namespace kolveniershofBackend.Data
             await _userManager.CreateAsync(gebruiker, password);
             await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, gebruiker.Type.ToString()));
 
+        }
+
+        private List<Gebruiker> selecteerRandomGebruikers(List<Gebruiker> gebruikers)
+        {
+            Random r = new Random();
+            List<Gebruiker> dummy = new List<Gebruiker>(gebruikers);
+            List<Gebruiker> custom = new List<Gebruiker>();
+            for (int i = 1; i <= 4; i++)
+            {
+                var pickedIndex = r.Next(dummy.Count);
+                Gebruiker g = dummy[pickedIndex];
+                custom.Add(g);
+                dummy.Remove(g);
+            }
+            return custom;
+            
         }
     }
 }
