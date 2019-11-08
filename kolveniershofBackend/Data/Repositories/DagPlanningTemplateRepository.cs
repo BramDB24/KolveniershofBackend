@@ -33,15 +33,21 @@ namespace kolveniershofBackend.Data.Repositories
             _dagen.Remove(dagPlanning);
         }
 
+        public void DeleteOuderDanAantalJaar(DateTime datum, int jarenVerschil)
+        {
+            IEnumerable<DagPlanning> gevondenDagPlanningen = _dagen.OfType<DagPlanning>().Include(d => d.DagAteliers).Where(d => datum.Year - d.Datum.Year >= jarenVerschil).AsEnumerable();
+            _dagen.RemoveRange(gevondenDagPlanningen);
+        }
+
         public DagPlanning GetByDatum(DateTime datum)
         {
-            return (DagPlanning)_dagen.Where(d => d.GetType() == typeof(DagPlanning)).Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
+            return _dagen.OfType<DagPlanning>().Include(d => d.DagAteliers).ThenInclude(a => a.Atelier)
                         .Include(d => d.DagAteliers).ThenInclude(a => a.Gebruikers).ThenInclude(g => g.Gebruiker).ThenInclude(o => o.Commentaren).FirstOrDefault(d => ((DagPlanning)d).Datum == datum);
         }
 
         public DagPlanning GetByDatumGeenInclude(DateTime datum)
         {
-            return (DagPlanning)_dagen.Where(d => d.GetType() == typeof(DagPlanning)).FirstOrDefault(d => ((DagPlanning)d).Datum == datum);
+            return _dagen.OfType<DagPlanning>().FirstOrDefault(d => d.Datum == datum);
         }
 
         public DagPlanningTemplate GetTemplateByWeeknummerEnDagnummer(int weeknummer, Weekdag dagnummer)
@@ -69,7 +75,7 @@ namespace kolveniershofBackend.Data.Repositories
 
         public DagPlanning GetEersteDagPlanning()
         {
-            return (DagPlanning)_dagen.FirstOrDefault(d => !d.IsTemplate);
+            return _dagen.OfType<DagPlanning>().OrderBy(d => d.Datum).FirstOrDefault();
         }
 
         public bool IsDagPlanningenLeeg()

@@ -31,24 +31,35 @@ namespace kolveniershofBackend.Data.Repositories
             return opmerking;
         }
 
-        public IEnumerable<Opmerking> getAll()
+        public IEnumerable<Opmerking> GetAll()
         {
             return _opmerkingen.ToList();
         }
 
-        public Opmerking getBy(int id)
+        public Opmerking GetBy(int id)
         {
             return _opmerkingen.FirstOrDefault(a => a.OpmerkingId == id);
         }
 
-        public IEnumerable<Opmerking> getByDateAndType(DateTime datum, OpmerkingType type)
+        public Opmerking GetEerste()
+        {
+            return _opmerkingen.OrderBy(o => o.Datum).FirstOrDefault();
+        }
+
+        public IEnumerable<Opmerking> GetByDateAndType(DateTime datum, OpmerkingType type)
         {
             return _opmerkingen.Where(a => a.Datum == datum && a.OpmerkingType == type).ToList();
         }
 
-        public IEnumerable<Opmerking> getByDate(DateTime datum)
+        public IEnumerable<Opmerking> GetByDate(DateTime datum)
         {
             return _opmerkingen.Where(a => a.Datum == datum).ToList();
+        }
+
+        public void DeleteOuderDanAantalJaar(DateTime datum, int jarenVerschil)
+        {
+            IEnumerable<Opmerking> gevondenOpmerkingen = _opmerkingen.Where(o => datum.Year - o.Datum.Year >= jarenVerschil).ToList();
+            _opmerkingen.RemoveRange(gevondenOpmerkingen);
         }
 
         public void SaveChanges()
@@ -60,7 +71,5 @@ namespace kolveniershofBackend.Data.Repositories
         {
             _opmerkingen.Update(opmerking);
         }
-
-
     }
 }

@@ -29,7 +29,10 @@ namespace kolveniershofBackend.Controllers
         [HttpGet("{id}")]
         public ActionResult<Opmerking> GetOpmerking(int id)
         {
-            var opmerking = _opmerkingRepository.getBy(id);
+            //Controle op overbodige data
+            VerwijderVerouderdeData();
+
+            var opmerking = _opmerkingRepository.GetBy(id);
             if (opmerking == null)
                 return NotFound();
             return opmerking;
@@ -38,21 +41,24 @@ namespace kolveniershofBackend.Controllers
         [HttpGet]
         public IEnumerable<Opmerking> GetOpmerkingen()
         {
-            return _opmerkingRepository.getAll();
+            //Controle op overbodige data
+            VerwijderVerouderdeData();
+
+            return _opmerkingRepository.GetAll();
         }
 
         [HttpGet("opmerkingOp/{datum}/typeOpmerking/{type}")]
         public IEnumerable<Opmerking> GetOpmerkingenVanSpecifiekeDagEnType(string datum, OpmerkingType type)
         {
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
-            return _opmerkingRepository.getByDateAndType(datumFormatted, type);
+            return _opmerkingRepository.GetByDateAndType(datumFormatted, type);
         }
 
         [HttpGet("opmerkingOp/{datum}")]
         public IEnumerable<Opmerking> GetOpmerkingenVanSpecifiekeDag(string datum)
         {
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
-            IEnumerable<Opmerking> opmerkingenVanDatum = _opmerkingRepository.getByDate(datumFormatted);
+            IEnumerable<Opmerking> opmerkingenVanDatum = _opmerkingRepository.GetByDate(datumFormatted);
             ICollection<OpmerkingType> types = new List<OpmerkingType>() {OpmerkingType.AteliersEnWeekschema, OpmerkingType.Begeleiding, OpmerkingType.Cliënten,
                 OpmerkingType.Stagiairs, OpmerkingType.UurRegistratie, OpmerkingType.Varia, OpmerkingType.Vervoer, OpmerkingType.Vrijwilligers, OpmerkingType.Logistiek };
             ICollection<Opmerking> nieuweOpmerkingen = new List<Opmerking>();
@@ -70,7 +76,7 @@ namespace kolveniershofBackend.Controllers
             }
             else
             {
-                return _opmerkingRepository.getByDate(datumFormatted);
+                return _opmerkingRepository.GetByDate(datumFormatted);
 
             }
         }
@@ -80,7 +86,7 @@ namespace kolveniershofBackend.Controllers
         {
             if (opmerkingData == null)
                 return BadRequest();
-            Opmerking opm = _opmerkingRepository.getBy(id);
+            Opmerking opm = _opmerkingRepository.GetBy(id);
             opm.OpmerkingType = opmerkingData.OpmerkingType;
             opm.Tekst = opmerkingData.Tekst;
             _opmerkingRepository.Update(opm);
@@ -92,7 +98,7 @@ namespace kolveniershofBackend.Controllers
         public ActionResult<Opmerking> DeleteOpmerking(int id)
         {
             //identity
-            Opmerking opm = _opmerkingRepository.getBy(id);
+            Opmerking opm = _opmerkingRepository.GetBy(id);
             if (opm == null)
             {
                 return NotFound();
@@ -100,6 +106,23 @@ namespace kolveniershofBackend.Controllers
             _opmerkingRepository.Delete(opm);
             _opmerkingRepository.SaveChanges();
             return opm;
+        }
+
+        /// <summary>
+        /// Deze methode controleert of er verouderde data is in de databank en verwijdert die.
+        /// Data is verouderd als het minstens twee jaar oud is (gebasseerd op jaar nummer).
+        /// </summary>
+        private void VerwijderVerouderdeData()
+        {
+            Opmerking oudsteOpmerking = _opmerkingRepository.GetEerste();
+            if (DateTime.Today.Year - oudsteOpmerking.Datum.Year < 2)
+            {
+                return;
+            }
+
+            _opmerkingRepository.DeleteOuderDanAantalJaar(DateTime.Today, 2);
+            _opmerkingRepository.SaveChanges();
+
         }
     }
 }
