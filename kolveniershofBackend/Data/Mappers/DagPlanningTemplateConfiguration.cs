@@ -13,7 +13,6 @@ namespace kolveniershofBackend.Data.Mappers
         public void Configure(EntityTypeBuilder<DagPlanningTemplate> builder)
         {
             builder.HasKey(dpt => dpt.DagplanningId);
-            builder.Property(dpt => dpt.DagplanningId).ValueGeneratedOnAdd();
             builder.Property(dpt => dpt.IsTemplate).IsRequired();
             builder.Property(dpt => dpt.Weeknummer).IsRequired();
             builder.Property(dpt => dpt.Weekdag).IsRequired();

@@ -35,7 +35,7 @@ namespace kolveniershofBackend.Controllers
             _config = config;
         }
 
-        [HttpPost("login")]
+        [HttpPost]
         public async Task<ActionResult<string>> CreateToken(LoginDTO model)
         {
             var user = await _userManager.FindByNameAsync(model.Email);
