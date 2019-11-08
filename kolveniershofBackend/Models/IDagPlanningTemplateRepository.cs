@@ -19,6 +19,7 @@ namespace kolveniershofBackend.Models
         void Add(DagPlanningTemplate dagPlanning);
         void AddDagPlanning(DagPlanning dagPlanning);
         void Delete(DagPlanningTemplate dagPlanning);
+        void DeleteOuderDanAantalJaar(DateTime datum, int jarenVerschil);
         void Update(DagPlanningTemplate dagPlanning);
         void SaveChanges();
     }

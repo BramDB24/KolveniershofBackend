@@ -8,13 +8,15 @@ namespace kolveniershofBackend.Models
 {
     public interface IOpmerkingRepository
     {
-        Opmerking getBy(int id);
-        IEnumerable<Opmerking> getAll();
-        IEnumerable<Opmerking> getByDateAndType(DateTime date, OpmerkingType type);
-        IEnumerable<Opmerking> getByDate(DateTime date);
+        Opmerking GetBy(int id);
+        Opmerking GetEerste();
+        IEnumerable<Opmerking> GetAll();
+        IEnumerable<Opmerking> GetByDateAndType(DateTime date, OpmerkingType type);
+        IEnumerable<Opmerking> GetByDate(DateTime date);
         Opmerking Add(Opmerking opmerking);
         void Update(Opmerking opmerking);
         void SaveChanges();
         Opmerking Delete(Opmerking opmerking);
+        void DeleteOuderDanAantalJaar(DateTime datum, int jarenVerschil);
     }
 }
