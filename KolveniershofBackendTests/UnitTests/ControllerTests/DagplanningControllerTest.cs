@@ -24,7 +24,7 @@ namespace KolveniershofBackendTests.UnitTests.ControllerTests
         public void GetDagplanningFromDatum()
         {
             mockDagplanning.Setup(x => x.GetTemplateByWeeknummerEnDagnummer(It.IsAny<int>(), It.IsAny<Weekdag>())).Returns(new DagPlanning() { DagAteliers = new List<DagAtelier>(), Datum = DateTime.Today});
-            mockDagplanning.Setup(x => x.GetBy(It.IsAny<DateTime>())).Returns(new DagPlanning() { DagAteliers = new List<DagAtelier>(), Datum = DateTime.Today });   
+            mockDagplanning.Setup(x => x.GetByDatum(It.IsAny<DateTime>())).Returns(new DagPlanning() { DagAteliers = new List<DagAtelier>(), Datum = DateTime.Today });   
 
             var controller = new DagPlanningController(mockDagplanning.Object,mockGebruikers.Object, mockAteliers.Object);
             var response = controller.GetDagPlanning("2050-03-08");

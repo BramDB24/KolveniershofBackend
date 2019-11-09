@@ -20,7 +20,7 @@ namespace KolveniershofBackendTests.UnitTests.DomainTests
             Assert.Throws<ArgumentException>(() =>
             {
                 Gebruiker gebruiker =
-                    new Gebruiker("voornaam", "achternaam", email, Sfeergroep.Sfeergroep1, "foto", "straat", "1", "4", "gemeente", "9506", GebruikerType.Cliënt);
+                    new Gebruiker("voornaam", "achternaam", email, Sfeergroep.Sfeergroep1, "foto", GebruikerType.Cliënt);
             });
         }
 
@@ -33,21 +33,8 @@ namespace KolveniershofBackendTests.UnitTests.DomainTests
         public void TestOpValidGebruikerEmail(string email)
         {
             Gebruiker gebruiker =
-                new Gebruiker("voornaam", "achternaam", email, Sfeergroep.Sfeergroep1, "foto", "straat", "1", "4", "gemeente", "9506", GebruikerType.Cliënt);
+                new Gebruiker("voornaam", "achternaam", email, Sfeergroep.Sfeergroep1, "foto", GebruikerType.Cliënt);
             Assert.Equal(email, gebruiker.Email);
         }
-
-
-        [Theory]
-        [InlineData("0000")]
-        [InlineData("9400")]
-        public void TestOpValidPostcode(string postcode)
-        {
-            Gebruiker gebruiker =
-               new Gebruiker("voornaam", "achternaam", "geldig@hotmail.com", Sfeergroep.Sfeergroep1, "foto", "straat", "1", "4", "gemeente", postcode, GebruikerType.Cliënt);
-            Assert.Equal(postcode, gebruiker.Postcode);
-        }
-
-
     }
 }
