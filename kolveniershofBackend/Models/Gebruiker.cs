@@ -1,5 +1,7 @@
 ﻿using kolveniershofBackend.Enums;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,8 +58,8 @@ namespace kolveniershofBackend.Models
                 _email = value;
             }
         }
-        
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public Sfeergroep Sfeergroep { get; set; }
 
         public string Foto

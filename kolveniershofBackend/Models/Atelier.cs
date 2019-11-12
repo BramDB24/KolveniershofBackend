@@ -1,4 +1,6 @@
 ﻿using kolveniershofBackend.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace kolveniershofBackend.Models
         #region Properties
         public int AtelierId { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public AtelierType AtelierType
         {
             get { return _ateliertype; }

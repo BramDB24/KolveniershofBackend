@@ -1,5 +1,7 @@
 ﻿using kolveniershofBackend.Enums;
 using kolveniershofBackend.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,7 @@ namespace kolveniershofBackend.DTO
 {
     public class OpmerkingDTO
     {
+        [JsonConverter(typeof(StringEnumConverter))]
         public OpmerkingType OpmerkingType { get; set; }
         public string Tekst { get; set; }
         public DateTime Datum { get; set; }

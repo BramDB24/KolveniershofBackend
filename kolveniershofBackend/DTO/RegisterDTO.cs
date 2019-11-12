@@ -1,4 +1,6 @@
 ﻿using kolveniershofBackend.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -34,6 +36,7 @@ namespace kolveniershofBackend.DTO
         [RegularExpression("^$|^[A-Za-z0-9 \\.]*[A-Za-z0-9][A-Za-z0-9 \\.]*$", ErrorMessage = "Gelieve een geldig huisnummer op te geven")]
         public string Busnummer { get; set; }
         [Required]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Sfeergroep Sfeergroep { get; set; }
         [Required]
         public string Foto { get; set; }
