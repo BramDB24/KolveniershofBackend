@@ -7,8 +7,9 @@ namespace kolveniershofBackend.DTO.Picto
 {
     public class PictoDagDTO
     {
-        public string Eten;
-        public DateTime Datum;
+        public string Eten { get; set; }
+        public DateTime Datum { get; set; }
         public IEnumerable<PictoAtelierDTO> Ateliers { get; set; }
+        public string GebruikerId { get; set; }
     }
 }
