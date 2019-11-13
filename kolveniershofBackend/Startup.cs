@@ -73,9 +73,10 @@ namespace kolveniershofBackend
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Key"])),
                     ValidateIssuer = false,
                     ValidateAudience = false
+                    
                 };
             });
 
@@ -127,10 +128,11 @@ namespace kolveniershofBackend
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDataInitialiser dataInitialiser)
         {
-            if (env.IsDevelopment())
+            if (true || env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -141,7 +143,7 @@ namespace kolveniershofBackend
             app.UseMvc();
             app.UseSwaggerUi3();
             app.UseSwagger();
-            dataInitialiser.InitializeData().Wait();
+            //dataInitialiser.InitializeData().Wait();
         }
     }
 }
