@@ -1,0 +1,389 @@
+{
+	"info": {
+		"_postman_id": "7eff2b2f-ad58-4603-9051-ba2fc0f0786b",
+		"name": "KolveniershofAPI tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api/dagplanning/{{datum}} (Status: 200)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d5ccd08d-e6d6-44f6-b0a2-310d27b89fb8",
+						"exec": [
+							"const moment = require('moment');\r",
+							"\r",
+							"\r",
+							"//Controleer of er al datums bestaan\r",
+							"var datums = pm.variables.get(\"datums\");\r",
+							"if (!datums){\r",
+							"    //Initializeer alle datums om te testen\r",
+							"    //Datum van vandaag\r",
+							"    var datums = [moment().format(\"YYYY-MM-DD\")];\r",
+							"    //7 dagen vanaf vandaag voor een hele week\r",
+							"    for(var i = 1; i <= 7; i++){\r",
+							"        datums.push(moment().add(i, \"days\").format(\"YYYY-MM-DD\"))\r",
+							"    }\r",
+							"    //Datum van vandaag met spaties\r",
+							"    datums.push(\"    \" + moment().format(\"YYYY-MM-DD\") + \"     \");\r",
+							"    //Begin van het jaar\r",
+							"    datums.push(\"2019-01-01\")\r",
+							"    //Eind van het jaar\r",
+							"    datums.push(\"2019-12-31\")\r",
+							"    //Eind februari (geen schrikkeljaar)\r",
+							"    datums.push(\"2019-02-28\")\r",
+							"    //Begin maart (geen schrikkeljaar)\r",
+							"    datums.push(\"2019-03-01\")\r",
+							"    //Eind februari (schrikkeljaar)\r",
+							"    datums.push(\"2020-02-29\")\r",
+							"    //Begin maart (schrikkeljaar)\r",
+							"    datums.push(\"2020-03-01\")\r",
+							"}\r",
+							"\r",
+							"var huidigeDatum = datums.shift();\r",
+							"pm.variables.set(\"huidigeDatum\", huidigeDatum);\r",
+							"pm.variables.set(\"datums\", datums);\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "94ca6c10-7504-4b0e-aa9e-177bdd5c94d2",
+						"exec": [
+							"var datums = pm.variables.get(\"datums\");",
+							"",
+							"var huidigeDatum = pm.variables.get(\"huidigeDatum\");",
+							"",
+							"var url = pm.environment.get(\"url\");",
+							"if (datums && datums.length > 0){",
+							"    postman.setNextRequest(\"api/dagplanning/{{datum}} (Status: 200)\");",
+							"} else{",
+							"    postman.setNextRequest(); ",
+							"    pm.variables.clear()",
+							"} ",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Controleer of de dagPlanning de juiste gegevens voor deze datum heeft\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.datum).to.include(huidigeDatum.trim());",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/dagplanning/{{huidigeDatum}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"dagplanning",
+						"{{huidigeDatum}}"
+					]
+				},
+				"description": "Concrete dagplanning voor vandaag ophalen en controleren of we een 200 status terug krijgen."
+			},
+			"response": []
+		},
+		{
+			"name": "api/dagplanning/{{datum}} (Status: 400)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8dc115a9-d45b-459f-a1a6-15d09e4ebca2",
+						"exec": [
+							"const moment = require('moment');\r",
+							"\r",
+							"\r",
+							"//Controleer of er al datums bestaan\r",
+							"var datums = pm.variables.get(\"datums\");\r",
+							"if(!datums){\r",
+							"    //Onbestaande datum\r",
+							"    datums = [\"2019-02-29\"];\r",
+							"    //Slecht geformateerde datum\r",
+							"    datums.push(\"19-2019-10\");\r",
+							"    //Niet een datum\r",
+							"    datums.push(\"fout\");\r",
+							"}\r",
+							"var huidigeDatum = datums.shift();\r",
+							"pm.variables.set(\"huidigeDatum\", huidigeDatum);\r",
+							"pm.variables.set(\"datums\", datums);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "baf2d87e-b4dc-4276-b4f6-2e5f2a179d4c",
+						"exec": [
+							"var datums = pm.variables.get(\"datums\");",
+							"",
+							"var huidigeDatum = pm.variables.get(\"huidigeDatum\");",
+							"",
+							"var url = pm.environment.get(\"url\");",
+							"if (datums && datums.length > 0){",
+							"    postman.setNextRequest(\"api/dagplanning/{{datum}} (Status: 400)\");",
+							"} else{",
+							"    postman.setNextRequest(); ",
+							"    pm.variables.clear()",
+							"} ",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/dagplanning/{{huidigeDatum}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"dagplanning",
+						"{{huidigeDatum}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/dagplanning/vanWeek/{{weeknummer}}/vanDag/{{weekdag}} (Status: 200)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1783b40e-a01e-4ec5-844c-237c61bbe93f",
+						"exec": [
+							"var weeknummer = pm.variables.get(\"weeknummer\")",
+							"var weekdag = pm.variables.get(\"weekdag\");",
+							"var weeknummers = pm.variables.get(\"weeknummers\");",
+							"var weekdagen = pm.variables.get(\"weekdagen\");",
+							"",
+							"if(!weeknummers && !weekdagen){",
+							"    weeknummers = []",
+							"    for(var i = 1; i <= 4; i++){",
+							"        weeknummers.push(i);",
+							"    }",
+							"}",
+							"",
+							"if(!weekdagen || weekdagen.length <= 0){",
+							"    weeknummer = weeknummers.shift()",
+							"    weekdagen = []",
+							"    for(var i = 1; i <= 7; i++){",
+							"        weekdagen.push(i);",
+							"    }",
+							"}",
+							"",
+							"",
+							"weekdag = weekdagen.shift();",
+							"pm.variables.set(\"weekdagen\", weekdagen);",
+							"pm.variables.set(\"weeknummers\", weeknummers);",
+							"pm.variables.set(\"weekdag\", weekdag);",
+							"pm.variables.set(\"weeknummer\", weeknummer);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9d76d738-da96-43b6-bb48-93268d20cbb8",
+						"exec": [
+							"var weeknummer = pm.variables.get(\"weeknummer\")",
+							"var weekdag = pm.variables.get(\"weekdag\");",
+							"var weeknummers = pm.variables.get(\"weeknummers\");",
+							"var weekdagen = pm.variables.get(\"weekdagen\");",
+							"",
+							"if((weekdagen || weeknummers) && (weekdagen.length > 0 || weeknummers.length > 0)){",
+							"    postman.setNextRequest(\"api/dagplanning/vanWeek/{{weeknummer}}/vanDag/{{weekdag}} (Status: 200)\");",
+							"} else {",
+							"    postman.setNextRequest()",
+							"    pm.variables.clear()",
+							"}",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Controleer of de dagPlanningTemplate de juiste gegevens voor dit weeknummer/weekdag heeft\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.weeknummer).to.eql(weeknummer);",
+							"    pm.expect(jsonData.weekdag).to.eql(weekdag);",
+							"    pm.expect(jsonData.datum).to.eql(null);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/dagplanning/vanWeek/{{weeknummer}}/vanDag/{{weekdag}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"dagplanning",
+						"vanWeek",
+						"{{weeknummer}}",
+						"vanDag",
+						"{{weekdag}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/dagplanning/vanWeek/{{weeknummer}}/vanDag/{{weekdag}} (Status: 400)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1783b40e-a01e-4ec5-844c-237c61bbe93f",
+						"exec": [
+							"var weeknummer = pm.variables.get(\"weeknummer\")",
+							"var weekdag = pm.variables.get(\"weekdag\");",
+							"var weeknummers = pm.variables.get(\"weeknummers\");",
+							"var weekdagen = pm.variables.get(\"weekdagen\");",
+							"",
+							"if(!weeknummers && !weekdagen){",
+							"    console.log(\"start\")",
+							"    weeknummers = [0, 0, 0, 5, 5, 5, 1, 1]",
+							"}",
+							"",
+							"if(!weekdagen || weekdagen.length <= 0){",
+							"    ",
+							"    weekdagen = [0, 8, 1, 0, 8, 1, 0, 8]",
+							"}",
+							"",
+							"weeknummer = weeknummers.shift()",
+							"weekdag = weekdagen.shift();",
+							"pm.variables.set(\"weekdagen\", weekdagen);",
+							"pm.variables.set(\"weeknummers\", weeknummers);",
+							"pm.variables.set(\"weekdag\", weekdag);",
+							"pm.variables.set(\"weeknummer\", weeknummer);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9d76d738-da96-43b6-bb48-93268d20cbb8",
+						"exec": [
+							"var weeknummer = pm.variables.get(\"weeknummer\")",
+							"var weekdag = pm.variables.get(\"weekdag\");",
+							"var weeknummers = pm.variables.get(\"weeknummers\");",
+							"var weekdagen = pm.variables.get(\"weekdagen\");",
+							"",
+							"if((weekdagen || weeknummers) && (weekdagen.length > 0 || weeknummers.length > 0)){",
+							"    postman.setNextRequest(\"api/dagplanning/vanWeek/{{weeknummer}}/vanDag/{{weekdag}} (Status: 400)\");",
+							"} else {",
+							"    postman.setNextRequest()",
+							"    pm.variables.clear()",
+							"}",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/dagplanning/vanWeek/{{weeknummer}}/vanDag/{{weekdag}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"dagplanning",
+						"vanWeek",
+						"{{weeknummer}}",
+						"vanDag",
+						"{{weekdag}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
