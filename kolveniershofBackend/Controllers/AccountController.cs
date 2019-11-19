@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using kolveniershofBackend.DTO;
+using kolveniershofBackend.DTO.Picto;
 using kolveniershofBackend.Enums;
 using kolveniershofBackend.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -129,6 +130,18 @@ namespace kolveniershofBackend.Controllers
             _gebruikerRepository.Update(gebruiker);
             _gebruikerRepository.SaveChanges();
             return NoContent();
+        }
+
+        [HttpGet("picto/gebruikers")]
+        public IEnumerable<PictoGebruikerDTO> GetPictoGebruikers()
+        {
+            var gebruikers = _gebruikerRepository.GetAll();
+            return gebruikers.Select(x => new PictoGebruikerDTO()
+            {
+                GebruikerId = x.Id,
+                Naam = x.Voornaam,
+                Foto = x.Foto
+            });
         }
     }
 
