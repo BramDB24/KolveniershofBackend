@@ -58,7 +58,7 @@ namespace kolveniershofBackend.Controllers
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, g.Email),
                 new Claim(JwtRegisteredClaimNames.UniqueName, g.UserName) };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(null, null, 
                 claims,

@@ -21,21 +21,6 @@ namespace kolveniershofBackend.DTO
         [Compare("Password", ErrorMessage = "Password and passwordconfirmation must be the same")]
         public string PasswordConfirmation { get; set; }
         [Required]
-        [StringLength(200)]
-        public string Gemeente { get; set; }
-        [Required]
-        [StringLength(4)]
-        public string PostCode { get; set; }
-        [Required]
-        [StringLength(200)]
-        public string Straatnaam { get; set; }
-        [Required]
-        [StringLength(10)]
-        [RegularExpression("^[0-9]{1,4}[a-zA-Z]{0,2}$", ErrorMessage = "Gelieve een geldig huisnummer op te geven")]
-        public string Huisnummer { get; set; }
-        [RegularExpression("^$|^[A-Za-z0-9 \\.]*[A-Za-z0-9][A-Za-z0-9 \\.]*$", ErrorMessage = "Gelieve een geldig huisnummer op te geven")]
-        public string Busnummer { get; set; }
-        [Required]
         [JsonConverter(typeof(StringEnumConverter))]
         public Sfeergroep Sfeergroep { get; set; }
         [Required]
