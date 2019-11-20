@@ -47,7 +47,7 @@ namespace kolveniershofBackend.Controllers
                 if (result.Succeeded)
                 {
                     string token = GetToken(user);
-                    return Created("", token); //returns only the token                   
+                    return Created("", new { token, user}); //returns only the token                   
                 }
             }
             return BadRequest();
