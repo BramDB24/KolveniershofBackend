@@ -75,29 +75,26 @@ namespace kolveniershofBackend.Controllers
         /// <param name="datum"></param>
         /// <returns></returns>
         [HttpGet("{datum}/aanwezigen")]
-        public ActionResult<IEnumerable<BasicGebruikerDTO>> GetAanwezigeGebruikers(string datum)
+        public IEnumerable<DagAtelierDTO> GetAanwezigeGebruikers(string datum)
         {
             DagplanningDTO huidigeDagPlanning = GetDagPlanning(datum).Value;
-            HashSet<BasicGebruikerDTO> aanwezigeGebruikers = new HashSet<BasicGebruikerDTO>();
             AtelierType[] afwezigeAtelierTypes = new AtelierType[] { AtelierType.Afwezig, AtelierType.Thuis, AtelierType.Ziek };
-            foreach (var dagAtelier in huidigeDagPlanning.DagAteliers)
+            IEnumerable<DagAtelierDTO> afwezigeAteliers = huidigeDagPlanning.DagAteliers.Where(x => afwezigeAtelierTypes.Contains(x.Atelier.AtelierType));
+            IEnumerable<DagAtelierDTO> normaleAteliers = huidigeDagPlanning.DagAteliers.Where(x => x.Atelier.AtelierType == AtelierType.Gewoon);
+            IEnumerable<BasicGebruikerDTO> aanwezigenVoormiddag = normaleAteliers.Where(a => a.DagMoment == DagMoment.Voormiddag).Select(d => d.Gebruikers).SelectMany(g => g).Distinct();
+            IEnumerable<BasicGebruikerDTO> aanwezigenNamiddag = normaleAteliers.Where(a => a.DagMoment == DagMoment.Namiddag).Select(d => d.Gebruikers).SelectMany(g => g).Distinct();
+            return afwezigeAteliers.Append(new DagAtelierDTO()
             {
-                if (!afwezigeAtelierTypes.Contains(dagAtelier.Atelier.AtelierType))
-                {
-                    //dagAtelier bevat aanwezige gebruikers
-                    foreach (var gebruiker in dagAtelier.Gebruikers)
-                    {
-                        if (!aanwezigeGebruikers.Any(g => g.GebruikerId == gebruiker.GebruikerId))
-                        {
-                            aanwezigeGebruikers.Add(gebruiker);
-                        }
-                    }
-
-                }
-            }
-
-            return aanwezigeGebruikers;
-
+                Atelier = new AtelierDTO() { AtelierType = AtelierType.Gewoon, Naam = "Aanwezigen voormiddag" },
+                DagMoment = DagMoment.Voormiddag,
+                Gebruikers = aanwezigenVoormiddag,
+            })
+            .Append(new DagAtelierDTO()
+            {
+                Atelier = new AtelierDTO() { AtelierType = AtelierType.Gewoon, Naam = "Aanwezigen namiddag" },
+                DagMoment = DagMoment.Namiddag,
+                Gebruikers = aanwezigenVoormiddag,
+            });
         }
 
         /**
