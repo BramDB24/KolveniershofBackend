@@ -69,6 +69,7 @@ namespace kolveniershofBackend.Models
             }
         }
 
+        [JsonIgnore]
         public List<DagAtelier> DagAteliers { get; set; }
 
         #endregion

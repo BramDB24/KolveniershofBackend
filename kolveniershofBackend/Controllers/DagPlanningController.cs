@@ -66,6 +66,7 @@ namespace kolveniershofBackend.Controllers
                 return BadRequest();
             }
 
+
             return MaakDagPlanningDto(GeefDagPlanningVolgensDatum(datumFormatted));
         }
 
@@ -340,12 +341,7 @@ namespace kolveniershofBackend.Controllers
             // Eerst zoeken we naar de juiste template om te gebruiken. Hiervoor hebben we een weekdag en een weeknummer nodig.
 
             //Is nodig om te kunnen werken met de enums, de enum heeft (voor whatever reason) een undefined nodig die index 0 heeft, terwijl index 0 gewoon maandag moet zijn
-            var weekdag = ((int)datum.DayOfWeek - 1 + 7) % 7;
-
-            if (weekdag == (int)Weekdag.Undefined)
-            {
-                weekdag = (int)Weekdag.Maandag;
-            }
+            int weekdag = DagPlanning.BerekenenVanDagVolgensDatum(datum);
 
             /**
              * We kunnen een willekeurige, reeds bestaande DagPlanning nemen om te controleren hoe veel weken de datum van de parameter
@@ -363,17 +359,10 @@ namespace kolveniershofBackend.Controllers
                  * Als er nog geen dagplanningen zijn dan gaan we er één aanmaken voor de dag van vandaag met 
                  * de week waar we vandaag in zitten als de start van de 4 weekse planning
                  */
-
-                // bereken de weekdag enum voor de datum van vandaag
-                var weekdagVandaag = (int)datum.DayOfWeek - 1;
-
-                if (weekdagVandaag == (int)Weekdag.Undefined)
-                {
-                    weekdagVandaag = (int)Weekdag.Maandag;
-                };
+                 
                 // maak een nieuw dagplanning vandaag en start vanaf de eerste week
                 // dit wordt ook aangemaakt aangezien we de dag van vandaag als referentie gebruiken om de juiste template te vinden
-                DagPlanningTemplate dagPlanningTemplateVandaag = GeefDagPlanningTemplate(1, weekdagVandaag);
+                DagPlanningTemplate dagPlanningTemplateVandaag = GeefDagPlanningTemplate(1, weekdag);
                 controleDagPlanning = new DagPlanning(dagPlanningTemplateVandaag, DateTime.Today);
                 _dagPlanningTemplateRepository.AddDagPlanning(controleDagPlanning);
             }
@@ -383,11 +372,7 @@ namespace kolveniershofBackend.Controllers
              * naar de maandag van de week waar ze in zitten.
              * Hierdoor kunnen we het aantal weken berekenen door het verschil in dagen te nemen en dit te delen door 7.
              */
-            var weeknummerControle = controleDagPlanning.Weeknummer;
-            var dinsdagControleWeek = DinsdagVanWeek(controleDagPlanning.Datum);
-            var dinsdagGegevenWeek = DinsdagVanWeek(datum);
-            var aantalWekenVerschil = (dinsdagGegevenWeek - dinsdagControleWeek).Days / 7;
-            int weeknummer = (((((weeknummerControle - 1) + aantalWekenVerschil + 4) % 4) + 4) % 4) + 1;
+            int weeknummer = DagPlanning.BerekenenVanWeekNummerVolgensDatum(controleDagPlanning, DinsdagVanWeek(datum), DinsdagVanWeek(controleDagPlanning.Datum));
 
             DagPlanningTemplate dagPlanningTemplate = GeefDagPlanningTemplate(weeknummer, weekdag);
 

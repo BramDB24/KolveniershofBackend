@@ -14,9 +14,11 @@ namespace kolveniershofBackend.Models
         #endregion
 
         #region Properties
-        public DateTime Datum {
+        public DateTime Datum
+        {
             get { return _datum; }
-            set {
+            set
+            {
                 if (value != null)
                 {
                     _datum = value;
@@ -29,9 +31,11 @@ namespace kolveniershofBackend.Models
             }
         }
 
-        public string Eten {
+        public string Eten
+        {
             get { return _eten; }
-            set {
+            set
+            {
                 _eten = value;
             }
         }
@@ -73,6 +77,23 @@ namespace kolveniershofBackend.Models
                 case DayOfWeek.Sunday: dag = Weekdag.Zondag; break;
             }
             return dag;
+        }
+
+        public static int BerekenenVanDagVolgensDatum(DateTime datum)
+        {
+            int weekdag = ((int)datum.DayOfWeek - 1 + 7) % 7;
+            if (weekdag == (int)Weekdag.Undefined)
+            {
+                weekdag = (int)Weekdag.Maandag;
+            }
+            return weekdag;
+        }
+
+        public static int BerekenenVanWeekNummerVolgensDatum(DagPlanning controlle, DateTime dinsdagGegevenWeek, DateTime dinsdagControleWeek)
+        {
+            int controllerWeek = controlle.Weeknummer;
+            var aantalWekenVerschil = (dinsdagGegevenWeek - dinsdagControleWeek).Days / 7;
+            return ((((controllerWeek - 1 + aantalWekenVerschil + 4) % 4) + 4) % 4) + 1;
         }
     }
 }

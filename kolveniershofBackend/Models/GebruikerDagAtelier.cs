@@ -14,7 +14,7 @@ namespace kolveniershofBackend.Models
         public DagAtelier DagAtelier { get; set; }
         public Gebruiker Gebruiker { get; set; }
 
-        protected GebruikerDagAtelier()
+        public GebruikerDagAtelier()
         {
 
         }
