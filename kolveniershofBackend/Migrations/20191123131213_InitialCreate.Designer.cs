@@ -10,8 +10,8 @@ using kolveniershofBackend.Data;
 namespace kolveniershofBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191109160430_secondmigration")]
-    partial class secondmigration
+    [Migration("20191123131213_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -76,6 +76,7 @@ namespace kolveniershofBackend.Models
             }
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public GebruikerType Type
         {
             get { return _gebruikerType; }

@@ -1,6 +1,7 @@
 ﻿using kolveniershofBackend.Enums;
 using kolveniershofBackend.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,8 @@ namespace kolveniershofBackend.Data
         public async Task InitializeData()
         {
             //_dbContext.Database.EnsureDeleted();
-            if (_dbContext.Database.EnsureCreated())
-            {
+            if (_dbContext.Database.EnsureCreated()) //niet gebruiken bij azure (migrations)
+                {
                 //gebruikers   
                 //admin
                 Gebruiker dina = new Gebruiker("dina", "dobbelaar", "dinadobbelaar@hotmail.com", Sfeergroep.Undefined,
