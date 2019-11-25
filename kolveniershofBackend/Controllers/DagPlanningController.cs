@@ -150,6 +150,7 @@ namespace kolveniershofBackend.Controllers
                 GebruikerId = gebruikerId,
                 Ateliers = dagplanning.GetDagAteliersGebruiker(gebruikerId).Select(da => new PictoAtelierDTO()
                 {
+                    AtelierNaam = da.Atelier.Naam,
                     AtelierImg = da.Atelier.PictoURL,
                     BegeleiderImages = da.GeefAlleBegeleiders().Select(g => g.Foto),
                     AtelierType = da.Atelier.AtelierType.ToString(),

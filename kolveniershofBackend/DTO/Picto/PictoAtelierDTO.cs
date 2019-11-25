@@ -7,6 +7,7 @@ namespace kolveniershofBackend.DTO.Picto
 {
     public class PictoAtelierDTO
     {
+        public string AtelierNaam { get; set; }
         public string AtelierType { get; set; }
         public string AtelierImg { get; set; }
         public IEnumerable<string> BegeleiderImages { get; set; }
