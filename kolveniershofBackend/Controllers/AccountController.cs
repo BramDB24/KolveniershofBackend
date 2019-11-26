@@ -86,7 +86,7 @@ namespace kolveniershofBackend.Controllers
             return BadRequest();
         }
 
-        [HttpGet("/viaId/{gebruikerId}")]
+        [HttpGet("{gebruikerId}")]
         public ActionResult<GebruikerDTO> GetGebruikerViaID(string gebruikerId)
         {
             Gebruiker g = _gebruikerRepository.GetBy(gebruikerId);
@@ -113,7 +113,7 @@ namespace kolveniershofBackend.Controllers
             return _gebruikerRepository.GetAll().ToList().Select(g => new GebruikerDTO(g));
         }
 
-        [HttpGet("/viaSfeergroep/{sfeergroep}")]
+        [HttpGet("sfeergroep/{sfeergroep}")]
         public IEnumerable<GebruikerDTO> GetGebruikersVanSpecifiekeSfeergroep(int sfeergroep)
         {
             return _gebruikerRepository.GetAll().Where(g=>g.Sfeergroep == (Sfeergroep)sfeergroep).
