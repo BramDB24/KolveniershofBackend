@@ -22,7 +22,8 @@ namespace kolveniershofBackend.Models
         public List<Commentaar> Commentaren { get; set; }
         public IdentityUserClaim<string> Role { get; set; }
 
-        public string Id { get; set; }
+        
+        override public string Id { get; set; }
         public string Voornaam {
             get {
                 return _voornaam;

@@ -70,49 +70,51 @@ namespace kolveniershofBackend.Data
 
                 //alle ateliers
                 //gewone ateliers
-                Atelier bakken = new Atelier(AtelierType.Gewoon, "bakken", "foto");
-                Atelier feest = new Atelier(AtelierType.Gewoon, "feest", "foto"); ;
-                Atelier koken = new Atelier(AtelierType.Gewoon, "koken", "foto");
-                Atelier markt = new Atelier(AtelierType.Gewoon, "markt", "foto");
-                Atelier praatcafe = new Atelier(AtelierType.Gewoon, "praatcafe", "foto");
-                Atelier textiel = new Atelier(AtelierType.Gewoon, "textiel", "foto");
-                Atelier tuin = new Atelier(AtelierType.Gewoon, "tuin", "foto");
-                Atelier wandelen = new Atelier(AtelierType.Gewoon, "wandelen", "foto");
-                Atelier yoga = new Atelier(AtelierType.Gewoon, "yoga", "foto");
-                Atelier balanske = new Atelier(AtelierType.Gewoon, "balanske", "foto");
-                Atelier crea = new Atelier(AtelierType.Gewoon, "crea", "foto");
-                Atelier hout = new Atelier(AtelierType.Gewoon, "hout", "foto");
-                Atelier kringgesprek = new Atelier(AtelierType.Gewoon, "kringgesprek", "foto");
-                Atelier muziek = new Atelier(AtelierType.Gewoon, "muziek", "foto");
-                Atelier provinciaalDomein = new Atelier(AtelierType.Gewoon, "provinciaal domein", "foto");
-                Atelier snoezelen = new Atelier(AtelierType.Gewoon, "snoezelen", "foto");
-
-                Atelier uitstap = new Atelier(AtelierType.Gewoon, "uitstap", "foto");
-                Atelier zwemmen = new Atelier(AtelierType.Gewoon, "zwemmen", "foto");
-                Atelier beleving = new Atelier(AtelierType.Gewoon, "beleving", "foto");
-                Atelier digitaal = new Atelier(AtelierType.Gewoon, "digitaal", "foto");
-                Atelier kaarsen = new Atelier(AtelierType.Gewoon, "kaarsen", "foto");
-                Atelier kunst = new Atelier(AtelierType.Gewoon, "kunst", "foto");
-                Atelier paardrijden = new Atelier(AtelierType.Gewoon, "paard rijden", "foto");
-                Atelier spikEnSpan = new Atelier(AtelierType.Gewoon, "spik en span", "foto");
-                Atelier tievo = new Atelier(AtelierType.Gewoon, "tievo", "foto");
-                Atelier verhalen = new Atelier(AtelierType.Gewoon, "verhalen", "foto");
-                Atelier werkplaats = new Atelier(AtelierType.Gewoon, "werkplaats", "foto");
-                Atelier bib = new Atelier(AtelierType.Gewoon, "bib", "foto");
-                Atelier expressie = new Atelier(AtelierType.Gewoon, "expressie", "foto");
-                Atelier keukenEnAfwas = new Atelier(AtelierType.Gewoon, "keuken en afwas", "foto");
-                Atelier levensboeken = new Atelier(AtelierType.Gewoon, "levensboeken", "foto");
-                Atelier petanque = new Atelier(AtelierType.Gewoon, "petanque", "foto");
-                Atelier sporten = new Atelier(AtelierType.Gewoon, "sporten", "foto");
-                Atelier toneel = new Atelier(AtelierType.Gewoon, "toneel", "foto");
-                Atelier vorming = new Atelier(AtelierType.Gewoon, "vorming", "foto");
-                Atelier winkelen = new Atelier(AtelierType.Gewoon, "winkelen", "foto");
+                Atelier bakken = new Atelier(AtelierType.Gewoon, "bakken", "BAKKEN.jpg");
+                Atelier balanske = new Atelier(AtelierType.Gewoon, "balanske", "BALANSKE.JPG");
+                Atelier beleving = new Atelier(AtelierType.Gewoon, "beleving", "BELEVINGSATELIER.jpg");
+                Atelier bib = new Atelier(AtelierType.Gewoon, "bib", "BIB.jpg");
+                //blanco ateliers?
+                Atelier cafetariaRozenberg = new Atelier(AtelierType.Gewoon, "Cafetaria Rozenberg", "cafetaria rozenberg.jpg");
+                Atelier crea = new Atelier(AtelierType.Gewoon, "crea", "CREA.JPG");
+                Atelier digitaal = new Atelier(AtelierType.Gewoon, "digitaal", "digitaal atelier.jpg");
+                Atelier expressie = new Atelier(AtelierType.Gewoon, "expressie", "EXPRESSIE.JPG");
+                Atelier feest = new Atelier(AtelierType.Gewoon, "feest", "FEEST.JPG"); ;
+                Atelier hout = new Atelier(AtelierType.Gewoon, "hout", "HOUTATELIER.JPG");
+                Atelier kaarsen = new Atelier(AtelierType.Gewoon, "kaarsen", "KAARSENATELIER.jpg");
+                Atelier keukenEnAfwas = new Atelier(AtelierType.Gewoon, "keuken en afwas", "KEUKEN AFWAS.JPG");
+                Atelier koken = new Atelier(AtelierType.Gewoon, "koken", "KOKEN.JPG");
+                Atelier kringgesprek = new Atelier(AtelierType.Gewoon, "kringgesprek", "KRINGGESPREK.JPG");
+                Atelier kunst = new Atelier(AtelierType.Gewoon, "kunst", "KUNSTATELIER.jpg");
+                Atelier levensboeken = new Atelier(AtelierType.Gewoon, "levensboeken", "LEVENSBOEKEN.JPG");
+                Atelier markt = new Atelier(AtelierType.Gewoon, "markt", "MARKT.JPG");
+                Atelier muziek = new Atelier(AtelierType.Gewoon, "muziek", "MUZIEK.JPG");
+                Atelier paardrijden = new Atelier(AtelierType.Gewoon, "paard rijden", "PAARDRIJDEN.JPG");
+                Atelier petanque = new Atelier(AtelierType.Gewoon, "petanque", "PETANQUE.JPG");
+                Atelier praatcafe = new Atelier(AtelierType.Gewoon, "praatcafe", "PRAATCAFE.JPG");
+                Atelier provinciaalDomein = new Atelier(AtelierType.Gewoon, "provinciaal domein", "PROVINCIAAL DOMEIN.JPG");
+                Atelier snoezelen = new Atelier(AtelierType.Gewoon, "snoezelen", "SNOEZELEN.JPG");
+                Atelier spikEnSpan = new Atelier(AtelierType.Gewoon, "spik en span", "spik-en-span.JPG");
+                Atelier sporten = new Atelier(AtelierType.Gewoon, "sporten", "SPORTEN2.JPG");
+                Atelier textiel = new Atelier(AtelierType.Gewoon, "textiel", "TEXTIEL.jpg");
+                Atelier tievo = new Atelier(AtelierType.Gewoon, "tievo", "TIEVO.jpg");
+                Atelier toneel = new Atelier(AtelierType.Gewoon, "toneel", "TONEEL.JPG");
+                Atelier tuin = new Atelier(AtelierType.Gewoon, "tuin", "TUIN.JPG");
+                Atelier uitstap = new Atelier(AtelierType.Gewoon, "uitstap", "uitstap.jpg");
+                Atelier verhalen = new Atelier(AtelierType.Gewoon, "verhalen", "VERHALEN.jpg");
+                Atelier vorming = new Atelier(AtelierType.Gewoon, "vorming", "VORMING.JPG");
+                Atelier wandelen = new Atelier(AtelierType.Gewoon, "wandelen", "WANDELEN.JPG");
+                Atelier weekschema = new Atelier(AtelierType.Gewoon, "weekschema", "WEEKSCHEMA.JPG");
+                Atelier werkplaats = new Atelier(AtelierType.Gewoon, "werkplaats", "WERKPLAATS.JPG");
+                Atelier winkelen = new Atelier(AtelierType.Gewoon, "winkelen", "WINKELEN.jpg");
+                Atelier yoga = new Atelier(AtelierType.Gewoon, "yoga", "YOGA.JPG");
+                Atelier zwemmen = new Atelier(AtelierType.Gewoon, "zwemmen", "ZWEMMEN.JPG");
 
                 //speciale ateliers
-                Atelier afwezig = new Atelier(AtelierType.Afwezig, "afwezig", "foto");
+                Atelier afwezig = new Atelier(AtelierType.Afwezig, "afwezig", "idfk");
                 Atelier vervoer = new Atelier(AtelierType.VervoerAtelier, "vervoer", "foto");
                 Atelier ziek = new Atelier(AtelierType.Ziek, "ziek", "foto");
-                Atelier thuisVerlof = new Atelier(AtelierType.Thuis, "thuis verlof", "foto");
+                Atelier thuisVerlof = new Atelier(AtelierType.Thuis, "thuis verlof", "THUIS VERLOF.JPG");
 
                 var ateliers = new List<Atelier> {bakken, feest, koken, markt, praatcafe, textiel, tuin, wandelen, yoga, balanske, crea,
                 hout, kringgesprek, muziek, provinciaalDomein, snoezelen, uitstap, zwemmen, beleving, digitaal, kaarsen, kunst,
@@ -483,7 +485,7 @@ namespace kolveniershofBackend.Data
         }
 
         private async Task MaakGebruiker(Gebruiker gebruiker, string password)
-        {
+        {   
             await _userManager.CreateAsync(gebruiker, password);
             await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, gebruiker.Type.ToString()));
 
