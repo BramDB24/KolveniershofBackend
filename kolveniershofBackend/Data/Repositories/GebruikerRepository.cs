@@ -39,6 +39,12 @@ namespace kolveniershofBackend.Data.Repositories
             return _gebruikers.Include(r=>r.Commentaren).SingleOrDefault(r => r.Id == id);
         }
 
+        public bool TryGetGebruiker(string name, out Gebruiker gebruiker)
+        {
+            gebruiker = _gebruikers.FirstOrDefault(u => u.Email == name);
+            return gebruiker != null;
+        }
+
         public Gebruiker GetByEmail(string email)
         {
             return _gebruikers.Include(r => r.Commentaren).SingleOrDefault(r => r.Email == email);

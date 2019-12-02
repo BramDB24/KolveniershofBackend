@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 
 namespace kolveniershofBackend.Controllers
 {
@@ -155,6 +156,27 @@ namespace kolveniershofBackend.Controllers
                 }) //?? new List<PictoAtelierDTO>()  --> null of new list teruggeven?
             };
             return pictoDagDTO;
+        }
+
+        [HttpGet("{datum}/pictoagenda")]
+        public IEnumerable<PictoDagDTO> GetWeekPlanningVanEenPersoon(string datum)
+        {
+            Gebruiker gebruiker = new Gebruiker();
+            if (!_gebruikerRepository.TryGetGebruiker(User.Identity.Name, out gebruiker)){
+                return null;
+            }
+            DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            int dayofweek = (int)datumFormatted.DayOfWeek - 1;
+            if (dayofweek < 0)
+                dayofweek = 6; //zondag als laatste dag nemen. (-1 -> 6)
+            var tempdate = datumFormatted.AddDays(dayofweek * -1);
+            var pictodtos = new List<PictoDagDTO>();
+            
+            for (int i = 0; i<7; i++)
+            {
+                pictodtos.Add(GetDagPlanningVanEenPersoon(tempdate.AddDays(i).ToString("yyyy/MM/dd"), gebruiker.Id).Value);
+            }
+            return pictodtos.AsEnumerable();
         }
 
         /// <summary>
