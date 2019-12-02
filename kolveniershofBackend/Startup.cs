@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -138,14 +140,21 @@ namespace kolveniershofBackend
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseFileServer();
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "atelierpictos")),
+                RequestPath = "/pictos"
+            });
             app.UseCors("AllowAllOrigins");
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
             app.UseSwaggerUi3();
             app.UseSwagger();
-            //dataInitialiser.InitializeData().Wait();
+            dataInitialiser.InitializeData().Wait();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace kolveniershofBackend.Models
         Gebruiker GetByEmail(string email);
         Gebruiker GetBySfeergroep(Sfeergroep sfeergroep);
         Gebruiker GetByType(GebruikerType gebruikerType);
+        bool TryGetGebruiker(string name, out Gebruiker gebruiker);
         IEnumerable<Gebruiker> GetAll();
         void Add(Gebruiker gebruiker);
         void Delete(Gebruiker gebruiker);
