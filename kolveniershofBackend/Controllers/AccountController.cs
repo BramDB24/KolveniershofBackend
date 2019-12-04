@@ -124,9 +124,16 @@ namespace kolveniershofBackend.Controllers
         public ActionResult<Gebruiker> PutGebruiker(string id, Gebruiker gebruiker)
         {
             Gebruiker g = _gebruikerRepository.GetBy(id);
+            g.Achternaam = gebruiker.Achternaam;
+            g.Voornaam = gebruiker.Voornaam;
+            g.Commentaren = gebruiker.Commentaren;
+            g.Email = gebruiker.Email;
+            g.Sfeergroep = gebruiker.Sfeergroep;
+            g.Type = gebruiker.Type;
+            g.Foto = gebruiker.Foto;
             if (!g.Id.Equals(id))
                 return BadRequest();
-            _gebruikerRepository.Update(gebruiker);
+            _gebruikerRepository.Update(g);
             _gebruikerRepository.SaveChanges();
             return NoContent();
         }
