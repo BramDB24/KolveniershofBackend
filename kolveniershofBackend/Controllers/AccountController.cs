@@ -81,7 +81,7 @@ namespace kolveniershofBackend.Controllers
             {
                 _gebruikerRepository.SaveChanges();
                 string token = GetToken(g);
-                return Created("", token);
+                return Ok();
             }
             return BadRequest();
         }
