@@ -70,51 +70,51 @@ namespace kolveniershofBackend.Data
 
                 //alle ateliers
                 //gewone ateliers
-                Atelier bakken = new Atelier(AtelierType.Gewoon, "bakken", "BAKKEN.jpg");
-                Atelier balanske = new Atelier(AtelierType.Gewoon, "balanske", "BALANSKE.JPG");
-                Atelier beleving = new Atelier(AtelierType.Gewoon, "beleving", "BELEVINGSATELIER.jpg");
-                Atelier bib = new Atelier(AtelierType.Gewoon, "bib", "BIB.jpg");
+                Atelier bakken = new Atelier(AtelierType.Gewoon, "bakken", "bakken.jpg");
+                Atelier balanske = new Atelier(AtelierType.Gewoon, "balanske", "balanske.jpg");
+                Atelier beleving = new Atelier(AtelierType.Gewoon, "beleving", "belevingsatelier.jpg");
+                Atelier bib = new Atelier(AtelierType.Gewoon, "bib", "bib.jpg");
                 //blanco ateliers?
-                Atelier cafetariaRozenberg = new Atelier(AtelierType.Gewoon, "Cafetaria Rozenberg", "cafetaria rozenberg.jpg");
-                Atelier crea = new Atelier(AtelierType.Gewoon, "crea", "CREA.JPG");
-                Atelier digitaal = new Atelier(AtelierType.Gewoon, "digitaal", "digitaal atelier.jpg");
-                Atelier expressie = new Atelier(AtelierType.Gewoon, "expressie", "EXPRESSIE.JPG");
-                Atelier feest = new Atelier(AtelierType.Gewoon, "feest", "FEEST.JPG"); ;
-                Atelier hout = new Atelier(AtelierType.Gewoon, "hout", "HOUTATELIER.JPG");
-                Atelier kaarsen = new Atelier(AtelierType.Gewoon, "kaarsen", "KAARSENATELIER.jpg");
-                Atelier keukenEnAfwas = new Atelier(AtelierType.Gewoon, "keuken en afwas", "KEUKEN AFWAS.JPG");
-                Atelier koken = new Atelier(AtelierType.Gewoon, "koken", "KOKEN.JPG");
-                Atelier kringgesprek = new Atelier(AtelierType.Gewoon, "kringgesprek", "KRINGGESPREK.JPG");
-                Atelier kunst = new Atelier(AtelierType.Gewoon, "kunst", "KUNSTATELIER.jpg");
-                Atelier levensboeken = new Atelier(AtelierType.Gewoon, "levensboeken", "LEVENSBOEKEN.JPG");
-                Atelier markt = new Atelier(AtelierType.Gewoon, "markt", "MARKT.JPG");
-                Atelier muziek = new Atelier(AtelierType.Gewoon, "muziek", "MUZIEK.JPG");
-                Atelier paardrijden = new Atelier(AtelierType.Gewoon, "paard rijden", "PAARDRIJDEN.JPG");
-                Atelier petanque = new Atelier(AtelierType.Gewoon, "petanque", "PETANQUE.JPG");
-                Atelier praatcafe = new Atelier(AtelierType.Gewoon, "praatcafe", "PRAATCAFE.JPG");
-                Atelier provinciaalDomein = new Atelier(AtelierType.Gewoon, "provinciaal domein", "PROVINCIAAL DOMEIN.JPG");
-                Atelier snoezelen = new Atelier(AtelierType.Gewoon, "snoezelen", "SNOEZELEN.JPG");
-                Atelier spikEnSpan = new Atelier(AtelierType.Gewoon, "spik en span", "spik-en-span.JPG");
-                Atelier sporten = new Atelier(AtelierType.Gewoon, "sporten", "SPORTEN2.JPG");
-                Atelier textiel = new Atelier(AtelierType.Gewoon, "textiel", "TEXTIEL.jpg");
-                Atelier tievo = new Atelier(AtelierType.Gewoon, "tievo", "TIEVO.jpg");
-                Atelier toneel = new Atelier(AtelierType.Gewoon, "toneel", "TONEEL.JPG");
-                Atelier tuin = new Atelier(AtelierType.Gewoon, "tuin", "TUIN.JPG");
+                Atelier cafetariaRozenberg = new Atelier(AtelierType.Gewoon, "Cafetaria Rozenberg", "cafetaria_rozenberg.jpg");
+                Atelier crea = new Atelier(AtelierType.Gewoon, "crea", "crea.jpg");
+                Atelier digitaal = new Atelier(AtelierType.Gewoon, "digitaal", "digitaal_atelier.jpg");
+                Atelier expressie = new Atelier(AtelierType.Gewoon, "expressie", "expressie.jpg");
+                Atelier feest = new Atelier(AtelierType.Gewoon, "feest", "feest.jpg"); ;
+                Atelier hout = new Atelier(AtelierType.Gewoon, "hout", "houtatelier.jpg");
+                Atelier kaarsen = new Atelier(AtelierType.Gewoon, "kaarsen", "kaarsenatelier.jpg");
+                Atelier keukenEnAfwas = new Atelier(AtelierType.Gewoon, "keuken en afwas", "keuken_afwas.jpg");
+                Atelier koken = new Atelier(AtelierType.Gewoon, "koken", "koken.jpg");
+                Atelier kringgesprek = new Atelier(AtelierType.Gewoon, "kringgesprek", "kringgesprek.jpg");
+                Atelier kunst = new Atelier(AtelierType.Gewoon, "kunst", "kunstatelier.jpg");
+                Atelier levensboeken = new Atelier(AtelierType.Gewoon, "levensboeken", "levensboeken.jpg");
+                Atelier markt = new Atelier(AtelierType.Gewoon, "markt", "markt.jpg");
+                Atelier muziek = new Atelier(AtelierType.Gewoon, "muziek", "muziek.jpg");
+                Atelier paardrijden = new Atelier(AtelierType.Gewoon, "paard rijden", "paardrijden.jpg");
+                Atelier petanque = new Atelier(AtelierType.Gewoon, "petanque", "petanque.jpg");
+                Atelier praatcafe = new Atelier(AtelierType.Gewoon, "praatcafe", "praatcafe.jpg");
+                Atelier provinciaalDomein = new Atelier(AtelierType.Gewoon, "provinciaal domein", "provinciaal_domein.jpg");
+                Atelier snoezelen = new Atelier(AtelierType.Gewoon, "snoezelen", "snoezelen.jpg");
+                Atelier spikEnSpan = new Atelier(AtelierType.Gewoon, "spik en span", "spik_en_span.jpg");
+                Atelier sporten = new Atelier(AtelierType.Gewoon, "sporten", "sporten2.jpg");
+                Atelier textiel = new Atelier(AtelierType.Gewoon, "textiel", "textiel.jpg");
+                Atelier tievo = new Atelier(AtelierType.Gewoon, "tievo", "tievo.jpg");
+                Atelier toneel = new Atelier(AtelierType.Gewoon, "toneel", "toneel.jpg");
+                Atelier tuin = new Atelier(AtelierType.Gewoon, "tuin", "tuin.jpg");
                 Atelier uitstap = new Atelier(AtelierType.Gewoon, "uitstap", "uitstap.jpg");
-                Atelier verhalen = new Atelier(AtelierType.Gewoon, "verhalen", "VERHALEN.jpg");
-                Atelier vorming = new Atelier(AtelierType.Gewoon, "vorming", "VORMING.JPG");
-                Atelier wandelen = new Atelier(AtelierType.Gewoon, "wandelen", "WANDELEN.JPG");
-                Atelier weekschema = new Atelier(AtelierType.Gewoon, "weekschema", "WEEKSCHEMA.JPG");
-                Atelier werkplaats = new Atelier(AtelierType.Gewoon, "werkplaats", "WERKPLAATS.JPG");
-                Atelier winkelen = new Atelier(AtelierType.Gewoon, "winkelen", "WINKELEN.jpg");
-                Atelier yoga = new Atelier(AtelierType.Gewoon, "yoga", "YOGA.JPG");
-                Atelier zwemmen = new Atelier(AtelierType.Gewoon, "zwemmen", "ZWEMMEN.JPG");
+                Atelier verhalen = new Atelier(AtelierType.Gewoon, "verhalen", "verhalen.jpg");
+                Atelier vorming = new Atelier(AtelierType.Gewoon, "vorming", "vorming.jpg");
+                Atelier wandelen = new Atelier(AtelierType.Gewoon, "wandelen", "wandelen.jpg");
+                Atelier weekschema = new Atelier(AtelierType.Gewoon, "weekschema", "weekschema.jpg");
+                Atelier werkplaats = new Atelier(AtelierType.Gewoon, "werkplaats", "werkplaats.jpg");
+                Atelier winkelen = new Atelier(AtelierType.Gewoon, "winkelen", "winkelen.jpg");
+                Atelier yoga = new Atelier(AtelierType.Gewoon, "yoga", "yoga.jpg");
+                Atelier zwemmen = new Atelier(AtelierType.Gewoon, "zwemmen", "zwemmen.jpg");
 
                 //speciale ateliers
-                Atelier afwezig = new Atelier(AtelierType.Afwezig, "afwezig", "idfk");
-                Atelier vervoer = new Atelier(AtelierType.VervoerAtelier, "vervoer", "foto");
-                Atelier ziek = new Atelier(AtelierType.Ziek, "ziek", "foto");
-                Atelier thuisVerlof = new Atelier(AtelierType.Thuis, "thuis verlof", "THUIS VERLOF.JPG");
+                Atelier afwezig = new Atelier(AtelierType.Afwezig, "afwezig", "blanco.jpg");
+                Atelier vervoer = new Atelier(AtelierType.VervoerAtelier, "vervoer", "bus.jpg");
+                Atelier ziek = new Atelier(AtelierType.Ziek, "ziek", "ziek.png");
+                Atelier thuisVerlof = new Atelier(AtelierType.Thuis, "thuis verlof", "thuis_verlof.jpg");
 
                 var ateliers = new List<Atelier> {bakken, feest, koken, markt, praatcafe, textiel, tuin, wandelen, yoga, balanske, crea,
                 hout, kringgesprek, muziek, provinciaalDomein, snoezelen, uitstap, zwemmen, beleving, digitaal, kaarsen, kunst,
