@@ -69,7 +69,7 @@ namespace kolveniershofBackend.Controllers
             };
             _atelierRepository.Update(atelier);
             _atelierRepository.SaveChanges();
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]

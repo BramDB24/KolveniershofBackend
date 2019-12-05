@@ -134,7 +134,7 @@ namespace kolveniershofBackend.Controllers
         /// <param name="gebruikerId"></param>
         /// <returns></returns>
         [HttpGet("{datum}/Gebruiker/{gebruikerId}")]
-        public ActionResult<PictoDagDTO> GetDagPlanningVanEenPersoon(string datum, string gebruikerId)
+        public ActionResult<PictoDagDTO> GetPictoAgendaVanEenPersoon(string datum, string gebruikerId)
         {
             //Controle op overbodige data
             VerwijderVerouderdeData();
@@ -159,22 +159,37 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpGet("{datum}/pictoagenda")]
-        public IEnumerable<PictoDagDTO> GetWeekPlanningVanEenPersoon(string datum)
+        public IEnumerable<PictoDagDTO> GetWeekPictoAgendasHuidigeGebruiker(string datum)
         {
             Gebruiker gebruiker = new Gebruiker();
-            if (!_gebruikerRepository.TryGetGebruiker(User.Identity.Name, out gebruiker)){
+            if (!_gebruikerRepository.TryGetGebruiker(User.Identity.Name, out gebruiker))
+            {
                 return null;
             }
-            DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
-            int dayofweek = (int)datumFormatted.DayOfWeek - 1;
-            if (dayofweek < 0)
-                dayofweek = 6; //zondag als laatste dag nemen. (-1 -> 6)
-            var tempdate = datumFormatted.AddDays(dayofweek * -1);
+            DateTime tempdate = GetEersteDagVanWeek(datum);
             var pictodtos = new List<PictoDagDTO>();
-            
-            for (int i = 0; i<7; i++)
+
+            for (int i = 0; i < 7; i++)
             {
-                pictodtos.Add(GetDagPlanningVanEenPersoon(tempdate.AddDays(i).ToString("yyyy/MM/dd"), gebruiker.Id).Value);
+                pictodtos.Add(GetPictoAgendaVanEenPersoon(tempdate.AddDays(i).ToString("yyyy/MM/dd"), gebruiker.Id).Value);
+            }
+            return pictodtos.AsEnumerable();
+        }
+
+        //[Authorize(Policy = "AdminOnly")]
+        //[Authorize(Policy = "BegeleidersOnly")]
+        [HttpGet("{datum}/pictoagenda/client/{gebruikerId}")]
+        public IEnumerable<PictoDagDTO> GetWeekPictoAgendasVanClient(string datum, string gebruikerId)
+        {
+            Gebruiker gebruiker = _gebruikerRepository.GetBy(gebruikerId);
+            if (gebruiker == null)
+                return null;
+
+            DateTime tempdate = GetEersteDagVanWeek(datum);
+            var pictodtos = new List<PictoDagDTO>();
+            for (int i = 0; i < 7; i++)
+            {
+                pictodtos.Add(GetPictoAgendaVanEenPersoon(tempdate.AddDays(i).ToString("yyyy/MM/dd"), gebruiker.Id).Value);
             }
             return pictodtos.AsEnumerable();
         }
@@ -435,6 +450,17 @@ namespace kolveniershofBackend.Controllers
 
             _dagPlanningTemplateRepository.DeleteOuderDanAantalJaar(DateTime.Today, 2);
             _dagPlanningTemplateRepository.SaveChanges();
+
+        }
+
+        private DateTime GetEersteDagVanWeek(string datum)
+        {
+            DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            int dayofweek = (int)datumFormatted.DayOfWeek - 1;
+            if (dayofweek < 0)
+                dayofweek = 6; //zondag als laatste dag nemen. (-1 -> 6)
+            DateTime tempdate = datumFormatted.AddDays(dayofweek * -1);
+            return tempdate;
 
         }
     }
