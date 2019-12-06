@@ -28,7 +28,7 @@ namespace kolveniershofBackend.Controllers
             {
                 return BadRequest();
             }
-            var folderPad = Path.Combine(Directory.GetCurrentDirectory(), folder);
+            var folderPad = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"), folder);
             if (!Directory.Exists(folderPad))
             {
                 Directory.CreateDirectory(folderPad);
@@ -45,7 +45,7 @@ namespace kolveniershofBackend.Controllers
         public IActionResult Get(string folder, string bestandNaam)
         {
             Byte[] b;
-            var folderPad = Path.Combine(Directory.GetCurrentDirectory(), folder);
+            var folderPad = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"), folder);
             if (!Directory.Exists(folderPad))
             {
                 return NoContent();
