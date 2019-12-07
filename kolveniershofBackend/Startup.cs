@@ -140,14 +140,7 @@ namespace kolveniershofBackend
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseFileServer();
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "atelierpictos")),
-                RequestPath = "/pictos"
-            });
             app.UseCors("AllowAllOrigins");
             app.UseAuthentication();
             app.UseHttpsRedirection();
