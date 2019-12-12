@@ -450,13 +450,13 @@ namespace kolveniershofBackend.Data
                 _dbContext.SaveChanges();
 
                 //commentaar
-                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar);
+                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
                 laura.addCommentaar(commentaarBijGebruikerLaura1);
 
-                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar);
+                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
                 laura.addCommentaar(commentaarBijGebruikerLaura2);
 
-                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar);
+                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
                 lucas.addCommentaar(commentaarBijGebruikerLucas1);
 
                 var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1 };
