@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using kolveniershofBackend.DTO;
 using kolveniershofBackend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -36,7 +37,7 @@ namespace kolveniershofBackend.Controllers
             return commentaar;
         }
 
-        [HttpGet("/huidigeGebruiker")]
+        [HttpGet("huidigeGebruiker")]
         //Parameter moet meegegeven worden, naam van aangemelde gebruiker
         public IEnumerable<Commentaar> GetCommentaarVanSpecifiekeGebruiker()
         {
@@ -44,7 +45,7 @@ namespace kolveniershofBackend.Controllers
             return huidigeGebruiker.GeefCommentaarVanHuidigeGebruiker();
         }
 
-        [HttpGet("/huidigeGebruiker/{datum}")]
+        [HttpGet("huidigeGebruiker/{datum}")]
         public IEnumerable<Commentaar> GetCommentaarVanSpefiekeDagEnGebruiker(string datum)
         {
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
@@ -62,9 +63,10 @@ namespace kolveniershofBackend.Controllers
 
         [HttpPost]
         //[Authorize(Policy = "ClientOnly")]
-        public ActionResult<Commentaar> PostCommentaar(Commentaar commentaar) 
+        public ActionResult<CommentaarDTO> PostCommentaar(CommentaarDTO commentaardto) 
         {
             Gebruiker huidigeGebruiker = _gebruikerRepository.GetByEmail(User.Identity.Name);
+            Commentaar commentaar = new Commentaar(commentaardto.Tekst, commentaardto.CommentaarType, commentaardto.Datum);
             huidigeGebruiker.addCommentaar(commentaar);
 
             _gebruikerRepository.SaveChanges();

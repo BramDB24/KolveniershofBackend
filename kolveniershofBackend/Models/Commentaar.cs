@@ -58,10 +58,11 @@ namespace kolveniershofBackend.Models
             Datum = DateTime.Now;
         }
 
-        public Commentaar(string tekst, CommentaarType commentaarType): this()
+        public Commentaar(string tekst, CommentaarType commentaarType, DateTime datum): this()
         {
             Tekst = tekst;
             CommentaarType = commentaarType;
+            Datum = datum;
         }
 
     }
