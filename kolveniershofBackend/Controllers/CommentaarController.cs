@@ -39,26 +39,26 @@ namespace kolveniershofBackend.Controllers
 
         [HttpGet("huidigeGebruiker")]
         //Parameter moet meegegeven worden, naam van aangemelde gebruiker
-        public IEnumerable<Commentaar> GetCommentaarVanSpecifiekeGebruiker()
+        public ActionResult<IEnumerable<Commentaar>> GetCommentaarVanSpecifiekeGebruiker()
         {
             Gebruiker huidigeGebruiker = _gebruikerRepository.GetByEmail(User.Identity.Name);
-            return huidigeGebruiker.GeefCommentaarVanHuidigeGebruiker();
+            return new OkObjectResult(huidigeGebruiker.GeefCommentaarVanHuidigeGebruiker());
         }
 
         [HttpGet("huidigeGebruiker/{datum}")]
-        public IEnumerable<Commentaar> GetCommentaarVanSpefiekeDagEnGebruiker(string datum)
+        public ActionResult<IEnumerable<Commentaar>> GetCommentaarVanSpefiekeDagEnGebruiker(string datum)
         {
             DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
             Gebruiker huidigeGebruiker = _gebruikerRepository.GetByEmail(User.Identity.Name);
-            return huidigeGebruiker.GeefCommentaarVanHuidigeGebruiker().Where(c=>c.Datum == datumFormatted).ToList();
+            return new OkObjectResult(huidigeGebruiker.GeefCommentaarVanHuidigeGebruiker().Where(c=>c.Datum == datumFormatted).ToList());
         }
 
         [HttpGet]
         //[Authorize(Policy = "AdminOnly")]
         //[Authorize(Policy = "BegeleidersOnly")]
-        public IEnumerable<Commentaar> GetAlleCommentaar()
+        public ActionResult<IEnumerable<Commentaar>> GetAlleCommentaar()
         {
-            return _commentaarRepository.GetAll();
+            return new OkObjectResult(_commentaarRepository.GetAll());
         }
 
         [HttpPost]
