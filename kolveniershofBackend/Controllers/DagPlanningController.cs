@@ -230,6 +230,26 @@ namespace kolveniershofBackend.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// voeg maaltijd aan een dagplanning toe of vervang de huidige
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="eten"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        //[Authorize(Policy = "AdminOnly")]
+        //[Authorize(Policy = "BegeleidersOnly")]
+        public ActionResult<DagPlanningTemplate> PutDagPlanningAanpassingen(int id, String eten)
+        {
+            DagPlanning d = _dagPlanningTemplateRepository.GetByIdDagPlanning(id);
+            if (d == null)
+                return BadRequest();
+            d.Eten = eten;
+            _dagPlanningTemplateRepository.Update(d);
+            _dagPlanningTemplateRepository.SaveChanges();
+            return d;
+        }
+
         [HttpPost("{datumVanDagplanning}/dagateliers")]
         public ActionResult<DagPlanning> DeleteDagAtelierUitDagplanning(string datumVanDagplanning, DagAtelierDTO dagAtelier)
         {
