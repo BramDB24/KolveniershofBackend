@@ -28,6 +28,7 @@ namespace kolveniershofBackend.Controllers
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class DagPlanningController : ControllerBase
     {
+        private readonly ITemplateRepository _templateRepository;
         private readonly IDagPlanningTemplateRepository _dagPlanningTemplateRepository;
         private readonly IGebruikerRepository _gebruikerRepository;
         private readonly IAtelierRepository _atelierRepository;
@@ -36,12 +37,15 @@ namespace kolveniershofBackend.Controllers
         /// </summary>
         /// <param name="dagPlanningTemplateRepository"></param>
         /// <param name="gebruikerRepository"></param>
+        /// <param name="atelierRepository"></param>
+        /// <param name="templateRepository"></param>
         /// 
-        public DagPlanningController(IDagPlanningTemplateRepository dagPlanningTemplateRepository, IGebruikerRepository gebruikerRepository, IAtelierRepository repo)
+        public DagPlanningController(IDagPlanningTemplateRepository dagPlanningTemplateRepository, IGebruikerRepository gebruikerRepository, IAtelierRepository atelierRepository, ITemplateRepository templateRepository)
         {
+            _templateRepository = templateRepository;
             _dagPlanningTemplateRepository = dagPlanningTemplateRepository;
             _gebruikerRepository = gebruikerRepository;
-            _atelierRepository = repo;
+            _atelierRepository = atelierRepository;
         }
 
         /// <summary>
@@ -98,34 +102,8 @@ namespace kolveniershofBackend.Controllers
             });
         }
 
-        /**
-         * Geeft de DagPlanningTemplate van een bepaald weeknummer en weekdag.
-         * Als de DagPlanningTemplate niet bestaat in de databank dan wordt hij gegenereerd.
-         */
-        [HttpGet("vanWeek/{weeknummer}/vanDag/{weekdag}")]
-        public ActionResult<DagplanningDTO> GetDagPlanningTemplate(int weeknummer, int weekdag)
-        {
-            DagPlanningTemplate dagPlanningTemplate = null;
-            try
-            {
-                dagPlanningTemplate = GeefDagPlanningTemplate(weeknummer, weekdag);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-            DagplanningDTO dagPlanningTemplateDto = new DagplanningDTO()
-            {
-                DagplanningId = dagPlanningTemplate.DagplanningId,
-                Eten = null,
-                Weekdag = dagPlanningTemplate.Weekdag,
-                Weeknummer = dagPlanningTemplate.Weeknummer,
-                Datum = null,
-                DagAteliers = SetDagAteliers(dagPlanningTemplate)
-            };
-            dagPlanningTemplateDto.DagplanningId = dagPlanningTemplate.DagplanningId;
-            return dagPlanningTemplateDto;
-        }
+        
+        
 
         /// <summary>
         /// Geeft een pictodto terug met enkel de picto gegevens van de gegeven persoon.
@@ -242,18 +220,6 @@ namespace kolveniershofBackend.Controllers
             return CreatedAtAction(nameof(GetDagPlanning), new { datum = planning.Datum }, planning);
         }
 
-        [HttpPost("week/{weeknr}/dag/{weekdag}/dagateliers")]
-        public ActionResult<DagPlanning> DeleteDagAtelierUitDagplanningTemplate(int weeknr, int weekdag, DagAtelierDTO dagAtelier)
-        {
-            DagPlanningTemplate dagPlanningTemplate = _dagPlanningTemplateRepository.GetTemplateByWeeknummerEnDagnummer(weeknr, (Weekdag)weekdag);
-            DagAtelier da = dagPlanningTemplate.DagAteliers.FirstOrDefault(d => d.DagAtelierId == dagAtelier.DagAtelierId);
-            dagPlanningTemplate.VerwijderDagAtlierVanDagPlanningTemplate(da);
-            _dagPlanningTemplateRepository.Update(dagPlanningTemplate);
-            _dagPlanningTemplateRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetDagPlanningTemplate), new { week = dagPlanningTemplate.Weeknummer, weekdag = dagPlanningTemplate.Weekdag },
-                dagPlanningTemplate);
-        }
-
         [HttpPut("{id}/dagAtelier")]
         public ActionResult PutDagAtelier(int id, DagAtelierDTO dto)
         {
@@ -349,15 +315,19 @@ namespace kolveniershofBackend.Controllers
          */
         private DagPlanningTemplate GeefDagPlanningTemplate(int weeknummer, int weekdag)
         {
-            if (_dagPlanningTemplateRepository.GetTemplateByWeeknummerEnDagnummerGeenInclude(weeknummer, (Weekdag)weekdag) == null)
-            {
-                // Maak een nieuwe DagPlanningTemplate aan als er geen Template bestaat
-                DagPlanningTemplate nieuwDagPlanningTemplate = new DagPlanningTemplate(weeknummer, (Weekdag)weekdag);
-                _dagPlanningTemplateRepository.Add(nieuwDagPlanningTemplate);
-                _dagPlanningTemplateRepository.SaveChanges();
+            var dagplanning = _templateRepository.GetActiveDagTemplate(weeknummer, (Weekdag)weekdag);
+            if (dagplanning == null)
+                return new DagPlanningTemplate(weeknummer, (Weekdag)weekdag);
+            return dagplanning;
+            //if (_dagPlanningTemplateRepository.GetTemplateByWeeknummerEnDagnummerGeenInclude(weeknummer, (Weekdag)weekdag) == null)
+            //{
+            //    // Maak een nieuwe DagPlanningTemplate aan als er geen Template bestaat
+            //    DagPlanningTemplate nieuwDagPlanningTemplate = new DagPlanningTemplate(weeknummer, (Weekdag)weekdag);
+            //    _dagPlanningTemplateRepository.Add(nieuwDagPlanningTemplate);
+            //    _dagPlanningTemplateRepository.SaveChanges();
 
-            }
-            return _dagPlanningTemplateRepository.GetTemplateByWeeknummerEnDagnummer(weeknummer, (Weekdag)weekdag);
+            //}
+            //return _dagPlanningTemplateRepository.GetTemplateByWeeknummerEnDagnummer(weeknummer, (Weekdag)weekdag);
         }
 
 
