@@ -236,10 +236,10 @@ namespace kolveniershofBackend.Controllers
         /// <param name="id"></param>
         /// <param name="eten"></param>
         /// <returns></returns>
-        [HttpPut("{id}")]
+        [HttpPost("{id}/eten")]
         //[Authorize(Policy = "AdminOnly")]
         //[Authorize(Policy = "BegeleidersOnly")]
-        public ActionResult<DagPlanningTemplate> PutDagPlanningAanpassingen(int id, String eten)
+        public ActionResult<DagplanningDTO> PutDagPlanningAanpassingen(int id, String eten)
         {
             DagPlanning d = _dagPlanningTemplateRepository.GetByIdDagPlanning(id);
             if (d == null)
@@ -247,7 +247,7 @@ namespace kolveniershofBackend.Controllers
             d.Eten = eten;
             _dagPlanningTemplateRepository.Update(d);
             _dagPlanningTemplateRepository.SaveChanges();
-            return d;
+            return MaakDagPlanningDto(GeefDagPlanningVolgensDatum(d.Datum)); ;
         }
 
         [HttpPost("{datumVanDagplanning}/dagateliers")]
