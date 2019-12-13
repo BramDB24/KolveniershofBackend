@@ -30,35 +30,36 @@ namespace kolveniershofBackend.Data
                 //gebruikers   
                 //admin
                 Gebruiker dina = new Gebruiker("dina", "dobbelaar", "dinadobbelaar@hotmail.com", Sfeergroep.Undefined,
-                     "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Admin);
+                     "johanna.jpg", GebruikerType.Admin);
 
-                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Admin);
+                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, 
+                    "jonah.jpg", GebruikerType.Admin);
                 //begeleiders
                 Gebruiker dieter = new Gebruiker("dieter", "dobbeleer", "dieterdobbeleer@hotmail.com", Sfeergroep.Undefined,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Begeleider);
+                    "bram.jpg", GebruikerType.Begeleider);
                 Gebruiker lucas = new Gebruiker("lucas", "vermeulen", "lucas@gmail.com", Sfeergroep.Undefined,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Begeleider);
+                    "lucas.jpg", GebruikerType.Begeleider);
                 //sfeergroep 1
                 Gebruiker karo = new Gebruiker("karo", "dewez", "karo@hotmail.com", Sfeergroep.Sfeergroep1,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "kato.jpg", GebruikerType.Cliënt);
                 Gebruiker thomas = new Gebruiker("thomas", "deweert", "thomas@hotmail.com", Sfeergroep.Sfeergroep1,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "robin.jpg", GebruikerType.Cliënt);
                 Gebruiker frans = new Gebruiker("frans", "vermalen", "frans@gmail.com", Sfeergroep.Sfeergroep1,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "jonah.jpg", GebruikerType.Cliënt);
                 //sfeergroep 2
                 Gebruiker jos = new Gebruiker("jos", "faas", "jos@hotmail.com", Sfeergroep.Sfeergroep2,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "bram.jpg", GebruikerType.Cliënt);
                 Gebruiker laura = new Gebruiker("laura", "cramers", "laure@hotmail.com", Sfeergroep.Sfeergroep2,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "johanna.jpg", GebruikerType.Cliënt);
                 Gebruiker veerle = new Gebruiker("veerle", "denoode", "veerle@gmail.com", Sfeergroep.Sfeergroep2,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "kato.jpg", GebruikerType.Cliënt);
                 //sfeergroep 3
                 Gebruiker ken = new Gebruiker("ken", "deblezer", "ken@outlook.com", Sfeergroep.Sfeergroep3,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "lucas.jpg", GebruikerType.Cliënt);
                 Gebruiker nicolas = new Gebruiker("nicolas", "planckaer", "nicolas@gmail.com", Sfeergroep.Sfeergroep3,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "robin.jpg", GebruikerType.Cliënt);
                 Gebruiker lisa = new Gebruiker("lisa", "janssens", "lisa@gmail.be", Sfeergroep.Sfeergroep3,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "johanna.jpg", GebruikerType.Cliënt);
 
                 var gebruikers = new List<Gebruiker> { dina, jonah, dieter, lucas, karo, thomas, frans,
                     jos, laura, veerle, ken, nicolas, lisa };
@@ -66,7 +67,6 @@ namespace kolveniershofBackend.Data
                 {
                     await MaakGebruiker(g, "password1010");
                 }
-
 
                 //alle ateliers
                 //gewone ateliers
