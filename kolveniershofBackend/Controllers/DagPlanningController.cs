@@ -117,7 +117,7 @@ namespace kolveniershofBackend.Controllers
             DagplanningDTO dagPlanningTemplateDto = new DagplanningDTO()
             {
                 DagplanningId = dagPlanningTemplate.DagplanningId,
-                Eten = null,
+                Eten = "",
                 Weekdag = dagPlanningTemplate.Weekdag,
                 Weeknummer = dagPlanningTemplate.Weeknummer,
                 Datum = null,
@@ -239,15 +239,21 @@ namespace kolveniershofBackend.Controllers
         [HttpPost("{id}/eten")]
         //[Authorize(Policy = "AdminOnly")]
         //[Authorize(Policy = "BegeleidersOnly")]
-        public ActionResult<DagplanningDTO> PutDagPlanningAanpassingen(int id, String eten)
+        public ActionResult<DagPlanningTemplate> PutEten(int id, String eten)
         {
-            DagPlanning d = _dagPlanningTemplateRepository.GetByIdDagPlanning(id);
-            if (d == null)
-                return BadRequest();
-            d.Eten = eten;
-            _dagPlanningTemplateRepository.Update(d);
-            _dagPlanningTemplateRepository.SaveChanges();
-            return MaakDagPlanningDto(GeefDagPlanningVolgensDatum(d.Datum)); ;
+            DagPlanningTemplate dpt = _dagPlanningTemplateRepository.GetByIdDagPlanningTemplate(id);
+          
+            if (dpt != null)
+            {
+                dpt.Eten = eten;
+                _dagPlanningTemplateRepository.Update(dpt);
+                _dagPlanningTemplateRepository.SaveChanges();
+                 return dpt;
+            }
+
+            return BadRequest();
+
+            
         }
 
         [HttpPost("{datumVanDagplanning}/dagateliers")]
