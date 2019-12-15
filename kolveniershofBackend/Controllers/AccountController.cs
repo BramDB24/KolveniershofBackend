@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using kolveniershofBackend.DTO;
 using kolveniershofBackend.Enums;
 using kolveniershofBackend.Models;
@@ -81,7 +82,9 @@ namespace kolveniershofBackend.Controllers
             {
                 _gebruikerRepository.SaveChanges();
                 string token = GetToken(g);
-                return Ok();
+                
+                var host = Request.Host;
+                return Created($"https://{host}/api/account/{g.Id}", g);
             }
             return BadRequest();
         }
@@ -110,7 +113,7 @@ namespace kolveniershofBackend.Controllers
         [HttpGet]
         public IEnumerable<GebruikerDTO> GetGebruikers()
         {
-            return _gebruikerRepository.GetAll().ToList().Select(g => new GebruikerDTO(g));
+            return _gebruikerRepository.GetAll().Select(g => new GebruikerDTO(g));
         }
 
         [HttpGet("sfeergroep/{sfeergroep}")]

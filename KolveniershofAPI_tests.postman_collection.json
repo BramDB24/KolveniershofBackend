@@ -1,10 +1,960 @@
 {
 	"info": {
-		"_postman_id": "7eff2b2f-ad58-4603-9051-ba2fc0f0786b",
+		"_postman_id": "27732781-2d2f-4543-938d-eb2a7a0103b6",
 		"name": "KolveniershofAPI tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Aanmaken-vinden-verwijderen",
+					"item": [
+						{
+							"name": "AVV POST /register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "68f9dad1-ce1b-4165-bd38-1bea300c29e9",
+										"exec": [
+											"pm.test(\"Status code is 201\", function() {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Controleer of de gebruiker opgeslagen is\", function() {",
+											"    var huidigeGebruiker = pm.variables.get(\"huidigeGebruiker\");",
+											"    var gevondenGebruiker;",
+											"    var body = JSON.parse(responseBody);",
+											"    if (body.voornaam === huidigeGebruiker.voornaam && body.achternaam === huidigeGebruiker.achternaam) {",
+											"        gevondenGebruiker = body;",
+											"    }",
+											"    pm.expect(gevondenGebruiker).not.equal(null);",
+											"});",
+											"",
+											"postman.setNextRequest(\"AVV GET /\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "b2696d63-5776-48d4-a7e3-62264dd29bca",
+										"exec": [
+											"var dummyGebruiker = {\r",
+											"  \"email\": \"dummy.gebruiker@email.com\",\r",
+											"  \"password\": \"Abc123\",\r",
+											"  \"voornaam\": \"Dummy\",\r",
+											"  \"achternaam\": \"Gebruiker\",\r",
+											"  \"passwordConfirmation\": \"Abc123\",\r",
+											"  \"foto\": \"dummy.png\",\r",
+											"  \"sfeergroep\": \"Sfeergroep2\",\r",
+											"  \"type\": 1\r",
+											"}\r",
+											"\r",
+											"pm.variables.set(\"huidigeGebruiker\", JSON.stringify(dummyGebruiker));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{huidigeGebruiker}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/account/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AVV GET /",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "91e4c049-ffda-40c3-a5d7-6fb49788d744",
+										"exec": [
+											"var huidigeGebruiker = JSON.parse(pm.variables.get(\"huidigeGebruiker\"));",
+											"var gevondenGebruiker;",
+											"pm.test(\"Status code is 200\", function() {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Controleer of de gebruiker opgeslagen is\", function() {",
+											"    var body = JSON.parse(responseBody);",
+											"    for (var i = 0; i < body.length; i++) {",
+											"        if (body[i].voornaam === huidigeGebruiker.voornaam && body[i].achternaam === huidigeGebruiker.achternaam) {",
+											"            gevondenGebruiker = body[i];",
+											"            pm.variables.set(\"huidigeGebruikerId\", gevondenGebruiker.gebruikerId);",
+											"            break;",
+											"        }",
+											"    }",
+											"    pm.expect(gevondenGebruiker).not.equal(null);",
+											"});",
+											"",
+											"",
+											"",
+											"postman.setNextRequest(\"AVV GET /{{gebruikerId}}\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/account",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AVV GET /{{gebruikerId}}",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "69ab432d-89a1-4f20-b186-8dd157f5b95d",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Controleer of het antwoord de juiste gebruiker is\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    var huidigeGebruiker = JSON.parse(pm.variables.get(\"huidigeGebruiker\"));",
+											"    pm.expect(jsonData.voornaam).to.eql(huidigeGebruiker.voornaam);",
+											"    pm.expect(jsonData.achternaam).to.eql(huidigeGebruiker.achternaam);",
+											"});",
+											"",
+											"postman.setNextRequest(\"AVV GET /{{sfeergroep}}\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/account/{{huidigeGebruikerId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account",
+										"{{huidigeGebruikerId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AVV GET /{{sfeergroep}}",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9697d54d-fef8-469a-bf7d-1063b4ad9fd9",
+										"exec": [
+											"var huidigeGebruiker = pm.variables.get(\"huidigeGebruiker\");",
+											"pm.variables.set(\"huidigeGebruikerSfeergroep\", huidigeGebruiker.sfeergroep);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "6e7104c6-968d-4b98-ab91-74adaf7b091f",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Controleer of het antwoord de juiste gebruiker is\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    var huidigeGebruiker = pm.variables.get(\"huidigeGebruiker\");",
+											"    var huidigeGebruikerId = pm.variables.get(\"huidigeGebruikerId\");",
+											"    pm.expect(jsonData.gebruikerId).to.eql(huidigeGebruiker.gebruikerId);",
+											"    pm.expect(jsonData.voornaam).to.eql(huidigeGebruiker.voornaam);",
+											"    pm.expect(jsonData.achternaam).to.eql(huidigeGebruiker.achternaam);",
+											"});",
+											"",
+											"postman.setNextRequest(\"AVV DELETE /{{id}}\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/account/{{huidigeGebruikerSfeergroep}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account",
+										"{{huidigeGebruikerSfeergroep}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AVV DELETE /{{id}}",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "bf4b5408-ed31-419a-9956-dfc277f0fab7",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"postman.setNextRequest(\"AVV GET / (2)\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/account/{{huidigeGebruikerId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account",
+										"{{huidigeGebruikerId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AVV GET / (2)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "aa2a9aec-bc94-40ce-80dd-a676fb665d33",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response bevat niet de dummyGebruiker\", function () {",
+											"    pm.expect(pm.response.text()).not.include(pm.variables.get(\"huidigeGebruikerId\"));",
+											"});",
+											"",
+											"postman.setNextRequest(\"AG POST /register\"); ",
+											"pm.variables.clear();"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/account",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Aanpassen gebruiker",
+					"item": [
+						{
+							"name": "AG POST /register",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "cdc98e35-d045-476e-97fa-6b9047cccc1d",
+										"exec": [
+											"var dummyGebruiker = {\r",
+											"  \"email\": \"dummy.gebruiker@email.com\",\r",
+											"  \"password\": \"Abc123\",\r",
+											"  \"voornaam\": \"Dummy\",\r",
+											"  \"achternaam\": \"Gebruiker\",\r",
+											"  \"passwordConfirmation\": \"Abc123\",\r",
+											"  \"foto\": \"dummy.png\",\r",
+											"  \"sfeergroep\": \"Sfeergroep2\",\r",
+											"  \"type\": 1\r",
+											"}\r",
+											"\r",
+											"pm.variables.set(\"huidigeGebruiker\", JSON.stringify(dummyGebruiker));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "bb8f4619-eee8-48c8-8112-215ec6989aef",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"postman.setNextRequest(\"AG GET /\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{huidigeGebruiker}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/account/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AG GET /",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "dceeada8-bbbd-4240-8db5-ccabe179b126",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "84c5181f-4f21-4373-901c-2544e717b338",
+										"exec": [
+											"var huidigeGebruiker = JSON.parse(pm.variables.get(\"huidigeGebruiker\"));",
+											"var gevondenGebruiker;",
+											"pm.test(\"Status code is 200\", function() {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Controleer of de gebruiker opgeslagen is\", function() {",
+											"    var body = JSON.parse(responseBody);",
+											"    for (var i = 0; i < body.length; i++) {",
+											"        if (body[i].voornaam === huidigeGebruiker.voornaam && body[i].achternaam === huidigeGebruiker.achternaam) {",
+											"            gevondenGebruiker = body[i];",
+											"            pm.variables.set(\"huidigeGebruikerId\", gevondenGebruiker.gebruikerId);",
+											"            break;",
+											"        }",
+											"    }",
+											"    pm.expect(gevondenGebruiker).not.equal(null);",
+											"});",
+											"",
+											"",
+											"",
+											"postman.setNextRequest(\"AG PUT /{{id}}\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/account",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AG PUT /{{id}}",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "c806f961-63ac-4a19-b6be-2d04aa03ffed",
+										"exec": [
+											"var huidigeGebruiker = JSON.parse(pm.variables.get(\"huidigeGebruiker\"));\r",
+											"huidigeGebruiker.voornaam = \"Test\";\r",
+											"pm.variables.set(\"huidigeGebruikerEdit\", JSON.stringify(huidigeGebruiker));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "3216de9d-00cc-4e29-b8aa-d3514f557eac",
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											"",
+											"",
+											"postman.setNextRequest(\"AG GET /{{id}}\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{huidigeGebruikerEdit}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/account/{{huidigeGebruikerId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account",
+										"{{huidigeGebruikerId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AG GET /{{id}}",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7dab182e-f783-4b84-81dc-a150ba8e0f82",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Controleer of edit gemaakt is\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.voornaam).to.eql(JSON.parse(pm.variables.get(\"huidigeGebruikerEdit\")).voornaam);",
+											"});",
+											"",
+											"postman.setNextRequest(\"AG DELETE /{{id}}\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/account/{{huidigeGebruikerId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account",
+										"{{huidigeGebruikerId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AG DELETE /{{id}}",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "68ef5523-c13f-4dbb-943e-75e61574833c",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"postman.setNextRequest(); ",
+											"pm.variables.clear();"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/account/{{huidigeGebruikerId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"account",
+										"{{huidigeGebruikerId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Atelier",
+			"item": [
+				{
+					"name": "Atelier POST /",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4ab007d7-698b-45ce-8809-5e80b69a5352",
+								"exec": [
+									"var huidigeAtelier = {\r",
+									"  \"atelierType\": \"Gewoon\",\r",
+									"  \"naam\": \"TestActiviteit\",\r",
+									"  \"pictoURL\": \"test.png\"\r",
+									"};\r",
+									"\r",
+									"pm.variables.set(\"huidigeAtelier\", JSON.stringify(huidigeAtelier));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1032d73d-fa07-4c3a-a0e2-b452b8ec0d3c",
+								"exec": [
+									"pm.test(\"Status code is 201\", function() {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Controleer of de gebruiker opgeslagen is\", function() {",
+									"    var huidigeAtelier = JSON.parse(pm.variables.get(\"huidigeAtelier\"));",
+									"    var gevondenAtelier;",
+									"    var body = JSON.parse(responseBody);",
+									"    if (body.naam === huidigeAtelier.naam && body.atelierType === huidigeAtelier.atelierType) {",
+									"        gevondenAtelier = body;",
+									"    }",
+									"    pm.expect(gevondenAtelier).not.equal(null);",
+									"});",
+									"",
+									"postman.setNextRequest(\"Atelier GET /\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{huidigeAtelier}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/Atelier",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"Atelier"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atelier GET /",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81f66ba9-fb4d-4972-bca5-182d5f7dec39",
+								"exec": [
+									"var huidigeAtelier = JSON.parse(pm.variables.get(\"huidigeAtelier\"));",
+									"var gevondenAtelier;",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Controleer of de gebruiker opgeslagen is\", function() {",
+									"    var body = JSON.parse(responseBody);",
+									"    for (var i = 0; i < body.length; i++) {",
+									"        if (body[i].naam === huidigeAtelier.naam && body[i].atelierType === huidigeAtelier.atelierType) {",
+									"            gevondenAtelier = body[i];",
+									"            pm.variables.set(\"huidigeAtelierId\", gevondenAtelier.atelierId);",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(gevondenAtelier).not.equal(null);",
+									"});",
+									"",
+									"",
+									"",
+									"postman.setNextRequest(\"Atelier GET /{{id}}\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/atelier",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"atelier"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atelier GET /{{id}}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fee22fab-79d6-4257-952b-be00143c5489",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Controleer of het antwoord de juiste atelier is\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    console.log(jsonData);",
+									"    var huidigeAtelier = JSON.parse(pm.variables.get(\"huidigeAtelier\"));",
+									"    pm.expect(jsonData.atelierType).to.eql(huidigeAtelier.atelierType);",
+									"    pm.expect(jsonData.naam).to.eql(huidigeAtelier.naam);",
+									"});",
+									"",
+									"postman.setNextRequest(\"Atelier PUT /{{id}}\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/atelier/{{huidigeAtelierId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"atelier",
+								"{{huidigeAtelierId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atelier PUT /{{id}}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b7ea4d8d-86c9-40d9-b488-93f85a485e54",
+								"exec": [
+									"var huidigeAtelier = JSON.parse(pm.variables.get(\"huidigeAtelier\"));\r",
+									"huidigeAtelier.naam = \"Test\";\r",
+									"huidigeAtelier.atelierId = pm.variables.get(\"huidigeAtelierId\")\r",
+									"pm.variables.set(\"huidigeAtelierEdit\", JSON.stringify(huidigeAtelier));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "c33c790a-f574-4892-a6d2-142053584258",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"postman.setNextRequest(\"Atelier GET /{{id}} (2)\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{huidigeAtelierEdit}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/atelier/{{huidigeAtelierId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"atelier",
+								"{{huidigeAtelierId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atelier GET /{{id}} (2)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f11dcf3f-9b6c-4761-bf6b-d9ff382cf487",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Controleer of edit gemaakt is\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.naam).to.eql(JSON.parse(pm.variables.get(\"huidigeAtelierEdit\")).naam);",
+									"});",
+									"",
+									"postman.setNextRequest(\"Atelier DELETE /{{id}}\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/atelier/{{huidigeAtelierId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"atelier",
+								"{{huidigeAtelierId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atelier DELETE /{{id}}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c8e0ee35-30d2-46a1-b53b-1584b3f2369f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"postman.setNextRequest(\"Atelier GET /{{id}} (3)\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/atelier/{{huidigeAtelierId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"atelier",
+								"{{huidigeAtelierId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atelier GET /{{id}} (3)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "147612af-fbd3-4063-a1fa-d9cf650a2a0a",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"",
+									"postman.setNextRequest(); ",
+									"pm.variables.clear();"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/atelier/{{huidigeAtelierId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"atelier",
+								"{{huidigeAtelierId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
 		{
 			"name": "api/dagplanning/{{datum}} (Status: 200)",
 			"event": [
@@ -249,6 +1199,7 @@
 							"var weekdag = pm.variables.get(\"weekdag\");",
 							"var weeknummers = pm.variables.get(\"weeknummers\");",
 							"var weekdagen = pm.variables.get(\"weekdagen\");",
+							"var dagenVanWeek = [\"Dinsdag\", \"Woensdag\", \"Donderdag\", \"Vrijdag\", \"Zaterdag\", \"Zondag\", \"Maandag\"]",
 							"",
 							"if((weekdagen || weeknummers) && (weekdagen.length > 0 || weeknummers.length > 0)){",
 							"    postman.setNextRequest(\"api/dagplanning/vanWeek/{{weeknummer}}/vanDag/{{weekdag}} (Status: 200)\");",
@@ -265,7 +1216,7 @@
 							"pm.test(\"Controleer of de dagPlanningTemplate de juiste gegevens voor dit weeknummer/weekdag heeft\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.weeknummer).to.eql(weeknummer);",
-							"    pm.expect(jsonData.weekdag).to.eql(weekdag);",
+							"    pm.expect(jsonData.weekdag).to.eql(dagenVanWeek[weekdag - 1]);",
 							"    pm.expect(jsonData.datum).to.eql(null);",
 							"});"
 						],
