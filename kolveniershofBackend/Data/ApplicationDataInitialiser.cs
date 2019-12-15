@@ -450,16 +450,27 @@ namespace kolveniershofBackend.Data
                 _dbContext.SaveChanges();
 
                 //commentaar
-                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
+                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 laura.addCommentaar(commentaarBijGebruikerLaura1);
 
-                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
+                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 laura.addCommentaar(commentaarBijGebruikerLaura2);
 
-                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
+                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 lucas.addCommentaar(commentaarBijGebruikerLucas1);
 
-                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1 };
+                Commentaar commentaarBijJonahZaterdag14 = new Commentaar("zaterdag14", CommentaarType.ZaterdagCommentaar, new DateTime(2019, 12, 14), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZaterdag14);
+
+                Commentaar commentaarBijJonahZaterdag07 = new Commentaar("zaterdag07", CommentaarType.ZaterdagCommentaar, new DateTime(2019, 12, 7), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZaterdag07);
+
+                Commentaar commentaarBijJonahZondag15 = new Commentaar("zondag15", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 15), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZondag15);
+
+                Commentaar commentaarBijJonahZondag08 = new Commentaar("zondag08", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 8), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZondag08);
+                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1, commentaarBijJonahZaterdag14, commentaarBijJonahZaterdag07, commentaarBijJonahZondag15, commentaarBijJonahZondag08 };
                 _dbContext.Commentaar.AddRange(commentaar);
                 _dbContext.SaveChanges();
 

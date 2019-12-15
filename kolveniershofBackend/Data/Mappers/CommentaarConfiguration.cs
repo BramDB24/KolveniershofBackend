@@ -13,9 +13,11 @@ namespace kolveniershofBackend.Data.Mappers
         public void Configure(EntityTypeBuilder<Commentaar> builder)
         {
             builder.HasKey(c => c.CommentaarId);
-            builder.Property(c => c.CommentaarId).ValueGeneratedOnAdd();
+            //builder.Property(c => c.CommentaarId).ValueGeneratedOnAdd();
+            builder.Property(c => c.Datum).IsRequired();
             builder.Property(c => c.CommentaarType).IsRequired();
             builder.Property(c => c.Tekst).IsRequired();
+            builder.Property(c => c.GebruikerId).IsRequired();
         }
     }
 }
