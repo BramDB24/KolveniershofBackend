@@ -26,39 +26,18 @@ namespace kolveniershofBackend.Controllers
             _gebruikerRepository = gebruikerRepository;
         }
 
-        [HttpGet("{id}")]
-        //[Authorize(Policy = "AdminOnly")]
-        //[Authorize(Policy = "BegeleidersOnly")]
-        public ActionResult<Commentaar> GetCommentaar(int id)
-        {
-            var commentaar = _commentaarRepository.GetBy(id);
-            if (commentaar == null)
-                return NotFound();
-            return commentaar;
-        }
 
-        [HttpGet("huidigeGebruiker")]
-        //Parameter moet meegegeven worden, naam van aangemelde gebruiker
-        public ActionResult<IEnumerable<Commentaar>> GetCommentaarVanSpecifiekeGebruiker()
+        [HttpGet("huidigeGebruiker/zaterdag/{zaterdagDatum}/zondag/{zondagDatum}")]
+        public ActionResult<IEnumerable<Commentaar>> GetCommentaarVanSpefiekeDagEnGebruiker(string zaterdagDatum, string zondagDatum)
         {
+            DateTime datumFormattedZat = DateTime.Parse(zaterdagDatum, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            DateTime datumFormattedZon = DateTime.Parse(zondagDatum, null, System.Globalization.DateTimeStyles.RoundtripKind);
             Gebruiker huidigeGebruiker = _gebruikerRepository.GetByEmail(User.Identity.Name);
-            return new OkObjectResult(huidigeGebruiker.GeefCommentaarVanHuidigeGebruiker());
-        }
 
-        [HttpGet("huidigeGebruiker/{datum}")]
-        public ActionResult<IEnumerable<Commentaar>> GetCommentaarVanSpefiekeDagEnGebruiker(string datum)
-        {
-            DateTime datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
-            Gebruiker huidigeGebruiker = _gebruikerRepository.GetByEmail(User.Identity.Name);
-            return new OkObjectResult(huidigeGebruiker.GeefCommentaarVanHuidigeGebruiker().Where(c=>c.Datum == datumFormatted).ToList());
-        }
-
-        [HttpGet]
-        //[Authorize(Policy = "AdminOnly")]
-        //[Authorize(Policy = "BegeleidersOnly")]
-        public ActionResult<IEnumerable<Commentaar>> GetAlleCommentaar()
-        {
-            return new OkObjectResult(_commentaarRepository.GetAll());
+            ICollection<Commentaar> commentaarlijst = new List<Commentaar>();
+            commentaarlijst.Add(_commentaarRepository.GetCommentaarByDatumEnGebruiker(huidigeGebruiker.Id, datumFormattedZat));
+            commentaarlijst.Add(_commentaarRepository.GetCommentaarByDatumEnGebruiker(huidigeGebruiker.Id, datumFormattedZon));
+            return new OkObjectResult(commentaarlijst.ToList());
         }
 
         [HttpPost]
@@ -66,40 +45,26 @@ namespace kolveniershofBackend.Controllers
         public ActionResult<CommentaarDTO> PostCommentaar(CommentaarDTO commentaardto) 
         {
             Gebruiker huidigeGebruiker = _gebruikerRepository.GetByEmail(User.Identity.Name);
-            Commentaar commentaar = new Commentaar(commentaardto.Tekst, commentaardto.CommentaarType, commentaardto.Datum);
-            huidigeGebruiker.addCommentaar(commentaar);
+            Commentaar commentaar = new Commentaar(commentaardto.Tekst, commentaardto.CommentaarType, commentaardto.Datum, huidigeGebruiker.Id);
 
-            _gebruikerRepository.SaveChanges();
             _commentaarRepository.Add(commentaar);
             _commentaarRepository.SaveChanges();
-            return Redirect(nameof(GetCommentaar));
+            return Ok();
         }
 
-        [HttpPut("{id}")]
-        //[Authorize(Policy = "ClientOnly")]
-        public ActionResult<Commentaar> PutCommentaar(int id, Commentaar commentaar)
+        [HttpPut("{commentaarId}/{content}")]
+        public ActionResult PutCommentaar(int commentaarId, string content)
         {
-            if (commentaar.CommentaarId != id)
-                return BadRequest();
+            Commentaar commentaar = _commentaarRepository.GetById(commentaarId);
+            if(commentaar != null)
+            {
+                commentaar.Tekst = content;
+            }
             _commentaarRepository.Update(commentaar);
             _commentaarRepository.SaveChanges();
-            _gebruikerRepository.SaveChanges();
-            return NoContent();
+            return Ok(); 
         }
 
-        [HttpDelete("{id}")]
-        //[Authorize(Policy = "ClientOnly")]
-        public ActionResult<Commentaar> DeleteCommentaar(int id)
-        {
-            Commentaar commentaar = _commentaarRepository.GetBy(id);
-            if(commentaar == null)
-            {
-                return NotFound();
-            }
-            _commentaarRepository.Delete(commentaar);
-            _gebruikerRepository.SaveChanges();
-            _commentaarRepository.SaveChanges();
-            return commentaar;
-        }
+       
     }
 }

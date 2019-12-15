@@ -23,19 +23,14 @@ namespace kolveniershofBackend.Data.Repositories
             _commentaar.Add(commentaar);
         }
 
-        public IEnumerable<Commentaar> GetAll()
+        public Commentaar GetCommentaarByDatumEnGebruiker(string gebruikerId, DateTime datum)
         {
-            return _commentaar.ToList();
-        }
-
-        public Commentaar GetBy(int id)
-        {
-            return _commentaar.SingleOrDefault(c => c.CommentaarId == id);
+            return _commentaar.Where(t => t.GebruikerId.Equals(gebruikerId) && t.Datum == datum).FirstOrDefault();
         }
 
         public IEnumerable<Commentaar> GetByDatum(DateTime datum)
         {
-            return _commentaar.Where(c => c.Datum == datum).ToList();
+            return _commentaar.AsNoTracking().Where(c => c.Datum == datum).ToList();
         }
 
         public void Update(Commentaar commentaar)
@@ -48,9 +43,9 @@ namespace kolveniershofBackend.Data.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(Commentaar commentaar)
+        public Commentaar GetById(int commentaarId)
         {
-            _commentaar.Remove(commentaar);
+            return _commentaar.FirstOrDefault(t => t.CommentaarId == commentaarId);
         }
     }
 }

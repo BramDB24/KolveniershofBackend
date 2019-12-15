@@ -10,7 +10,6 @@ namespace kolveniershofBackend.Models
     {
         #region Fields
         private DateTime _datum;
-        private string _eten;
         #endregion
 
         #region Properties
@@ -26,13 +25,6 @@ namespace kolveniershofBackend.Models
                 {
                     throw new ArgumentException("Gelieve een datum in te vullen");
                 }
-            }
-        }
-
-        public string Eten {
-            get { return _eten; }
-            set {
-                _eten = value;
             }
         }
 
@@ -53,7 +45,7 @@ namespace kolveniershofBackend.Models
             Weekdag = ZetDayOfWeekOmNaarWeekdag(datum);
         }
 
-        public DagPlanning(DagPlanningTemplate template, DateTime datum, string eten = "") : this(template.Weeknummer, datum, eten)
+        public DagPlanning(DagPlanningTemplate template, DateTime datum) : this(template.Weeknummer, datum, template.Eten)
         {
             DagAteliers = template.DagAteliers;
         }

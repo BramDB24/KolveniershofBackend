@@ -30,35 +30,36 @@ namespace kolveniershofBackend.Data
                 //gebruikers   
                 //admin
                 Gebruiker dina = new Gebruiker("dina", "dobbelaar", "dinadobbelaar@hotmail.com", Sfeergroep.Undefined,
-                     "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Admin);
+                     "johanna.jpg", GebruikerType.Admin);
 
-                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Admin);
+                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, 
+                    "jonah.jpg", GebruikerType.Admin);
                 //begeleiders
                 Gebruiker dieter = new Gebruiker("dieter", "dobbeleer", "dieterdobbeleer@hotmail.com", Sfeergroep.Undefined,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Begeleider);
+                    "bram.jpg", GebruikerType.Begeleider);
                 Gebruiker lucas = new Gebruiker("lucas", "vermeulen", "lucas@gmail.com", Sfeergroep.Undefined,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Begeleider);
+                    "lucas.jpg", GebruikerType.Begeleider);
                 //sfeergroep 1
                 Gebruiker karo = new Gebruiker("karo", "dewez", "karo@hotmail.com", Sfeergroep.Sfeergroep1,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "kato.jpg", GebruikerType.Cliënt);
                 Gebruiker thomas = new Gebruiker("thomas", "deweert", "thomas@hotmail.com", Sfeergroep.Sfeergroep1,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "robin.jpg", GebruikerType.Cliënt);
                 Gebruiker frans = new Gebruiker("frans", "vermalen", "frans@gmail.com", Sfeergroep.Sfeergroep1,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "jonah.jpg", GebruikerType.Cliënt);
                 //sfeergroep 2
                 Gebruiker jos = new Gebruiker("jos", "faas", "jos@hotmail.com", Sfeergroep.Sfeergroep2,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "bram.jpg", GebruikerType.Cliënt);
                 Gebruiker laura = new Gebruiker("laura", "cramers", "laure@hotmail.com", Sfeergroep.Sfeergroep2,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "johanna.jpg", GebruikerType.Cliënt);
                 Gebruiker veerle = new Gebruiker("veerle", "denoode", "veerle@gmail.com", Sfeergroep.Sfeergroep2,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "kato.jpg", GebruikerType.Cliënt);
                 //sfeergroep 3
                 Gebruiker ken = new Gebruiker("ken", "deblezer", "ken@outlook.com", Sfeergroep.Sfeergroep3,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "lucas.jpg", GebruikerType.Cliënt);
                 Gebruiker nicolas = new Gebruiker("nicolas", "planckaer", "nicolas@gmail.com", Sfeergroep.Sfeergroep3,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "robin.jpg", GebruikerType.Cliënt);
                 Gebruiker lisa = new Gebruiker("lisa", "janssens", "lisa@gmail.be", Sfeergroep.Sfeergroep3,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "johanna.jpg", GebruikerType.Cliënt);
 
                 var gebruikers = new List<Gebruiker> { dina, jonah, dieter, lucas, karo, thomas, frans,
                     jos, laura, veerle, ken, nicolas, lisa };
@@ -66,7 +67,6 @@ namespace kolveniershofBackend.Data
                 {
                     await MaakGebruiker(g, "password1010");
                 }
-
 
                 //alle ateliers
                 //gewone ateliers
@@ -450,16 +450,27 @@ namespace kolveniershofBackend.Data
                 _dbContext.SaveChanges();
 
                 //commentaar
-                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
+                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 laura.addCommentaar(commentaarBijGebruikerLaura1);
 
-                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
+                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 laura.addCommentaar(commentaarBijGebruikerLaura2);
 
-                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
+                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 lucas.addCommentaar(commentaarBijGebruikerLucas1);
 
-                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1 };
+                Commentaar commentaarBijJonahZaterdag14 = new Commentaar("zaterdag14", CommentaarType.ZaterdagCommentaar, new DateTime(2019, 12, 14), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZaterdag14);
+
+                Commentaar commentaarBijJonahZaterdag07 = new Commentaar("zaterdag07", CommentaarType.ZaterdagCommentaar, new DateTime(2019, 12, 7), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZaterdag07);
+
+                Commentaar commentaarBijJonahZondag15 = new Commentaar("zondag15", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 15), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZondag15);
+
+                Commentaar commentaarBijJonahZondag08 = new Commentaar("zondag08", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 8), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZondag08);
+                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1, commentaarBijJonahZaterdag14, commentaarBijJonahZaterdag07, commentaarBijJonahZondag15, commentaarBijJonahZondag08 };
                 _dbContext.Commentaar.AddRange(commentaar);
                 _dbContext.SaveChanges();
 
