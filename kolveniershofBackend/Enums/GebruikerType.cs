@@ -9,4 +9,9 @@ namespace kolveniershofBackend.Enums
     {
         Undefined, Cliënt, Admin, Begeleider
     }
+
+    public enum CopyOfGebruikerType
+    {
+        Undefined, Cliënt, Admin, Begeleider
+    }
 }

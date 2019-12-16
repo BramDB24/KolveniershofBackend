@@ -24,8 +24,8 @@ namespace kolveniershofBackend.Data
 
         public async Task InitializeData()
         {
-            _dbContext.Database.EnsureDeleted();
-            if (_dbContext.Database.EnsureCreated()) //niet gebruiken bij azure (migrations)
+            //_dbContext.Database.EnsureDeleted();
+            if (false) //niet gebruiken bij azure (migrations)
                 {
                 //gebruikers   
                 //admin
@@ -497,8 +497,8 @@ namespace kolveniershofBackend.Data
 
         private async Task MaakGebruiker(Gebruiker gebruiker, string password)
         {   
-            await _userManager.CreateAsync(gebruiker, password);
-            await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, gebruiker.Type.ToString()));
+            //await _userManager.CreateAsync(gebruiker, password);
+            //await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, gebruiker.Type.ToString()));
 
         }
 

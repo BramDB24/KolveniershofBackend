@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace kolveniershofBackend.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,9 +31,9 @@ namespace kolveniershofBackend.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IsTemplate = table.Column<bool>(nullable: false),
                     Weeknummer = table.Column<int>(nullable: false),
+                    Eten = table.Column<string>(nullable: false),
                     Weekdag = table.Column<int>(nullable: false),
-                    Datum = table.Column<DateTime>(type: "Date", nullable: true),
-                    Eten = table.Column<string>(nullable: true)
+                    Datum = table.Column<DateTime>(type: "Date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -141,9 +141,9 @@ namespace kolveniershofBackend.Migrations
                     CommentaarId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Datum = table.Column<DateTime>(nullable: false),
+                    GebruikerId = table.Column<string>(nullable: false),
                     CommentaarType = table.Column<int>(nullable: false),
-                    Tekst = table.Column<string>(nullable: false),
-                    GebruikerId = table.Column<string>(nullable: true)
+                    Tekst = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

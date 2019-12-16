@@ -10,14 +10,14 @@ using kolveniershofBackend.Data;
 namespace kolveniershofBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191123131213_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20191216174633_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -67,7 +67,8 @@ namespace kolveniershofBackend.Migrations
 
                     b.Property<DateTime>("Datum");
 
-                    b.Property<string>("GebruikerId");
+                    b.Property<string>("GebruikerId")
+                        .IsRequired();
 
                     b.Property<string>("Tekst")
                         .IsRequired();
@@ -105,6 +106,9 @@ namespace kolveniershofBackend.Migrations
                     b.Property<int>("DagplanningId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Eten")
+                        .IsRequired();
 
                     b.Property<bool>("IsTemplate");
 
@@ -211,9 +215,6 @@ namespace kolveniershofBackend.Migrations
 
                     b.Property<DateTime>("Datum")
                         .HasColumnType("Date");
-
-                    b.Property<string>("Eten")
-                        .IsRequired();
 
                     b.HasDiscriminator().HasValue(false);
                 });
