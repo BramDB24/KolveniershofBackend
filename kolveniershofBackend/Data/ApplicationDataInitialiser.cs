@@ -112,14 +112,16 @@ namespace kolveniershofBackend.Data
 
                 //speciale ateliers
                 Atelier afwezig = new Atelier(AtelierType.Afwezig, "afwezig", "blanco.jpg");
-                Atelier vervoer = new Atelier(AtelierType.VervoerAtelier, "vervoer", "bus.jpg");
+                Atelier beigebus = new Atelier(AtelierType.VervoerAtelier, "beige bus", "bus.jpg");
+                Atelier blauwebus = new Atelier(AtelierType.VervoerAtelier, "blauwe bus", "bus.jpg");
+                Atelier gelebus = new Atelier(AtelierType.VervoerAtelier, "gele bus", "bus.jpg");
                 Atelier ziek = new Atelier(AtelierType.Ziek, "ziek", "ziek.png");
                 Atelier thuisVerlof = new Atelier(AtelierType.Thuis, "thuis verlof", "thuis_verlof.jpg");
 
                 var ateliers = new List<Atelier> {bakken, feest, koken, markt, praatcafe, textiel, tuin, wandelen, yoga, balanske, crea,
                 hout, kringgesprek, muziek, provinciaalDomein, snoezelen, uitstap, zwemmen, beleving, digitaal, kaarsen, kunst,
                 paardrijden, spikEnSpan, tievo, verhalen, werkplaats, bib, expressie, keukenEnAfwas, levensboeken, petanque,
-                    sporten, toneel, vorming, winkelen, afwezig, vervoer, ziek, thuisVerlof};
+                    sporten, toneel, vorming, winkelen, afwezig, beigebus, blauwebus, gelebus, ziek, thuisVerlof};
 
                 _dbContext.Ateliers.AddRange(ateliers);
 
@@ -134,22 +136,28 @@ namespace kolveniershofBackend.Data
                 DagAtelier verhalenNamiddag = new DagAtelier(DagMoment.Namiddag, verhalen);
                 DagAtelier petanqueVoormiddag = new DagAtelier(DagMoment.VolledigeDag, petanque);
                 DagAtelier afwezigVolledigeDag = new DagAtelier(DagMoment.Undefined, afwezig);
-                DagAtelier vervoerVanDeDag = new DagAtelier(DagMoment.Undefined, vervoer);
+                DagAtelier gelebusDag = new DagAtelier(DagMoment.Undefined, gelebus);
+                DagAtelier blauwebusDag = new DagAtelier(DagMoment.Undefined, blauwebus);
+                DagAtelier beigebusDag = new DagAtelier(DagMoment.Undefined, beigebus);
                 DagAtelier ziekVolledigDag = new DagAtelier(DagMoment.Undefined, ziek);
                 DagAtelier thuisvervofVolledigeDag = new DagAtelier(DagMoment.Undefined, thuisVerlof);
 
                 var dagAteliers = new List<DagAtelier> {kokenVoormiddag, zwemmenNamiddag, sportenVolledigeDag,
                     expressieVoormiddag,toneelNamiddag, winkelenVolledigeDag, paardrijdenVoormiddag,
-                    verhalenNamiddag, petanqueVoormiddag, afwezigVolledigeDag, vervoerVanDeDag, ziekVolledigDag, thuisvervofVolledigeDag };
+                    verhalenNamiddag, petanqueVoormiddag, afwezigVolledigeDag, gelebusDag, blauwebusDag, beigebusDag, ziekVolledigDag, thuisvervofVolledigeDag };
 
 
                 #region Gebruikerstoevoegen
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(karo);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(jos);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(laura);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(veerle);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(frans);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(thomas);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(karo);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(jos);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(laura);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(veerle);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(dieter);
+                blauwebusDag.VoegGebruikerAanDagAtelierToe(frans);
+                blauwebusDag.VoegGebruikerAanDagAtelierToe(thomas);
+                blauwebusDag.VoegGebruikerAanDagAtelierToe(lucas);
+                beigebusDag.VoegGebruikerAanDagAtelierToe(ken);
+                beigebusDag.VoegGebruikerAanDagAtelierToe(nicolas);
 
                 afwezigVolledigeDag.VoegGebruikerAanDagAtelierToe(ken);
                 afwezigVolledigeDag.VoegGebruikerAanDagAtelierToe(nicolas);
@@ -436,7 +444,9 @@ namespace kolveniershofBackend.Data
                 _dbContext.DagPlanningen.Add(vandaag);
 
                 vandaag.VoegDagAtelierToeAanDagPlanningTemplate(ziekVolledigDag);
-                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(vervoerVanDeDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(gelebusDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(blauwebusDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(beigebusDag);
                 vandaag.VoegDagAtelierToeAanDagPlanningTemplate(thuisvervofVolledigeDag);
                 vandaag.VoegDagAtelierToeAanDagPlanningTemplate(afwezigVolledigeDag);
 
