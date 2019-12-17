@@ -239,7 +239,7 @@ namespace kolveniershofBackend.Controllers
         [HttpPost("{id}/eten")]
         //[Authorize(Policy = "AdminOnly")]
         //[Authorize(Policy = "BegeleidersOnly")]
-        public ActionResult<DagPlanningTemplate> PutEten(int id, String eten)
+        public ActionResult<DagplanningDTO> PutEten(int id, String eten)
         {
             DagPlanningTemplate dpt = _dagPlanningTemplateRepository.GetByIdDagPlanningTemplate(id);
           
@@ -248,7 +248,7 @@ namespace kolveniershofBackend.Controllers
                 dpt.Eten = eten;
                 _dagPlanningTemplateRepository.Update(dpt);
                 _dagPlanningTemplateRepository.SaveChanges();
-                 return dpt;
+                 return Ok();
             }
 
             return BadRequest();
