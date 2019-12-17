@@ -13,9 +13,11 @@ namespace kolveniershofBackend.Models
         #endregion
 
         #region Properties
-        public DateTime Datum {
+        public DateTime Datum
+        {
             get { return _datum; }
-            set {
+            set
+            {
                 if (value != null)
                 {
                     _datum = value;
@@ -27,6 +29,9 @@ namespace kolveniershofBackend.Models
                 }
             }
         }
+
+        public string Commentaar { get; set; } = "";
+
 
 
         #endregion

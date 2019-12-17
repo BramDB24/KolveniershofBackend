@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace kolveniershofBackend.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,7 +33,8 @@ namespace kolveniershofBackend.Migrations
                     Weeknummer = table.Column<int>(nullable: false),
                     Eten = table.Column<string>(nullable: false),
                     Weekdag = table.Column<int>(nullable: false),
-                    Datum = table.Column<DateTime>(type: "Date", nullable: true)
+                    Datum = table.Column<DateTime>(type: "Date", nullable: true),
+                    Commentaar = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

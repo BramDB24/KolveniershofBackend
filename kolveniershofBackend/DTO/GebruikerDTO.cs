@@ -11,7 +11,7 @@ namespace kolveniershofBackend.DTO
 {
     public class GebruikerDTO
     {
-        public string GebruikerId { get; set; }
+        public string id { get; set; }
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
         public List<Commentaar> Commentaren { get; set; }
@@ -24,7 +24,7 @@ namespace kolveniershofBackend.DTO
 
         public GebruikerDTO(Gebruiker g)
         {
-            GebruikerId = g.Id;
+            id = g.Id;
             Voornaam = g.Voornaam;
             Achternaam = g.Achternaam;
             Commentaren = g.Commentaren;

@@ -470,7 +470,11 @@ namespace kolveniershofBackend.Data
 
                 Commentaar commentaarBijJonahZondag08 = new Commentaar("zondag08", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 8), jonah.Id);
                 jonah.addCommentaar(commentaarBijJonahZondag08);
-                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1, commentaarBijJonahZaterdag14, commentaarBijJonahZaterdag07, commentaarBijJonahZondag15, commentaarBijJonahZondag08 };
+
+                Commentaar commentaarBijLisaZondag15 = new Commentaar("Lisa zondag 15", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 15), lisa.Id);
+                lisa.addCommentaar(commentaarBijLisaZondag15);
+
+                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1, commentaarBijJonahZaterdag14, commentaarBijJonahZaterdag07, commentaarBijJonahZondag15, commentaarBijJonahZondag08, commentaarBijLisaZondag15 };
                 _dbContext.Commentaar.AddRange(commentaar);
                 _dbContext.SaveChanges();
 
@@ -496,9 +500,9 @@ namespace kolveniershofBackend.Data
         }
 
         private async Task MaakGebruiker(Gebruiker gebruiker, string password)
-        {   
-            //await _userManager.CreateAsync(gebruiker, password);
-            //await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, gebruiker.Type.ToString()));
+        {
+            await _userManager.CreateAsync(gebruiker, password);
+            await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, gebruiker.Type.ToString()));
 
         }
 

@@ -17,7 +17,7 @@ namespace kolveniershofBackend.Models
         public int DagplanningId { get; set; }
         public List<DagAtelier> DagAteliers { get; set; }
         public bool IsTemplate { get; set; }
-
+        
         public int Weeknummer
         {
             get { return _weeknummer; }

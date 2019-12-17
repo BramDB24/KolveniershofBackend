@@ -212,6 +212,20 @@ namespace kolveniershofBackend.Controllers
             return NoContent();
         }
 
+        [HttpPut("updatecommentaar/{dagplanningId}/commentaar/{commentaar}")]
+        public IActionResult PutDagplanningCommentaar(int dagplanningId, string commentaar)
+        {
+            var dag = _dagPlanningTemplateRepository.GetByIdDagPlanning(dagplanningId);
+            if(dag == null)
+            {
+                return BadRequest();
+            }
+            dag.Commentaar = commentaar;
+            _dagPlanningTemplateRepository.Update(dag);
+            _dagPlanningTemplateRepository.SaveChanges();
+            return Ok();
+        }
+
         /// <summary>
         /// update dagplanning met opgegeven dagplanning id en met template
         /// </summary>
@@ -328,7 +342,8 @@ namespace kolveniershofBackend.Controllers
                 Weekdag = dagPlanning.Weekdag,
                 Weeknummer = dagPlanning.Weeknummer,
                 Datum = dagPlanning.Datum,
-                DagAteliers = SetDagAteliers(dagPlanning)
+                DagAteliers = SetDagAteliers(dagPlanning),
+                Commentaar = dagPlanning.Commentaar
             };
         }
         private IEnumerable<DagAtelierDTO> SetDagAteliers(DagPlanningTemplate dagPlanning)

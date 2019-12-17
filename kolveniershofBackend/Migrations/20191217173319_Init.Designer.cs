@@ -10,8 +10,8 @@ using kolveniershofBackend.Data;
 namespace kolveniershofBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191216174633_initialMigration")]
-    partial class initialMigration
+    [Migration("20191217173319_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -212,6 +212,8 @@ namespace kolveniershofBackend.Migrations
             modelBuilder.Entity("kolveniershofBackend.Models.DagPlanning", b =>
                 {
                     b.HasBaseType("kolveniershofBackend.Models.DagPlanningTemplate");
+
+                    b.Property<string>("Commentaar");
 
                     b.Property<DateTime>("Datum")
                         .HasColumnType("Date");

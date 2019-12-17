@@ -211,6 +211,8 @@ namespace kolveniershofBackend.Migrations
                 {
                     b.HasBaseType("kolveniershofBackend.Models.DagPlanningTemplate");
 
+                    b.Property<string>("Commentaar");
+
                     b.Property<DateTime>("Datum")
                         .HasColumnType("Date");
 

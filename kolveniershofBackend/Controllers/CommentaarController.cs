@@ -27,12 +27,12 @@ namespace kolveniershofBackend.Controllers
         }
 
 
-        [HttpGet("huidigeGebruiker/zaterdag/{zaterdagDatum}/zondag/{zondagDatum}")]
-        public ActionResult<IEnumerable<Commentaar>> GetCommentaarVanSpefiekeDagEnGebruiker(string zaterdagDatum, string zondagDatum)
+        [HttpGet("huidigeGebruiker/zaterdag/{zaterdagDatum}/zondag/{zondagDatum}/{gebruikerId}")]
+        public ActionResult<IEnumerable<Commentaar>> GetCommentaarVanSpefiekeDagEnGebruiker(string zaterdagDatum, string zondagDatum, string gebruikerId)
         {
             DateTime datumFormattedZat = DateTime.Parse(zaterdagDatum, null, System.Globalization.DateTimeStyles.RoundtripKind);
             DateTime datumFormattedZon = DateTime.Parse(zondagDatum, null, System.Globalization.DateTimeStyles.RoundtripKind);
-            Gebruiker huidigeGebruiker = _gebruikerRepository.GetByEmail(User.Identity.Name);
+            Gebruiker huidigeGebruiker = _gebruikerRepository.GetBy(gebruikerId);
 
             ICollection<Commentaar> commentaarlijst = new List<Commentaar>();
             commentaarlijst.Add(_commentaarRepository.GetCommentaarByDatumEnGebruiker(huidigeGebruiker.Id, datumFormattedZat));
