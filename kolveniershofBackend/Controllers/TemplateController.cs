@@ -26,6 +26,8 @@ namespace kolveniershofBackend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
+    //[Authorize(Policy = "AdminOnly")]
+    //[Authorize(Policy = "BegeleidersOnly")]
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TemplateController : ControllerBase
     {
@@ -53,31 +55,45 @@ namespace kolveniershofBackend.Controllers
         [HttpGet]
         //[Authorize(Policy = "AdminOnly")]
         //[Authorize(Policy = "BegeleidersOnly")]
-        public IEnumerable<string> GetTemplatenamen()
+        public IEnumerable<Template> GetTemplates()
         {
             var templates = _templateRepository.GetAll();
-            return templates.Select(t => t.Naam).AsEnumerable();
+            return templates;
+        }
+
+
+        [HttpGet("{id}")]
+        public ActionResult<Template> GetTemplateById(int id)
+        {
+            var template = _templateRepository.GetTemplateById(id);
+            if (template == null)
+                return BadRequest();
+            return template;
         }
 
         [HttpPost]
-        public ActionResult<Template> PostTemplate(JObject data)
+        public ActionResult<Template> PostTemplate(TemplateDTO templatedto)
         {
-            var naam = (string)data["naam"];
+            var naam = templatedto.Naam;
+            if(naam == null || naam == "")
+            {
+                return BadRequest();
+            }
             var template = new Template(naam);
             _templateRepository.AddTemplate(template);
             _templateRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetDagPlanningTemplate), naam, new { weeknummer = 1, weekdag = 1 });
+            return CreatedAtAction(nameof(GetTemplateById), new { id = template.Id }, GetTemplateById(template.Id).Value);
         }
 
         /**
          * Geeft de DagPlanningTemplate van een bepaald weeknummer en weekdag.
          * Als de DagPlanningTemplate niet bestaat in de databank dan wordt hij gegenereerd.
          */
-        [HttpGet("{naam}/Week/{weeknummer}/Dag/{weekdag}")]
-        public ActionResult<DagplanningDTO> GetDagPlanningTemplate(string naam, int weeknummer, int weekdag)
+        [HttpGet("{id}/Week/{weeknummer}/Dag/{weekdag}")]
+        public ActionResult<DagplanningDTO> GetDagPlanningTemplate(int id, int weeknummer, int weekdag)
         {
             DagPlanningTemplate dagPlanningTemplate = null;
-            dagPlanningTemplate = _templateRepository.GetDagTemplateByNaam(naam, weeknummer, (Weekdag)weekdag);
+            dagPlanningTemplate = _templateRepository.GetDagTemplateById(id, weeknummer, (Weekdag)weekdag);
             if (dagPlanningTemplate == null)
                 return BadRequest();
             DagplanningDTO dagPlanningTemplateDto = new DagplanningDTO()
@@ -123,5 +139,39 @@ namespace kolveniershofBackend.Controllers
                 dagPlanningTemplate);
         }
 
+        [HttpDelete("{id}")]
+        public ActionResult<Template> DeleteTemplate(int id)
+        {
+            Template template = _templateRepository.GetTemplateById(id);
+            if (template == null && !template.IsActief)
+            {
+                return NotFound();
+            }
+            _templateRepository.Delete(template);
+            _templateRepository.SaveChanges();
+            return template;
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<TemplateDTO> PutTemplate(int id, TemplateDTO template)
+        {
+            if (id != template.Id)
+                return BadRequest();
+            Template newTemplate = _templateRepository.GetFullTemplateById(id);
+            if (newTemplate == null || newTemplate.IsActief)
+            {
+                return BadRequest();
+            }
+            Template oldTemplate = _templateRepository.GetFullActiveTemplate();
+            if (oldTemplate != null)
+            {
+                oldTemplate.SwitchStatus();
+                _templateRepository.Update(oldTemplate);
+            }
+            newTemplate.SwitchStatus();
+            _templateRepository.Update(oldTemplate);
+            _templateRepository.SaveChanges();
+            return NoContent();
+        }
     }
 }

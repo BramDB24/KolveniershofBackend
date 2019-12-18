@@ -16,7 +16,7 @@ namespace kolveniershofBackend.Data.Mappers
             builder.HasIndex(t => t.Naam).IsUnique();
             builder.Property(t => t.Naam).IsRequired();
             builder.Property(t => t.IsActief).IsRequired();
-            builder.HasMany(t => t.DagPlanningTemplates).WithOne().OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(t => t.DagPlanningTemplates).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

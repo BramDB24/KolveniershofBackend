@@ -36,5 +36,10 @@ namespace kolveniershofBackend.Models
             }
             DagPlanningTemplates = dagplanningen.AsEnumerable();
         }
+
+        public void SwitchStatus()
+        {
+            IsActief = !IsActief;
+        }
     }
 }
