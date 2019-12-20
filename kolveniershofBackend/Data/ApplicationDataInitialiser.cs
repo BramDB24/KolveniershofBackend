@@ -24,15 +24,17 @@ namespace kolveniershofBackend.Data
 
         public async Task InitializeData()
         {
+
             _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated()) //niet gebruiken bij azure (migrations)
                 {
-                //gebruikers   
+
+                #region Gebruikers
                 //admin
                 Gebruiker dina = new Gebruiker("dina", "dobbelaar", "dinadobbelaar@hotmail.com", Sfeergroep.Undefined,
                      "johanna.jpg", GebruikerType.Admin);
 
-                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, 
+                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1,
                     "jonah.jpg", GebruikerType.Admin);
                 //begeleiders
                 Gebruiker dieter = new Gebruiker("dieter", "dobbeleer", "dieterdobbeleer@hotmail.com", Sfeergroep.Undefined,
@@ -67,8 +69,10 @@ namespace kolveniershofBackend.Data
                 {
                     await MaakGebruiker(g, "password1010");
                 }
+                #endregion
 
-                //alle ateliers
+                #region Ateliers
+
                 //gewone ateliers
                 Atelier bakken = new Atelier(AtelierType.Gewoon, "bakken", "bakken.jpg");
                 Atelier balanske = new Atelier(AtelierType.Gewoon, "balanske", "balanske.jpg");
@@ -112,17 +116,22 @@ namespace kolveniershofBackend.Data
 
                 //speciale ateliers
                 Atelier afwezig = new Atelier(AtelierType.Afwezig, "afwezig", "blanco.jpg");
-                Atelier vervoer = new Atelier(AtelierType.VervoerAtelier, "vervoer", "bus.jpg");
+                Atelier beigebus = new Atelier(AtelierType.VervoerAtelier, "beige bus", "bus.jpg");
+                Atelier blauwebus = new Atelier(AtelierType.VervoerAtelier, "blauwe bus", "bus.jpg");
+                Atelier gelebus = new Atelier(AtelierType.VervoerAtelier, "gele bus", "bus.jpg");
                 Atelier ziek = new Atelier(AtelierType.Ziek, "ziek", "ziek.png");
                 Atelier thuisVerlof = new Atelier(AtelierType.Thuis, "thuis verlof", "thuis_verlof.jpg");
 
                 var ateliers = new List<Atelier> {bakken, feest, koken, markt, praatcafe, textiel, tuin, wandelen, yoga, balanske, crea,
                 hout, kringgesprek, muziek, provinciaalDomein, snoezelen, uitstap, zwemmen, beleving, digitaal, kaarsen, kunst,
                 paardrijden, spikEnSpan, tievo, verhalen, werkplaats, bib, expressie, keukenEnAfwas, levensboeken, petanque,
-                    sporten, toneel, vorming, winkelen, afwezig, vervoer, ziek, thuisVerlof};
+                    sporten, toneel, vorming, winkelen, afwezig, beigebus, blauwebus, gelebus, ziek, thuisVerlof};
 
                 _dbContext.Ateliers.AddRange(ateliers);
 
+                #endregion
+
+                #region DagAteliers
                 //dagAteliers
                 DagAtelier kokenVoormiddag = new DagAtelier(DagMoment.Voormiddag, koken);
                 DagAtelier zwemmenNamiddag = new DagAtelier(DagMoment.Namiddag, zwemmen);
@@ -134,22 +143,29 @@ namespace kolveniershofBackend.Data
                 DagAtelier verhalenNamiddag = new DagAtelier(DagMoment.Namiddag, verhalen);
                 DagAtelier petanqueVoormiddag = new DagAtelier(DagMoment.VolledigeDag, petanque);
                 DagAtelier afwezigVolledigeDag = new DagAtelier(DagMoment.Undefined, afwezig);
-                DagAtelier vervoerVanDeDag = new DagAtelier(DagMoment.Undefined, vervoer);
+                DagAtelier gelebusDag = new DagAtelier(DagMoment.Undefined, gelebus);
+                DagAtelier blauwebusDag = new DagAtelier(DagMoment.Undefined, blauwebus);
+                DagAtelier beigebusDag = new DagAtelier(DagMoment.Undefined, beigebus);
                 DagAtelier ziekVolledigDag = new DagAtelier(DagMoment.Undefined, ziek);
                 DagAtelier thuisvervofVolledigeDag = new DagAtelier(DagMoment.Undefined, thuisVerlof);
 
                 var dagAteliers = new List<DagAtelier> {kokenVoormiddag, zwemmenNamiddag, sportenVolledigeDag,
                     expressieVoormiddag,toneelNamiddag, winkelenVolledigeDag, paardrijdenVoormiddag,
-                    verhalenNamiddag, petanqueVoormiddag, afwezigVolledigeDag, vervoerVanDeDag, ziekVolledigDag, thuisvervofVolledigeDag };
+                    verhalenNamiddag, petanqueVoormiddag, afwezigVolledigeDag, gelebusDag, blauwebusDag, beigebusDag, ziekVolledigDag, thuisvervofVolledigeDag };
+                #endregion
 
 
                 #region Gebruikerstoevoegen
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(karo);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(jos);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(laura);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(veerle);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(frans);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(thomas);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(karo);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(jos);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(laura);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(veerle);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(dieter);
+                blauwebusDag.VoegGebruikerAanDagAtelierToe(frans);
+                blauwebusDag.VoegGebruikerAanDagAtelierToe(thomas);
+                blauwebusDag.VoegGebruikerAanDagAtelierToe(lucas);
+                beigebusDag.VoegGebruikerAanDagAtelierToe(ken);
+                beigebusDag.VoegGebruikerAanDagAtelierToe(nicolas);
 
                 afwezigVolledigeDag.VoegGebruikerAanDagAtelierToe(ken);
                 afwezigVolledigeDag.VoegGebruikerAanDagAtelierToe(nicolas);
@@ -218,6 +234,7 @@ namespace kolveniershofBackend.Data
 
                 #endregion
 
+                #region DagPlanningTemplates
                 //dagplanningTemplate
                 //week1
                 DagPlanningTemplate maandagWeek1 = new DagPlanningTemplate(1, Weekdag.Maandag);
@@ -225,33 +242,41 @@ namespace kolveniershofBackend.Data
                 DagPlanningTemplate woensdagWeek1 = new DagPlanningTemplate(1, Weekdag.Woensdag);
                 DagPlanningTemplate donderdagWeek1 = new DagPlanningTemplate(1, Weekdag.Donderdag);
                 DagPlanningTemplate vrijdagWeek1 = new DagPlanningTemplate(1, Weekdag.Vrijdag);
+                DagPlanningTemplate zaterdagWeek1 = new DagPlanningTemplate(1, Weekdag.Zaterdag);
+                DagPlanningTemplate zondagWeek1 = new DagPlanningTemplate(1, Weekdag.Zondag);
                 //week2
                 DagPlanningTemplate maandagWeek2 = new DagPlanningTemplate(2, Weekdag.Maandag);
                 DagPlanningTemplate dinsdagWeek2 = new DagPlanningTemplate(2, Weekdag.Dinsdag);
                 DagPlanningTemplate woensdagWeek2 = new DagPlanningTemplate(2, Weekdag.Woensdag);
                 DagPlanningTemplate donderdagWeek2 = new DagPlanningTemplate(2, Weekdag.Donderdag);
                 DagPlanningTemplate vrijdagWeek2 = new DagPlanningTemplate(2, Weekdag.Vrijdag);
+                DagPlanningTemplate zaterdagWeek2 = new DagPlanningTemplate(2, Weekdag.Zaterdag);
+                DagPlanningTemplate zondagWeek2 = new DagPlanningTemplate(2, Weekdag.Zondag);
                 //week3
                 DagPlanningTemplate maandagWeek3 = new DagPlanningTemplate(3, Weekdag.Maandag);
                 DagPlanningTemplate dinsdagWeek3 = new DagPlanningTemplate(3, Weekdag.Dinsdag);
                 DagPlanningTemplate woensdagWeek3 = new DagPlanningTemplate(3, Weekdag.Woensdag);
                 DagPlanningTemplate donderdagWeek3 = new DagPlanningTemplate(3, Weekdag.Donderdag);
                 DagPlanningTemplate vrijdagWeek3 = new DagPlanningTemplate(3, Weekdag.Vrijdag);
+                DagPlanningTemplate zaterdagWeek3 = new DagPlanningTemplate(3, Weekdag.Zaterdag);
+                DagPlanningTemplate zondagWeek3 = new DagPlanningTemplate(3, Weekdag.Zondag);
                 //week4
                 DagPlanningTemplate maandagWeek4 = new DagPlanningTemplate(4, Weekdag.Maandag);
                 DagPlanningTemplate dinsdagWeek4 = new DagPlanningTemplate(4, Weekdag.Dinsdag);
                 DagPlanningTemplate woensdagWeek4 = new DagPlanningTemplate(4, Weekdag.Woensdag);
                 DagPlanningTemplate donderdagWeek4 = new DagPlanningTemplate(4, Weekdag.Donderdag);
                 DagPlanningTemplate vrijdagWeek4 = new DagPlanningTemplate(4, Weekdag.Vrijdag);
+                DagPlanningTemplate zaterdagWeek4 = new DagPlanningTemplate(4, Weekdag.Zaterdag);
+                DagPlanningTemplate zondagWeek4 = new DagPlanningTemplate(4, Weekdag.Zondag);
 
 
-                var dagPlanningTemplates = new List<DagPlanningTemplate> {maandagWeek1, dinsdagWeek1, woensdagWeek1, donderdagWeek1, vrijdagWeek1,
-                maandagWeek2, dinsdagWeek2, woensdagWeek2, donderdagWeek2, vrijdagWeek2,
-                maandagWeek3, dinsdagWeek3, woensdagWeek3, donderdagWeek3, vrijdagWeek3,
-                maandagWeek4, dinsdagWeek4, woensdagWeek4, donderdagWeek4, vrijdagWeek4,};
+                var dagPlanningTemplates = new List<DagPlanningTemplate> {maandagWeek1, dinsdagWeek1, woensdagWeek1, donderdagWeek1, vrijdagWeek1, zaterdagWeek1, zondagWeek1,
+                maandagWeek2, dinsdagWeek2, woensdagWeek2, donderdagWeek2, vrijdagWeek2, zaterdagWeek2, zondagWeek2,
+                maandagWeek3, dinsdagWeek3, woensdagWeek3, donderdagWeek3, vrijdagWeek3, zaterdagWeek3, zondagWeek3,
+                maandagWeek4, dinsdagWeek4, woensdagWeek4, donderdagWeek4, vrijdagWeek4, zaterdagWeek4, zondagWeek4};
 
                 _dbContext.DagPlanningen.AddRange(dagPlanningTemplates);
-
+                #endregion
 
                 #region Template seeding
 
@@ -426,17 +451,36 @@ namespace kolveniershofBackend.Data
                 vrijdagWeek4.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
                 vrijdagWeek4.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
                 vrijdagWeek4.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
+                
+                Template template1 = new Template("zomer");
+                template1.DagPlanningTemplates = dagPlanningTemplates;
+                template1.IsActief = true;
+
+                Template template2 = new Template("winter");
+                template1.DagPlanningTemplates = dagPlanningTemplates;
+                var list = new List<DagPlanningTemplate>();
+                for (int i = 1; i < 5; i++)
+                {
+                    for (int j = 1; j < 8; j++)
+                    {
+                        list.Add(new DagPlanningTemplate(i, (Weekdag)j));
+                    }
+                }
+                template2.DagPlanningTemplates = list.AsEnumerable();
+                _dbContext.Templates.AddRange(template1, template2);
 
                 #endregion
 
-
+                #region Dagplanningen
                 //dagplanningen concreet
                 DateTime dt = DateTime.Today;
                 var vandaag = new DagPlanning(1, dt, "balletjes in tomatensaus en friet");
                 _dbContext.DagPlanningen.Add(vandaag);
 
                 vandaag.VoegDagAtelierToeAanDagPlanningTemplate(ziekVolledigDag);
-                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(vervoerVanDeDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(gelebusDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(blauwebusDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(beigebusDag);
                 vandaag.VoegDagAtelierToeAanDagPlanningTemplate(thuisvervofVolledigeDag);
                 vandaag.VoegDagAtelierToeAanDagPlanningTemplate(afwezigVolledigeDag);
 
@@ -449,19 +493,41 @@ namespace kolveniershofBackend.Data
 
                 _dbContext.SaveChanges();
 
+                #endregion
+
+                #region Commentaar
                 //commentaar
-                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
+                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 laura.addCommentaar(commentaarBijGebruikerLaura1);
 
-                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
+                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 laura.addCommentaar(commentaarBijGebruikerLaura2);
 
-                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12));
+                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 lucas.addCommentaar(commentaarBijGebruikerLucas1);
 
-                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1 };
+                Commentaar commentaarBijJonahZaterdag14 = new Commentaar("zaterdag14", CommentaarType.ZaterdagCommentaar, new DateTime(2019, 12, 14), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZaterdag14);
+
+                Commentaar commentaarBijJonahZaterdag07 = new Commentaar("zaterdag07", CommentaarType.ZaterdagCommentaar, new DateTime(2019, 12, 7), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZaterdag07);
+
+                Commentaar commentaarBijJonahZondag15 = new Commentaar("zondag15", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 15), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZondag15);
+
+                Commentaar commentaarBijJonahZondag08 = new Commentaar("zondag08", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 8), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZondag08);
+
+                Commentaar commentaarBijLisaZondag15 = new Commentaar("Lisa zondag 15", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 15), lisa.Id);
+                lisa.addCommentaar(commentaarBijLisaZondag15);
+
+                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1, commentaarBijJonahZaterdag14, commentaarBijJonahZaterdag07, commentaarBijJonahZondag15, commentaarBijJonahZondag08, commentaarBijLisaZondag15 };
                 _dbContext.Commentaar.AddRange(commentaar);
                 _dbContext.SaveChanges();
+
+                #endregion
+
+                #region Opmerkingen
 
                 Opmerking opmerking1 = new Opmerking(OpmerkingType.AteliersEnWeekschema, "atelier en weekschema test", DateTime.Today);
                 Opmerking opmerking2 = new Opmerking(OpmerkingType.Begeleiding, "begeleiding test", DateTime.Today);
@@ -477,18 +543,21 @@ namespace kolveniershofBackend.Data
                 var opmerkingen = new List<Opmerking> { opmerking1, opmerking2, opmerking3, opmerking4, opmerking5, opmerking6,
                 opmerking7, opmerking8, opmerking9};
                 _dbContext.Opmerkingen.AddRange(opmerkingen);
+
+                #endregion
+
                 _dbContext.SaveChanges();
-
-
-
             }
         }
 
         private async Task MaakGebruiker(Gebruiker gebruiker, string password)
-        {   
+        {
             await _userManager.CreateAsync(gebruiker, password);
             await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, gebruiker.Type.ToString()));
-
+            if(gebruiker.Type == GebruikerType.Admin)
+            {
+                await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, "Begeleider"));
+            }
         }
 
         private List<Gebruiker> selecteerRandomGebruikers(List<Gebruiker> gebruikers)
@@ -504,7 +573,7 @@ namespace kolveniershofBackend.Data
                 dummy.Remove(g);
             }
             return custom;
-            
+
         }
     }
 }

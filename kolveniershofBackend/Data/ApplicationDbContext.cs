@@ -10,6 +10,7 @@ namespace kolveniershofBackend.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        public DbSet<Template> Templates { get; set; }
         public DbSet<DagPlanningTemplate> DagPlanningen { get; set; }
         public DbSet<Atelier> Ateliers { get; set; }
         public DbSet<Gebruiker> Gebruikers { get; set; }
@@ -34,6 +35,7 @@ namespace kolveniershofBackend.Data
             builder.ApplyConfiguration(new GebruikerConfiguration());
             builder.ApplyConfiguration(new OpmerkingConfiguration());
             builder.ApplyConfiguration(new GebruikerAtelierConfiguration());
+            builder.ApplyConfiguration(new TemplateConfiguration());
         }
     }
 }

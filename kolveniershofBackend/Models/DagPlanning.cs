@@ -10,13 +10,14 @@ namespace kolveniershofBackend.Models
     {
         #region Fields
         private DateTime _datum;
-        private string _eten;
         #endregion
 
         #region Properties
-        public DateTime Datum {
+        public DateTime Datum
+        {
             get { return _datum; }
-            set {
+            set
+            {
                 if (value != null)
                 {
                     _datum = value;
@@ -29,12 +30,8 @@ namespace kolveniershofBackend.Models
             }
         }
 
-        public string Eten {
-            get { return _eten; }
-            set {
-                _eten = value;
-            }
-        }
+        public string Commentaar { get; set; } = "";
+
 
 
         #endregion
@@ -53,7 +50,7 @@ namespace kolveniershofBackend.Models
             Weekdag = ZetDayOfWeekOmNaarWeekdag(datum);
         }
 
-        public DagPlanning(DagPlanningTemplate template, DateTime datum, string eten = "") : this(template.Weeknummer, datum, eten)
+        public DagPlanning(DagPlanningTemplate template, DateTime datum) : this(template.Weeknummer, datum, template.Eten)
         {
             DagAteliers = template.DagAteliers;
         }

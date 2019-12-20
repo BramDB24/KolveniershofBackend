@@ -20,18 +20,18 @@ namespace KolveniershofBackendTests.UnitTests.ControllerTests
         Mock<IDagPlanningTemplateRepository> mockDagplanning = new Mock<IDagPlanningTemplateRepository>();
 
 
-        [Fact]
-        public void GetDagplanningFromDatum()
-        {
-            mockDagplanning.Setup(x => x.GetTemplateByWeeknummerEnDagnummer(It.IsAny<int>(), It.IsAny<Weekdag>())).Returns(new DagPlanning() { DagAteliers = new List<DagAtelier>(), Datum = DateTime.Today});
-            mockDagplanning.Setup(x => x.GetByDatum(It.IsAny<DateTime>())).Returns(new DagPlanning() { DagAteliers = new List<DagAtelier>(), Datum = DateTime.Today });   
+        //[Fact]
+        //public void GetDagplanningFromDatum()
+        //{
+        //    mockDagplanning.Setup(x => x.GetTemplateByWeeknummerEnDagnummer(It.IsAny<int>(), It.IsAny<Weekdag>())).Returns(new DagPlanning() { DagAteliers = new List<DagAtelier>(), Datum = DateTime.Today});
+        //    mockDagplanning.Setup(x => x.GetByDatum(It.IsAny<DateTime>())).Returns(new DagPlanning() { DagAteliers = new List<DagAtelier>(), Datum = DateTime.Today });   
 
-            var controller = new DagPlanningController(mockDagplanning.Object,mockGebruikers.Object, mockAteliers.Object);
-            var response = controller.GetDagPlanning("2050-03-08");
-            var value = response.Value;
+        //    var controller = new DagPlanningController(mockDagplanning.Object,mockGebruikers.Object, mockAteliers.Object);
+        //    var response = controller.GetDagPlanning("2050-03-08");
+        //    var value = response.Value;
 
-            var dto = new DagplanningDTO() { DagAteliers = new List<DagAtelierDTO>(), Datum = DateTime.Today};
-            Assert.Equal(dto.DagplanningId, value.DagplanningId);
-        }
+        //    var dto = new DagplanningDTO() { DagAteliers = new List<DagAtelierDTO>(), Datum = DateTime.Today};
+        //    Assert.Equal(dto.DagplanningId, value.DagplanningId);
+        //}
     }
 }

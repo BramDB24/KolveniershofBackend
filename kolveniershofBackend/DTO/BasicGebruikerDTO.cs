@@ -10,7 +10,7 @@ namespace kolveniershofBackend.DTO
 {
     public class BasicGebruikerDTO
     {
-        public string GebruikerId { get; set; }
+        public string Id { get; set; }
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]

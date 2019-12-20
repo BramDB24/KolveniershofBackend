@@ -9,4 +9,9 @@ namespace kolveniershofBackend.Enums
     {
         Undefined, ZaterdagCommentaar, ZondagCommentaar, AlgemeenCommentaar
     }
+
+    public enum CopyOfCommentaarType
+    {
+        Undefined, ZaterdagCommentaar, ZondagCommentaar, AlgemeenCommentaar
+    }
 }

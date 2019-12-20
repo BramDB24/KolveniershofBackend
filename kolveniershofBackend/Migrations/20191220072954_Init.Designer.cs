@@ -10,14 +10,14 @@ using kolveniershofBackend.Data;
 namespace kolveniershofBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191123131213_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20191220072954_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -67,14 +67,15 @@ namespace kolveniershofBackend.Migrations
 
                     b.Property<DateTime>("Datum");
 
-                    b.Property<string>("GebruikerId");
+                    b.Property<string>("Id")
+                        .IsRequired();
 
                     b.Property<string>("Tekst")
                         .IsRequired();
 
                     b.HasKey("CommentaarId");
 
-                    b.HasIndex("GebruikerId");
+                    b.HasIndex("Id");
 
                     b.ToTable("Commentaar");
                 });
@@ -106,13 +107,20 @@ namespace kolveniershofBackend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Eten")
+                        .IsRequired();
+
                     b.Property<bool>("IsTemplate");
+
+                    b.Property<int?>("TemplateId");
 
                     b.Property<int>("Weekdag");
 
                     b.Property<int>("Weeknummer");
 
                     b.HasKey("DagplanningId");
+
+                    b.HasIndex("TemplateId");
 
                     b.ToTable("DagPlanningen");
 
@@ -205,15 +213,33 @@ namespace kolveniershofBackend.Migrations
                     b.ToTable("Opmerkingen");
                 });
 
+            modelBuilder.Entity("kolveniershofBackend.Models.Template", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActief");
+
+                    b.Property<string>("Naam")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Naam")
+                        .IsUnique();
+
+                    b.ToTable("Templates");
+                });
+
             modelBuilder.Entity("kolveniershofBackend.Models.DagPlanning", b =>
                 {
                     b.HasBaseType("kolveniershofBackend.Models.DagPlanningTemplate");
 
+                    b.Property<string>("Commentaar");
+
                     b.Property<DateTime>("Datum")
                         .HasColumnType("Date");
-
-                    b.Property<string>("Eten")
-                        .IsRequired();
 
                     b.HasDiscriminator().HasValue(false);
                 });
@@ -222,7 +248,7 @@ namespace kolveniershofBackend.Migrations
                 {
                     b.HasOne("kolveniershofBackend.Models.Gebruiker")
                         .WithMany("Commentaren")
-                        .HasForeignKey("GebruikerId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -236,6 +262,14 @@ namespace kolveniershofBackend.Migrations
                     b.HasOne("kolveniershofBackend.Models.DagPlanningTemplate")
                         .WithMany("DagAteliers")
                         .HasForeignKey("DagPlanningTemplateDagplanningId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("kolveniershofBackend.Models.DagPlanningTemplate", b =>
+                {
+                    b.HasOne("kolveniershofBackend.Models.Template")
+                        .WithMany("DagPlanningTemplates")
+                        .HasForeignKey("TemplateId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

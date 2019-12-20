@@ -37,7 +37,8 @@ namespace kolveniershofBackend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => {
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
                 options.UseSqlServer(Configuration.GetConnectionString("KolveniershofContext"));
             });
 
@@ -78,7 +79,7 @@ namespace kolveniershofBackend
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
                     ValidateIssuer = false,
                     ValidateAudience = false
-                    
+
                 };
             });
 
@@ -104,12 +105,12 @@ namespace kolveniershofBackend
 
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
+
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ClientOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Cliënt"));
-                options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
-                options.AddPolicy("BegeleidersOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Begeleider"));
+                options.AddPolicy("Cliënt", policy => policy.RequireClaim(ClaimTypes.Role, "Cliënt"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+                options.AddPolicy("Begeleider", policy => policy.RequireClaim(ClaimTypes.Role, "Begeleider"));
 
 
             });
@@ -120,6 +121,7 @@ namespace kolveniershofBackend
             services.AddScoped<IOpmerkingRepository, OpmerkingRepository>();
             services.AddScoped<IAtelierRepository, AtelierRepository>();
             services.AddScoped<ICommentaarRepository, CommentaarRepository>();
+            services.AddScoped<ITemplateRepository, TemplateRepository>();
             services.AddScoped<ApplicationDataInitialiser>();
 
             services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin()));
@@ -147,7 +149,7 @@ namespace kolveniershofBackend
             app.UseMvc();
             app.UseSwaggerUi3();
             app.UseSwagger();
-            //dataInitialiser.InitializeData().Wait();
+            dataInitialiser.InitializeData().Wait();
         }
     }
 }

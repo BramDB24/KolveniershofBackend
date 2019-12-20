@@ -19,6 +19,8 @@ namespace kolveniershofBackend.DTO
         [JsonConverter(typeof(StringEnumConverter))]
         public Weekdag Weekdag;
         public IEnumerable<DagAtelierDTO> DagAteliers { get; set; }
+        public string Commentaar { get; set; }
+
         //public List<Opmerking> Opmerkingen { get; set; }
 
         public DagplanningDTO()

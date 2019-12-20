@@ -12,11 +12,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace kolveniershofBackend.Controllers
 {
     [ApiConventionType(typeof(DefaultApiConventions))]
-    //[Authorize(Policy = "AdminOnly")]
-    //[Authorize(Policy = "BegeleidersOnly")]
+    [Authorize(Policy = "Begeleider")]
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AtelierController : ControllerBase
     {
         private readonly IAtelierRepository _atelierRepository;

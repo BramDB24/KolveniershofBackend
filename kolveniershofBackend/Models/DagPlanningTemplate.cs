@@ -13,11 +13,11 @@ namespace kolveniershofBackend.Models
 
         private int _weeknummer;
         private Weekdag _weekdag;
-
+        public  String _eten;
         public int DagplanningId { get; set; }
         public List<DagAtelier> DagAteliers { get; set; }
         public bool IsTemplate { get; set; }
-
+        
         public int Weeknummer
         {
             get { return _weeknummer; }
@@ -33,6 +33,13 @@ namespace kolveniershofBackend.Models
                 }
             }
 
+        }
+
+        public string Eten {
+            get { return _eten; }
+            set {
+                _eten = value;
+            }
         }
 
         [JsonConverter(typeof(StringEnumConverter))]
@@ -55,6 +62,7 @@ namespace kolveniershofBackend.Models
         public DagPlanningTemplate()
         {
             DagAteliers = new List<DagAtelier>();
+            _eten = "";
         }
 
         public DagPlanningTemplate(int weeknr, Weekdag weekdag): this()
@@ -62,6 +70,7 @@ namespace kolveniershofBackend.Models
             Weeknummer = weeknr;
             IsTemplate = true;
             Weekdag = weekdag;
+            _eten = "";
         }
 
         public void VoegDagAtelierToeAanDagPlanningTemplate(DagAtelier dagAtelier)

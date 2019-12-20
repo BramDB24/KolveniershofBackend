@@ -115,9 +115,5 @@ namespace kolveniershofBackend.Models
             Commentaren.Add(commentaar);
         }
 
-        public IEnumerable<Commentaar> GeefCommentaarVanHuidigeGebruiker()
-        {
-            return Commentaren.OrderBy(c=>c.Datum);
-        }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace kolveniershofBackend.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,23 +21,6 @@ namespace kolveniershofBackend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ateliers", x => x.AtelierId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DagPlanningen",
-                columns: table => new
-                {
-                    DagplanningId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    IsTemplate = table.Column<bool>(nullable: false),
-                    Weeknummer = table.Column<int>(nullable: false),
-                    Weekdag = table.Column<int>(nullable: false),
-                    Datum = table.Column<DateTime>(type: "Date", nullable: true),
-                    Eten = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DagPlanningen", x => x.DagplanningId);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,30 +54,17 @@ namespace kolveniershofBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DagAtelier",
+                name: "Templates",
                 columns: table => new
                 {
-                    DagAtelierId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DagMoment = table.Column<int>(nullable: false),
-                    AtelierId = table.Column<int>(nullable: true),
-                    DagPlanningTemplateDagplanningId = table.Column<int>(nullable: true)
+                    Naam = table.Column<string>(nullable: false),
+                    IsActief = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DagAtelier", x => x.DagAtelierId);
-                    table.ForeignKey(
-                        name: "FK_DagAtelier_Ateliers_AtelierId",
-                        column: x => x.AtelierId,
-                        principalTable: "Ateliers",
-                        principalColumn: "AtelierId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DagAtelier_DagPlanningen_DagPlanningTemplateDagplanningId",
-                        column: x => x.DagPlanningTemplateDagplanningId,
-                        principalTable: "DagPlanningen",
-                        principalColumn: "DagplanningId",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Templates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -135,15 +105,40 @@ namespace kolveniershofBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DagPlanningen",
+                columns: table => new
+                {
+                    DagplanningId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IsTemplate = table.Column<bool>(nullable: false),
+                    Weeknummer = table.Column<int>(nullable: false),
+                    Eten = table.Column<string>(nullable: false),
+                    Weekdag = table.Column<int>(nullable: false),
+                    TemplateId = table.Column<int>(nullable: true),
+                    Datum = table.Column<DateTime>(type: "Date", nullable: true),
+                    Commentaar = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DagPlanningen", x => x.DagplanningId);
+                    table.ForeignKey(
+                        name: "FK_DagPlanningen_Templates_TemplateId",
+                        column: x => x.TemplateId,
+                        principalTable: "Templates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Commentaar",
                 columns: table => new
                 {
                     CommentaarId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Datum = table.Column<DateTime>(nullable: false),
+                    GebruikerId = table.Column<string>(nullable: false),
                     CommentaarType = table.Column<int>(nullable: false),
-                    Tekst = table.Column<string>(nullable: false),
-                    GebruikerId = table.Column<string>(nullable: true)
+                    Tekst = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -153,6 +148,33 @@ namespace kolveniershofBackend.Migrations
                         column: x => x.GebruikerId,
                         principalTable: "Gebruikers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DagAtelier",
+                columns: table => new
+                {
+                    DagAtelierId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DagMoment = table.Column<int>(nullable: false),
+                    AtelierId = table.Column<int>(nullable: true),
+                    DagPlanningTemplateDagplanningId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DagAtelier", x => x.DagAtelierId);
+                    table.ForeignKey(
+                        name: "FK_DagAtelier_Ateliers_AtelierId",
+                        column: x => x.AtelierId,
+                        principalTable: "Ateliers",
+                        principalColumn: "AtelierId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DagAtelier_DagPlanningen_DagPlanningTemplateDagplanningId",
+                        column: x => x.DagPlanningTemplateDagplanningId,
+                        principalTable: "DagPlanningen",
+                        principalColumn: "DagplanningId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -183,7 +205,7 @@ namespace kolveniershofBackend.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Commentaar_GebruikerId",
                 table: "Commentaar",
-                column: "GebruikerId");
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DagAtelier_AtelierId",
@@ -196,6 +218,11 @@ namespace kolveniershofBackend.Migrations
                 column: "DagPlanningTemplateDagplanningId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DagPlanningen_TemplateId",
+                table: "DagPlanningen",
+                column: "TemplateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_GebruikerDagAtelier_Id",
                 table: "GebruikerDagAtelier",
                 column: "Id");
@@ -204,6 +231,12 @@ namespace kolveniershofBackend.Migrations
                 name: "IX_Gebruikers_RoleId",
                 table: "Gebruikers",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Templates_Naam",
+                table: "Templates",
+                column: "Naam",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -231,6 +264,9 @@ namespace kolveniershofBackend.Migrations
 
             migrationBuilder.DropTable(
                 name: "IdentityUserClaim<string>");
+
+            migrationBuilder.DropTable(
+                name: "Templates");
         }
     }
 }
