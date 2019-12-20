@@ -24,15 +24,16 @@ namespace kolveniershofBackend.Data
 
         public async Task InitializeData()
         {
-            //_dbContext.Database.EnsureDeleted();
-            if (false) //niet gebruiken bij azure (migrations)
-                {
+
+            _dbContext.Database.EnsureDeleted();
+            if (_dbContext.Database.EnsureCreated()) //niet gebruiken bij azure (migrations)
+            {
                 #region Gebruikers
                 //admin
                 Gebruiker dina = new Gebruiker("dina", "dobbelaar", "dinadobbelaar@hotmail.com", Sfeergroep.Undefined,
                      "johanna.jpg", GebruikerType.Admin);
 
-                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, 
+                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1,
                     "jonah.jpg", GebruikerType.Admin);
                 //begeleiders
                 Gebruiker dieter = new Gebruiker("dieter", "dobbeleer", "dieterdobbeleer@hotmail.com", Sfeergroep.Undefined,
@@ -449,16 +450,16 @@ namespace kolveniershofBackend.Data
                 Template template2 = new Template("winter");
                 template1.DagPlanningTemplates = dagPlanningTemplates;
                 var list = new List<DagPlanningTemplate>();
-                for(int i = 1; i<5; i++)
+                for (int i = 1; i < 5; i++)
                 {
-                    for(int j = 1; j<8; j++)
+                    for (int j = 1; j < 8; j++)
                     {
                         list.Add(new DagPlanningTemplate(i, (Weekdag)j));
                     }
                 }
                 template2.DagPlanningTemplates = list.AsEnumerable();
                 _dbContext.Templates.AddRange(template1, template2);
-                
+
                 #endregion
 
                 #region Dagplanningen
@@ -560,7 +561,7 @@ namespace kolveniershofBackend.Data
                 dummy.Remove(g);
             }
             return custom;
-            
+
         }
     }
 }
