@@ -10,8 +10,8 @@ using kolveniershofBackend.Data;
 namespace kolveniershofBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191220072954_Init")]
-    partial class Init
+    [Migration("20191220192002_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,7 +67,7 @@ namespace kolveniershofBackend.Migrations
 
                     b.Property<DateTime>("Datum");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("GebruikerId")
                         .IsRequired();
 
                     b.Property<string>("Tekst")
@@ -75,7 +75,7 @@ namespace kolveniershofBackend.Migrations
 
                     b.HasKey("CommentaarId");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("GebruikerId");
 
                     b.ToTable("Commentaar");
                 });
@@ -248,7 +248,7 @@ namespace kolveniershofBackend.Migrations
                 {
                     b.HasOne("kolveniershofBackend.Models.Gebruiker")
                         .WithMany("Commentaren")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("GebruikerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

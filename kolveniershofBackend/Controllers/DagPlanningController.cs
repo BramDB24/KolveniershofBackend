@@ -109,6 +109,7 @@ namespace kolveniershofBackend.Controllers
         /// <param name="gebruikerId"></param>
         /// <returns></returns>
         [HttpGet("{datum}/Gebruiker/{gebruikerId}")]
+        [AllowAnonymous]
         public ActionResult<PictoDagDTO> GetPictoAgendaVanEenPersoon(string datum, string gebruikerId)
         {
             //Controle op overbodige data

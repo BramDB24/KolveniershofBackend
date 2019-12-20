@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace kolveniershofBackend.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -205,7 +205,7 @@ namespace kolveniershofBackend.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Commentaar_GebruikerId",
                 table: "Commentaar",
-                column: "Id");
+                column: "GebruikerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DagAtelier_AtelierId",

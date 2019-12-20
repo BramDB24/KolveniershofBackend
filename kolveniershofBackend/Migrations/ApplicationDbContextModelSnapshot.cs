@@ -65,7 +65,7 @@ namespace kolveniershofBackend.Migrations
 
                     b.Property<DateTime>("Datum");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("GebruikerId")
                         .IsRequired();
 
                     b.Property<string>("Tekst")
@@ -73,7 +73,7 @@ namespace kolveniershofBackend.Migrations
 
                     b.HasKey("CommentaarId");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("GebruikerId");
 
                     b.ToTable("Commentaar");
                 });
@@ -246,7 +246,7 @@ namespace kolveniershofBackend.Migrations
                 {
                     b.HasOne("kolveniershofBackend.Models.Gebruiker")
                         .WithMany("Commentaren")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("GebruikerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
