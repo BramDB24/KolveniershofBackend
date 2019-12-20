@@ -24,7 +24,7 @@ namespace kolveniershofBackend.Data
 
         public async Task InitializeData()
         {
-            //_dbContext.Database.EnsureDeleted();
+            _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated()) //niet gebruiken bij azure (migrations)
                 {
                 #region Gebruikers

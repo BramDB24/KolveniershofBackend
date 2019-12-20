@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using kolveniershofBackend.Extensions;
 
 namespace kolveniershofBackend.Controllers
 {
@@ -57,11 +58,10 @@ namespace kolveniershofBackend.Controllers
         //[Authorize(Policy = "AdminOnly")]
         //[Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagplanningDTO> GetDagPlanning(string datum)
-        {
-            //Controle op overbodige data
+        {   
             VerwijderVerouderdeData();
-
-            DateTime datumFormatted = DateTime.Now;
+            VulDagenAan();
+            DateTime datumFormatted;
             try
             {
                 datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
@@ -102,8 +102,8 @@ namespace kolveniershofBackend.Controllers
             });
         }
 
-        
-        
+
+
 
         /// <summary>
         /// Geeft een pictodto terug met enkel de picto gegevens van de gegeven persoon.
@@ -346,12 +346,13 @@ namespace kolveniershofBackend.Controllers
             // Eerst zoeken we naar de juiste template om te gebruiken. Hiervoor hebben we een weekdag en een weeknummer nodig.
 
             //Is nodig om te kunnen werken met de enums, de enum heeft (voor whatever reason) een undefined nodig die index 0 heeft, terwijl index 0 gewoon maandag moet zijn
-            var weekdag = ((int)datum.DayOfWeek - 1 + 7) % 7;
+            var weekdag = datum.DagVanWeek();
+            //var weekdag = ((int)datum.DayOfWeek - 1 + 7) % 7;
 
-            if (weekdag == (int)Weekdag.Undefined)
-            {
-                weekdag = (int)Weekdag.Maandag;
-            }
+            //if (weekdag == (int)Weekdag.Undefined)
+            //{
+            //    weekdag = (int)Weekdag.Maandag;
+            //}
 
             /**
              * We kunnen een willekeurige, reeds bestaande DagPlanning nemen om te controleren hoe veel weken de datum van de parameter
@@ -369,40 +370,55 @@ namespace kolveniershofBackend.Controllers
                  * Als er nog geen dagplanningen zijn dan gaan we er één aanmaken voor de dag van vandaag met 
                  * de week waar we vandaag in zitten als de start van de 4 weekse planning
                  */
-
-                // bereken de weekdag enum voor de datum van vandaag
-                var weekdagVandaag = (int)datum.DayOfWeek - 1;
-
-                if (weekdagVandaag == (int)Weekdag.Undefined)
-                {
-                    weekdagVandaag = (int)Weekdag.Maandag;
-                };
                 // maak een nieuw dagplanning vandaag en start vanaf de eerste week
                 // dit wordt ook aangemaakt aangezien we de dag van vandaag als referentie gebruiken om de juiste template te vinden
-                DagPlanningTemplate dagPlanningTemplateVandaag = GeefDagPlanningTemplate(1, weekdagVandaag);
+                DagPlanningTemplate dagPlanningTemplateVandaag = GeefDagPlanningTemplate(1, weekdag);
                 controleDagPlanning = new DagPlanning(dagPlanningTemplateVandaag, DateTime.Today);
                 _dagPlanningTemplateRepository.AddDagPlanning(controleDagPlanning);
             }
 
-            /**
-             * Om het aantal weken te berekenen converteren we eerst de datum van de parameter en de data van vandaag
-             * naar de maandag van de week waar ze in zitten.
-             * Hierdoor kunnen we het aantal weken berekenen door het verschil in dagen te nemen en dit te delen door 7.
-             */
-            var weeknummerControle = controleDagPlanning.Weeknummer;
-            var dinsdagControleWeek = DinsdagVanWeek(controleDagPlanning.Datum);
-            var dinsdagGegevenWeek = DinsdagVanWeek(datum);
-            var aantalWekenVerschil = (dinsdagGegevenWeek - dinsdagControleWeek).Days / 7;
-            int weeknummer = (((((weeknummerControle - 1) + aantalWekenVerschil + 4) % 4) + 4) % 4) + 1;
-
+            ///**
+            // * Om het aantal weken te berekenen converteren we eerst de datum van de parameter en de data van vandaag
+            // * naar de maandag van de week waar ze in zitten.
+            // * Hierdoor kunnen we het aantal weken berekenen door het verschil in dagen te nemen en dit te delen door 7.
+            // */
+            //var weeknummerControle = controleDagPlanning.Weeknummer;
+            //var dinsdagControleWeek = DinsdagVanWeek(controleDagPlanning.Datum);
+            //var dinsdagGegevenWeek = DinsdagVanWeek(datum);
+            //var aantalWekenVerschil = (dinsdagGegevenWeek - dinsdagControleWeek).Days / 7;
+            //int weeknummer = (((weeknummerControle - 1) + aantalWekenVerschil + 4) % 4) + 1;
+            var weeknummer = datum.WeekNummer(controleDagPlanning.Datum, controleDagPlanning.Weeknummer);
             DagPlanningTemplate dagPlanningTemplate = GeefDagPlanningTemplate(weeknummer, weekdag);
-
-
+            
             // Aangezien we nu de template hebben kunnen we een nieuwe dagplanning maken voor de opgegeven datum
             dagplanning = new DagPlanning(dagPlanningTemplate, datum);
-            _dagPlanningTemplateRepository.AddDagPlanning(dagplanning);
-            _dagPlanningTemplateRepository.SaveChanges();
+            //_dagPlanningTemplateRepository.AddDagPlanning(dagplanning);
+            //_dagPlanningTemplateRepository.SaveChanges();
             return dagplanning;
+        }
+
+        /**
+         *  Voegt dagen in het verleden toe.
+         **/
+        private void VulDagenAan()
+        {
+            DagPlanning last = _dagPlanningTemplateRepository.GetLastDagPlanning();
+            if(last == null)
+            {
+                var template = _templateRepository.GetActiveDagTemplate(1, (Weekdag)DateTime.Today.DagVanWeek());
+                last = new DagPlanning(template, DateTime.Today);
+                _dagPlanningTemplateRepository.AddDagPlanning(last);
+            }
+                
+            DateTime tempdate = last.Datum;
+            while (tempdate < DateTime.Today)
+            {
+                tempdate = tempdate.AddDays(1);
+                var template = _templateRepository.GetActiveDagTemplate(tempdate.WeekNummer(last.Datum, last.Weeknummer), (Weekdag)tempdate.DagVanWeek());
+                _dagPlanningTemplateRepository.AddDagPlanning(new DagPlanning(template, tempdate));
+            }
+            _dagPlanningTemplateRepository.SaveChanges();
+
         }
 
 
