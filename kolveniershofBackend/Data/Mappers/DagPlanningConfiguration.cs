@@ -12,7 +12,7 @@ namespace kolveniershofBackend.Data.Mappers
     {
         public void Configure(EntityTypeBuilder<DagPlanning> builder)
         {
-            builder.Property(dpt => dpt.Eten).IsRequired();
+            
             builder.Property(dp => dp.Datum).IsRequired();
             builder.Property(dp => dp.Datum).HasColumnType("Date");
             

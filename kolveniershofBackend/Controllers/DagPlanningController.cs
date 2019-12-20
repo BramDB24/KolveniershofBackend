@@ -102,9 +102,6 @@ namespace kolveniershofBackend.Controllers
             });
         }
 
-
-
-
         /// <summary>
         /// Geeft een pictodto terug met enkel de picto gegevens van de gegeven persoon.
         /// </summary>
@@ -190,6 +187,20 @@ namespace kolveniershofBackend.Controllers
             return NoContent();
         }
 
+        [HttpPut("updatecommentaar/{dagplanningId}/commentaar/{commentaar}")]
+        public IActionResult PutDagplanningCommentaar(int dagplanningId, string commentaar)
+        {
+            var dag = _dagPlanningTemplateRepository.GetByIdDagPlanning(dagplanningId);
+            if(dag == null)
+            {
+                return BadRequest();
+            }
+            dag.Commentaar = commentaar;
+            _dagPlanningTemplateRepository.Update(dag);
+            _dagPlanningTemplateRepository.SaveChanges();
+            return Ok();
+        }
+
         /// <summary>
         /// update dagplanning met opgegeven dagplanning id en met template
         /// </summary>
@@ -206,6 +217,32 @@ namespace kolveniershofBackend.Controllers
             _dagPlanningTemplateRepository.Update(dagPlanning);
             _dagPlanningTemplateRepository.SaveChanges();
             return NoContent();
+        }
+
+        /// <summary>
+        /// voeg maaltijd aan een dagplanning toe of vervang de huidige
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="eten"></param>
+        /// <returns></returns>
+        [HttpPost("{id}/eten")]
+        //[Authorize(Policy = "AdminOnly")]
+        //[Authorize(Policy = "BegeleidersOnly")]
+        public ActionResult<DagplanningDTO> PutEten(int id, String eten)
+        {
+            DagPlanningTemplate dpt = _dagPlanningTemplateRepository.GetByIdDagPlanningTemplate(id);
+          
+            if (dpt != null)
+            {
+                dpt.Eten = eten;
+                _dagPlanningTemplateRepository.Update(dpt);
+                _dagPlanningTemplateRepository.SaveChanges();
+                 return Ok();
+            }
+
+            return BadRequest();
+
+            
         }
 
         [HttpPost("{datumVanDagplanning}/dagateliers")]
@@ -268,7 +305,8 @@ namespace kolveniershofBackend.Controllers
                 Weekdag = dagPlanning.Weekdag,
                 Weeknummer = dagPlanning.Weeknummer,
                 Datum = dagPlanning.Datum,
-                DagAteliers = SetDagAteliers(dagPlanning)
+                DagAteliers = SetDagAteliers(dagPlanning),
+                Commentaar = dagPlanning.Commentaar
             };
         }
         private IEnumerable<DagAtelierDTO> SetDagAteliers(DagPlanningTemplate dagPlanning)

@@ -24,41 +24,42 @@ namespace kolveniershofBackend.Data
 
         public async Task InitializeData()
         {
-            _dbContext.Database.EnsureDeleted();
-            if (_dbContext.Database.EnsureCreated()) //niet gebruiken bij azure (migrations)
+            //_dbContext.Database.EnsureDeleted();
+            if (false) //niet gebruiken bij azure (migrations)
                 {
                 #region Gebruikers
                 //admin
                 Gebruiker dina = new Gebruiker("dina", "dobbelaar", "dinadobbelaar@hotmail.com", Sfeergroep.Undefined,
-                     "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Admin);
+                     "johanna.jpg", GebruikerType.Admin);
 
-                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Admin);
+                Gebruiker jonah = new Gebruiker("jonah", "desmet", "jonahdesmet@hotmail.com", Sfeergroep.Sfeergroep1, 
+                    "jonah.jpg", GebruikerType.Admin);
                 //begeleiders
                 Gebruiker dieter = new Gebruiker("dieter", "dobbeleer", "dieterdobbeleer@hotmail.com", Sfeergroep.Undefined,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Begeleider);
+                    "bram.jpg", GebruikerType.Begeleider);
                 Gebruiker lucas = new Gebruiker("lucas", "vermeulen", "lucas@gmail.com", Sfeergroep.Undefined,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Begeleider);
+                    "lucas.jpg", GebruikerType.Begeleider);
                 //sfeergroep 1
                 Gebruiker karo = new Gebruiker("karo", "dewez", "karo@hotmail.com", Sfeergroep.Sfeergroep1,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "kato.jpg", GebruikerType.Cliënt);
                 Gebruiker thomas = new Gebruiker("thomas", "deweert", "thomas@hotmail.com", Sfeergroep.Sfeergroep1,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "robin.jpg", GebruikerType.Cliënt);
                 Gebruiker frans = new Gebruiker("frans", "vermalen", "frans@gmail.com", Sfeergroep.Sfeergroep1,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "jonah.jpg", GebruikerType.Cliënt);
                 //sfeergroep 2
                 Gebruiker jos = new Gebruiker("jos", "faas", "jos@hotmail.com", Sfeergroep.Sfeergroep2,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "bram.jpg", GebruikerType.Cliënt);
                 Gebruiker laura = new Gebruiker("laura", "cramers", "laure@hotmail.com", Sfeergroep.Sfeergroep2,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "johanna.jpg", GebruikerType.Cliënt);
                 Gebruiker veerle = new Gebruiker("veerle", "denoode", "veerle@gmail.com", Sfeergroep.Sfeergroep2,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "kato.jpg", GebruikerType.Cliënt);
                 //sfeergroep 3
                 Gebruiker ken = new Gebruiker("ken", "deblezer", "ken@outlook.com", Sfeergroep.Sfeergroep3,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "lucas.jpg", GebruikerType.Cliënt);
                 Gebruiker nicolas = new Gebruiker("nicolas", "planckaer", "nicolas@gmail.com", Sfeergroep.Sfeergroep3,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "robin.jpg", GebruikerType.Cliënt);
                 Gebruiker lisa = new Gebruiker("lisa", "janssens", "lisa@gmail.be", Sfeergroep.Sfeergroep3,
-                    "http://www.suitdoctors.com/wp-content/uploads/2016/11/dummy-man-570x570.png", GebruikerType.Cliënt);
+                    "johanna.jpg", GebruikerType.Cliënt);
 
                 var gebruikers = new List<Gebruiker> { dina, jonah, dieter, lucas, karo, thomas, frans,
                     jos, laura, veerle, ken, nicolas, lisa };
@@ -69,6 +70,7 @@ namespace kolveniershofBackend.Data
                 #endregion
 
                 #region Ateliers
+
                 //gewone ateliers
                 Atelier bakken = new Atelier(AtelierType.Gewoon, "bakken", "bakken.jpg");
                 Atelier balanske = new Atelier(AtelierType.Gewoon, "balanske", "balanske.jpg");
@@ -112,14 +114,16 @@ namespace kolveniershofBackend.Data
 
                 //speciale ateliers
                 Atelier afwezig = new Atelier(AtelierType.Afwezig, "afwezig", "blanco.jpg");
-                Atelier vervoer = new Atelier(AtelierType.VervoerAtelier, "vervoer", "bus.jpg");
+                Atelier beigebus = new Atelier(AtelierType.VervoerAtelier, "beige bus", "bus.jpg");
+                Atelier blauwebus = new Atelier(AtelierType.VervoerAtelier, "blauwe bus", "bus.jpg");
+                Atelier gelebus = new Atelier(AtelierType.VervoerAtelier, "gele bus", "bus.jpg");
                 Atelier ziek = new Atelier(AtelierType.Ziek, "ziek", "ziek.png");
                 Atelier thuisVerlof = new Atelier(AtelierType.Thuis, "thuis verlof", "thuis_verlof.jpg");
 
                 var ateliers = new List<Atelier> {bakken, feest, koken, markt, praatcafe, textiel, tuin, wandelen, yoga, balanske, crea,
                 hout, kringgesprek, muziek, provinciaalDomein, snoezelen, uitstap, zwemmen, beleving, digitaal, kaarsen, kunst,
                 paardrijden, spikEnSpan, tievo, verhalen, werkplaats, bib, expressie, keukenEnAfwas, levensboeken, petanque,
-                    sporten, toneel, vorming, winkelen, afwezig, vervoer, ziek, thuisVerlof};
+                    sporten, toneel, vorming, winkelen, afwezig, beigebus, blauwebus, gelebus, ziek, thuisVerlof};
 
                 _dbContext.Ateliers.AddRange(ateliers);
 
@@ -137,22 +141,29 @@ namespace kolveniershofBackend.Data
                 DagAtelier verhalenNamiddag = new DagAtelier(DagMoment.Namiddag, verhalen);
                 DagAtelier petanqueVoormiddag = new DagAtelier(DagMoment.VolledigeDag, petanque);
                 DagAtelier afwezigVolledigeDag = new DagAtelier(DagMoment.Undefined, afwezig);
-                DagAtelier vervoerVanDeDag = new DagAtelier(DagMoment.Undefined, vervoer);
+                DagAtelier gelebusDag = new DagAtelier(DagMoment.Undefined, gelebus);
+                DagAtelier blauwebusDag = new DagAtelier(DagMoment.Undefined, blauwebus);
+                DagAtelier beigebusDag = new DagAtelier(DagMoment.Undefined, beigebus);
                 DagAtelier ziekVolledigDag = new DagAtelier(DagMoment.Undefined, ziek);
                 DagAtelier thuisvervofVolledigeDag = new DagAtelier(DagMoment.Undefined, thuisVerlof);
 
                 var dagAteliers = new List<DagAtelier> {kokenVoormiddag, zwemmenNamiddag, sportenVolledigeDag,
                     expressieVoormiddag,toneelNamiddag, winkelenVolledigeDag, paardrijdenVoormiddag,
-                    verhalenNamiddag, petanqueVoormiddag, afwezigVolledigeDag, vervoerVanDeDag, ziekVolledigDag, thuisvervofVolledigeDag };
+                    verhalenNamiddag, petanqueVoormiddag, afwezigVolledigeDag, gelebusDag, blauwebusDag, beigebusDag, ziekVolledigDag, thuisvervofVolledigeDag };
                 #endregion
 
+
                 #region Gebruikerstoevoegen
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(karo);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(jos);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(laura);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(veerle);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(frans);
-                vervoerVanDeDag.VoegGebruikerAanDagAtelierToe(thomas);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(karo);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(jos);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(laura);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(veerle);
+                gelebusDag.VoegGebruikerAanDagAtelierToe(dieter);
+                blauwebusDag.VoegGebruikerAanDagAtelierToe(frans);
+                blauwebusDag.VoegGebruikerAanDagAtelierToe(thomas);
+                blauwebusDag.VoegGebruikerAanDagAtelierToe(lucas);
+                beigebusDag.VoegGebruikerAanDagAtelierToe(ken);
+                beigebusDag.VoegGebruikerAanDagAtelierToe(nicolas);
 
                 afwezigVolledigeDag.VoegGebruikerAanDagAtelierToe(ken);
                 afwezigVolledigeDag.VoegGebruikerAanDagAtelierToe(nicolas);
@@ -457,7 +468,9 @@ namespace kolveniershofBackend.Data
                 _dbContext.DagPlanningen.Add(vandaag);
 
                 vandaag.VoegDagAtelierToeAanDagPlanningTemplate(ziekVolledigDag);
-                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(vervoerVanDeDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(gelebusDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(blauwebusDag);
+                vandaag.VoegDagAtelierToeAanDagPlanningTemplate(beigebusDag);
                 vandaag.VoegDagAtelierToeAanDagPlanningTemplate(thuisvervofVolledigeDag);
                 vandaag.VoegDagAtelierToeAanDagPlanningTemplate(afwezigVolledigeDag);
 
@@ -474,16 +487,31 @@ namespace kolveniershofBackend.Data
 
                 #region Commentaar
                 //commentaar
-                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar);
+                Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 laura.addCommentaar(commentaarBijGebruikerLaura1);
 
-                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar);
+                Commentaar commentaarBijGebruikerLaura2 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 laura.addCommentaar(commentaarBijGebruikerLaura2);
 
-                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar);
+                Commentaar commentaarBijGebruikerLucas1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 lucas.addCommentaar(commentaarBijGebruikerLucas1);
 
-                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1 };
+                Commentaar commentaarBijJonahZaterdag14 = new Commentaar("zaterdag14", CommentaarType.ZaterdagCommentaar, new DateTime(2019, 12, 14), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZaterdag14);
+
+                Commentaar commentaarBijJonahZaterdag07 = new Commentaar("zaterdag07", CommentaarType.ZaterdagCommentaar, new DateTime(2019, 12, 7), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZaterdag07);
+
+                Commentaar commentaarBijJonahZondag15 = new Commentaar("zondag15", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 15), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZondag15);
+
+                Commentaar commentaarBijJonahZondag08 = new Commentaar("zondag08", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 8), jonah.Id);
+                jonah.addCommentaar(commentaarBijJonahZondag08);
+
+                Commentaar commentaarBijLisaZondag15 = new Commentaar("Lisa zondag 15", CommentaarType.ZondagCommentaar, new DateTime(2019, 12, 15), lisa.Id);
+                lisa.addCommentaar(commentaarBijLisaZondag15);
+
+                var commentaar = new List<Commentaar> { commentaarBijGebruikerLaura1, commentaarBijGebruikerLaura2, commentaarBijGebruikerLucas1, commentaarBijJonahZaterdag14, commentaarBijJonahZaterdag07, commentaarBijJonahZondag15, commentaarBijJonahZondag08, commentaarBijLisaZondag15 };
                 _dbContext.Commentaar.AddRange(commentaar);
                 _dbContext.SaveChanges();
 
@@ -513,7 +541,7 @@ namespace kolveniershofBackend.Data
         }
 
         private async Task MaakGebruiker(Gebruiker gebruiker, string password)
-        {   
+        {
             await _userManager.CreateAsync(gebruiker, password);
             await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, gebruiker.Type.ToString()));
 

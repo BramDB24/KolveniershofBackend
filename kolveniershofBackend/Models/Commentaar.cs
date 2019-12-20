@@ -18,6 +18,7 @@ namespace kolveniershofBackend.Models
         #region Properties
         public int CommentaarId { get; set; }
         public DateTime Datum { get; set; }
+        public string GebruikerId { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public CommentaarType CommentaarType
@@ -55,13 +56,14 @@ namespace kolveniershofBackend.Models
 
         public Commentaar()
         {
-            Datum = DateTime.Now;
         }
 
-        public Commentaar(string tekst, CommentaarType commentaarType): this()
+        public Commentaar(string tekst, CommentaarType commentaarType, DateTime datum, string gebruikerid)
         {
             Tekst = tekst;
             CommentaarType = commentaarType;
+            Datum = datum;
+            GebruikerId = gebruikerid;
         }
 
     }
