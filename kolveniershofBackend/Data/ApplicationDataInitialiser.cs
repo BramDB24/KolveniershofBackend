@@ -242,30 +242,38 @@ namespace kolveniershofBackend.Data
                 DagPlanningTemplate woensdagWeek1 = new DagPlanningTemplate(1, Weekdag.Woensdag);
                 DagPlanningTemplate donderdagWeek1 = new DagPlanningTemplate(1, Weekdag.Donderdag);
                 DagPlanningTemplate vrijdagWeek1 = new DagPlanningTemplate(1, Weekdag.Vrijdag);
+                DagPlanningTemplate zaterdagWeek1 = new DagPlanningTemplate(1, Weekdag.Zaterdag);
+                DagPlanningTemplate zondagWeek1 = new DagPlanningTemplate(1, Weekdag.Zondag);
                 //week2
                 DagPlanningTemplate maandagWeek2 = new DagPlanningTemplate(2, Weekdag.Maandag);
                 DagPlanningTemplate dinsdagWeek2 = new DagPlanningTemplate(2, Weekdag.Dinsdag);
                 DagPlanningTemplate woensdagWeek2 = new DagPlanningTemplate(2, Weekdag.Woensdag);
                 DagPlanningTemplate donderdagWeek2 = new DagPlanningTemplate(2, Weekdag.Donderdag);
                 DagPlanningTemplate vrijdagWeek2 = new DagPlanningTemplate(2, Weekdag.Vrijdag);
+                DagPlanningTemplate zaterdagWeek2 = new DagPlanningTemplate(2, Weekdag.Zaterdag);
+                DagPlanningTemplate zondagWeek2 = new DagPlanningTemplate(2, Weekdag.Zondag);
                 //week3
                 DagPlanningTemplate maandagWeek3 = new DagPlanningTemplate(3, Weekdag.Maandag);
                 DagPlanningTemplate dinsdagWeek3 = new DagPlanningTemplate(3, Weekdag.Dinsdag);
                 DagPlanningTemplate woensdagWeek3 = new DagPlanningTemplate(3, Weekdag.Woensdag);
                 DagPlanningTemplate donderdagWeek3 = new DagPlanningTemplate(3, Weekdag.Donderdag);
                 DagPlanningTemplate vrijdagWeek3 = new DagPlanningTemplate(3, Weekdag.Vrijdag);
+                DagPlanningTemplate zaterdagWeek3 = new DagPlanningTemplate(3, Weekdag.Zaterdag);
+                DagPlanningTemplate zondagWeek3 = new DagPlanningTemplate(3, Weekdag.Zondag);
                 //week4
                 DagPlanningTemplate maandagWeek4 = new DagPlanningTemplate(4, Weekdag.Maandag);
                 DagPlanningTemplate dinsdagWeek4 = new DagPlanningTemplate(4, Weekdag.Dinsdag);
                 DagPlanningTemplate woensdagWeek4 = new DagPlanningTemplate(4, Weekdag.Woensdag);
                 DagPlanningTemplate donderdagWeek4 = new DagPlanningTemplate(4, Weekdag.Donderdag);
                 DagPlanningTemplate vrijdagWeek4 = new DagPlanningTemplate(4, Weekdag.Vrijdag);
+                DagPlanningTemplate zaterdagWeek4 = new DagPlanningTemplate(4, Weekdag.Zaterdag);
+                DagPlanningTemplate zondagWeek4 = new DagPlanningTemplate(4, Weekdag.Zondag);
 
 
-                var dagPlanningTemplates = new List<DagPlanningTemplate> {maandagWeek1, dinsdagWeek1, woensdagWeek1, donderdagWeek1, vrijdagWeek1,
-                maandagWeek2, dinsdagWeek2, woensdagWeek2, donderdagWeek2, vrijdagWeek2,
-                maandagWeek3, dinsdagWeek3, woensdagWeek3, donderdagWeek3, vrijdagWeek3,
-                maandagWeek4, dinsdagWeek4, woensdagWeek4, donderdagWeek4, vrijdagWeek4,};
+                var dagPlanningTemplates = new List<DagPlanningTemplate> {maandagWeek1, dinsdagWeek1, woensdagWeek1, donderdagWeek1, vrijdagWeek1, zaterdagWeek1, zondagWeek1,
+                maandagWeek2, dinsdagWeek2, woensdagWeek2, donderdagWeek2, vrijdagWeek2, zaterdagWeek2, zondagWeek2,
+                maandagWeek3, dinsdagWeek3, woensdagWeek3, donderdagWeek3, vrijdagWeek3, zaterdagWeek3, zondagWeek3,
+                maandagWeek4, dinsdagWeek4, woensdagWeek4, donderdagWeek4, vrijdagWeek4, zaterdagWeek4, zondagWeek4};
 
                 _dbContext.DagPlanningen.AddRange(dagPlanningTemplates);
                 #endregion
@@ -443,7 +451,7 @@ namespace kolveniershofBackend.Data
                 vrijdagWeek4.VoegDagateliersToe(expressie).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
                 vrijdagWeek4.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
                 vrijdagWeek4.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
-
+                
                 Template template1 = new Template("zomer");
                 template1.DagPlanningTemplates = dagPlanningTemplates;
                 template1.IsActief = true;
