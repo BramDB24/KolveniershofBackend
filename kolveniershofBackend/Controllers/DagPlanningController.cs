@@ -257,15 +257,29 @@ namespace kolveniershofBackend.Controllers
             return CreatedAtAction(nameof(GetDagPlanning), new { datum = planning.Datum }, planning);
         }
 
-        [HttpPut("{id}/dagAtelier")]
-        public ActionResult PutDagAtelier(int id, DagAtelierDTO dto)
+        [HttpPut("{datum}/dagAtelier")]
+        public ActionResult PutDagAtelier(string datum, DagAtelierDTO dto)
         {
-            var dagPlanning = _dagPlanningTemplateRepository.GetByIdDagPlanningTemplate(id);
+            DateTime datumFormatted;
+            try
+            {
+                 datumFormatted = DateTime.Parse(datum, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            }
+            catch
+            {
+                return NotFound();
+            }
+            
+            var dagPlanning = _dagPlanningTemplateRepository.GetByDatum(datumFormatted);
+            //var dagPlanning = _dagPlanningTemplateRepository.GetByIdDagPlanningTemplate(id);
             var atelier = _atelierRepository.getBy(dto.Atelier.AtelierId);
 
             if (dagPlanning == null)
             {
-                return NotFound();
+                var oldtemplate = _dagPlanningTemplateRepository.GetLastDagPlanning();
+                dagPlanning = new DagPlanning(_templateRepository.GetActiveDagTemplate(datumFormatted.WeekNummer(oldtemplate.Datum, oldtemplate.Weeknummer), (Weekdag)datumFormatted.DagVanWeek()), datumFormatted);
+                _dagPlanningTemplateRepository.AddDagPlanning(dagPlanning);
+                _dagPlanningTemplateRepository.SaveChanges();
             }
 
             DagAtelier dagAtelier = new DagAtelier
