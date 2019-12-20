@@ -40,7 +40,7 @@ namespace kolveniershofBackend.Controllers
                     DagMoment = t.DagMoment
                 };
 
-                t.Gebruikers.ToList().ForEach(e => dagAtelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.GebruikerId)));
+                t.Gebruikers.ToList().ForEach(e => dagAtelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.Id)));
                 template.DagAteliers.Add(dagAtelier);
                 var d = template.DagAteliers;
             });

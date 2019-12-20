@@ -288,8 +288,8 @@ namespace kolveniershofBackend.Controllers
                 DagAtelierId = dto.DagAtelierId,
                 DagMoment = dto.DagMoment
             };
-
-            dto.Gebruikers.ToList().ForEach(e => dagAtelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.GebruikerId)));
+            
+            dto.Gebruikers.ToList().ForEach(e => dagAtelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.Id)));
 
             if (dto.DagAtelierId == 0)
             {
@@ -338,7 +338,7 @@ namespace kolveniershofBackend.Controllers
                 DagMoment = da.DagMoment,
                 Gebruikers = da.Gebruikers.Select(gda => new BasicGebruikerDTO()
                 {
-                    GebruikerId = gda.Gebruiker.Id,
+                    Id = gda.Gebruiker.Id,
                     Achternaam = gda.Gebruiker.Achternaam,
                     Voornaam = gda.Gebruiker.Voornaam,
                     Foto = gda.Gebruiker.Foto,
