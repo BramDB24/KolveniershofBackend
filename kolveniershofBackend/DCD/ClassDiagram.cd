@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="kolveniershofBackend.Models.Atelier">
+    <Position X="8.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAgBAAAAAAAAAAAAAgBAAAAgEI=</HashCode>
+      <FileName>Models\Atelier.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AtelierType" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="DagAteliers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="kolveniershofBackend.Models.Commentaar">
+    <Position X="22.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAwCAQQAAAABAAAAQAA=</HashCode>
+      <FileName>Models\Commentaar.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CommentaarType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="kolveniershofBackend.Models.DagAtelier">
+    <Position X="15.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAkCAAAAAAEAAIAAEAAAYAAEAA=</HashCode>
+      <FileName>Models\DagAtelier.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DagMoment" />
+      <Property Name="Atelier" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Gebruikers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="kolveniershofBackend.Models.DagPlanning">
+    <Position X="18.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAACAAQAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\DagPlanning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="kolveniershofBackend.Models.DagPlanningTemplate">
+    <Position X="16.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAABAAgAAAAEAAAAAgACAAFBAAIBCg=</HashCode>
+      <FileName>Models\DagPlanningTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="kolveniershofBackend.Models.Gebruiker">
+    <Position X="23.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAgAgACgIBAAAEAAAAAAAEAAEAAAAAQAARAEAAAE=</HashCode>
+      <FileName>Models\Gebruiker.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Sfeergroep" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Commentaren" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="kolveniershofBackend.Models.GebruikerDagAtelier">
+    <Position X="19.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAAAAAAA=</HashCode>
+      <FileName>Models\GebruikerDagAtelier.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DagAtelier" />
+      <Property Name="Gebruiker" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="kolveniershofBackend.Models.Opmerking">
+    <Position X="11" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAQAAAAAAAAAAAAAAAEQCAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Opmerking.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="OpmerkingType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="kolveniershofBackend.Models.Template">
+    <Position X="13.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAAAAAAAABAAAAABAAAAAAAACAAAAAAAAAACAA=</HashCode>
+      <FileName>Models\Template.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="DagPlanningTemplates" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Enum Name="kolveniershofBackend.Enums.OpmerkingType">
+    <Position X="11" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAACAAQAAgAAAAAAAAAAQABAAIAAAMACA=</HashCode>
+      <FileName>Enums\OpmerkingType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="kolveniershofBackend.Enums.Sfeergroep">
+    <Position X="26" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAQAAAAAAAIAAAAACA=</HashCode>
+      <FileName>Enums\Sfeergroep.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="kolveniershofBackend.Enums.AtelierType">
+    <Position X="5.75" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAACAAAAAAAAAAAAQQAAAAAAIAAACA=</HashCode>
+      <FileName>Enums\AtelierType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="kolveniershofBackend.Enums.CommentaarType">
+    <Position X="26.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAgAAAAgAAAAAAAAAACA=</HashCode>
+      <FileName>Enums\CommentaarType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="kolveniershofBackend.Enums.DagMoment">
+    <Position X="15" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAIAAAAAAAAAAAACAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Enums\DagMoment.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
