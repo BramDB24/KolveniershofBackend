@@ -26,9 +26,8 @@ namespace kolveniershofBackend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
-    //[Authorize(Policy = "AdminOnly")]
-    //[Authorize(Policy = "BegeleidersOnly")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Policy = "Begeleider")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TemplateController : ControllerBase
     {
         private readonly ITemplateRepository _templateRepository;
@@ -53,8 +52,8 @@ namespace kolveniershofBackend.Controllers
 
 
         [HttpGet]
-        //[Authorize(Policy = "AdminOnly")]
-        //[Authorize(Policy = "BegeleidersOnly")]
+        //[Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Begeleider")]
         public IEnumerable<Template> GetTemplates()
         {
             var templates = _templateRepository.GetAll();

@@ -26,7 +26,7 @@ namespace kolveniershofBackend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class DagPlanningController : ControllerBase
     {
         private readonly ITemplateRepository _templateRepository;
@@ -54,9 +54,8 @@ namespace kolveniershofBackend.Controllers
         /// </summary>
         /// <param name="datum"></param>
         /// <returns></returns>
+        [Authorize(Policy = "Begeleider")]
         [HttpGet("{datum}")]
-        //[Authorize(Policy = "AdminOnly")]
-        //[Authorize(Policy = "BegeleidersOnly")]
         public ActionResult<DagplanningDTO> GetDagPlanning(string datum)
         {
             VerwijderVerouderdeData();
@@ -79,6 +78,7 @@ namespace kolveniershofBackend.Controllers
         /// </summary>
         /// <param name="datum"></param>
         /// <returns></returns>
+        [Authorize(Policy = "Begeleider")]
         [HttpGet("{datum}/aanwezigen")]
         public IEnumerable<DagAtelierDTO> GetAanwezigeGebruikers(string datum)
         {
@@ -133,6 +133,7 @@ namespace kolveniershofBackend.Controllers
             return pictoDagDTO;
         }
 
+        [Authorize(Policy = "Cliënt")]
         [HttpGet("{datum}/pictoagenda")]
         public IEnumerable<PictoDagDTO> GetWeekPictoAgendasHuidigeGebruiker(string datum)
         {
@@ -151,8 +152,7 @@ namespace kolveniershofBackend.Controllers
             return pictodtos.AsEnumerable();
         }
 
-        //[Authorize(Policy = "AdminOnly")]
-        //[Authorize(Policy = "BegeleidersOnly")]
+        [Authorize]
         [HttpGet("{datum}/pictoagenda/client/{gebruikerId}")]
         public IEnumerable<PictoDagDTO> GetWeekPictoAgendasVanClient(string datum, string gebruikerId)
         {
@@ -176,8 +176,7 @@ namespace kolveniershofBackend.Controllers
         /// <param name="dagPlanning"></param>
         /// <returns></returns>
         [HttpPut("template/{id}")]
-        //[Authorize(Policy = "AdminOnly")]
-        //[Authorize(Policy = "BegeleidersOnly")]
+        [Authorize(Policy = "Begeleider")]
         public ActionResult<DagPlanningTemplate> PutDagPlanningTemplateAanpassingen(int id, DagPlanningTemplate dagPlanning)
         {
             if (id != dagPlanning.DagplanningId)
@@ -187,6 +186,7 @@ namespace kolveniershofBackend.Controllers
             return NoContent();
         }
 
+        [Authorize(Policy = "Begeleider")]
         [HttpPut("updatecommentaar/{dagplanningId}/commentaar/{commentaar}")]
         public IActionResult PutDagplanningCommentaar(int dagplanningId, string commentaar)
         {
@@ -208,8 +208,7 @@ namespace kolveniershofBackend.Controllers
         /// <param name="dagPlanning"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        //[Authorize(Policy = "AdminOnly")]
-        //[Authorize(Policy = "BegeleidersOnly")]
+        [Authorize(Policy = "Begeleider")]
         public ActionResult<DagPlanningTemplate> PutDagPlanningAanpassingen(int id, DagPlanning dagPlanning)
         {
             if (id != dagPlanning.DagplanningId)
@@ -227,8 +226,7 @@ namespace kolveniershofBackend.Controllers
         /// <param name="eten"></param>
         /// <returns></returns>
         [HttpPost("{datum}/eten")]
-        //[Authorize(Policy = "AdminOnly")]
-        //[Authorize(Policy = "BegeleidersOnly")]
+        [Authorize(Policy = "Begeleider")]
         public ActionResult<DagplanningDTO> PostEten(string datum, string eten)
         {
             DateTime datumFormatted;
@@ -249,6 +247,7 @@ namespace kolveniershofBackend.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "Begeleider")]
         [HttpPut("{datum}/dagateliers")]
         public ActionResult<DagPlanning> DeleteDagAtelierUitDagplanning(string datum, DagAtelierDTO dagAtelier)
         {
@@ -267,6 +266,7 @@ namespace kolveniershofBackend.Controllers
             return NoContent();
         }
 
+        [Authorize(Policy = "Begeleider")]
         [HttpPut("{datum}/dagAtelier")]
         public ActionResult PutDagAtelier(string datum, DagAtelierDTO dto)
         {

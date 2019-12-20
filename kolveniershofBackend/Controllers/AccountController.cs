@@ -9,6 +9,7 @@ using System.Web;
 using kolveniershofBackend.DTO;
 using kolveniershofBackend.Enums;
 using kolveniershofBackend.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace kolveniershofBackend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
-    [AllowAnonymous]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AccountController : ControllerBase
     {
         private readonly SignInManager<Gebruiker> _signInManager;
@@ -36,6 +37,7 @@ namespace kolveniershofBackend.Controllers
             _config = config;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<string>> CreateToken(LoginDTO model)
         {
@@ -44,21 +46,24 @@ namespace kolveniershofBackend.Controllers
             if (user != null)
             {
                 var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-
+                var claims = await _signInManager.UserManager.GetClaimsAsync(user);
                 if (result.Succeeded)
                 {
-                    string token = GetToken(user);
+                    string token = GetToken(user, claims);
                     return Created("", new { token, user}); //returns only the token                   
                 }
             }
             return BadRequest();
         }
 
-        private string GetToken(Gebruiker g)
+        private string GetToken(Gebruiker g, IList<Claim> claims)
         {      // Createthetoken
-            var claims = new[] {
+            var claimarray = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, g.Email),
-                new Claim(JwtRegisteredClaimNames.UniqueName, g.UserName) };
+                new Claim(JwtRegisteredClaimNames.UniqueName, g.UserName)};
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, g.Email));
+            claims.Add(new Claim(JwtRegisteredClaimNames.UniqueName, g.UserName));
+            
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(null, null, 
@@ -68,6 +73,8 @@ namespace kolveniershofBackend.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        
+        [Authorize(Policy = "Begeleider")]
         [HttpPost("register")]
         public async Task<ActionResult<string>> Register(RegisterDTO model)
         {
@@ -77,11 +84,17 @@ namespace kolveniershofBackend.Controllers
             };
 
             var result = await _userManager.CreateAsync(g, model.Password);
+            await _userManager.AddClaimAsync(g, new Claim(ClaimTypes.Role, g.Type.ToString()));
+            if (g.Type == GebruikerType.Admin)
+            {
+                await _userManager.AddClaimAsync(g, new Claim(ClaimTypes.Role, "Begeleider"));
+            }
 
+            var claims = await _signInManager.UserManager.GetClaimsAsync(g);
             if (result.Succeeded)
             {
                 _gebruikerRepository.SaveChanges();
-                string token = GetToken(g);
+                string token = GetToken(g, claims);
                 
                 var host = Request.Host;
                 return Created($"https://{host}/api/account/{g.Id}", g);
@@ -97,6 +110,8 @@ namespace kolveniershofBackend.Controllers
             return new GebruikerDTO(g);
         }
 
+        
+        [Authorize(Policy = "Begeleider")]
         [HttpDelete("{id}")]
         public ActionResult<Gebruiker> VerwijderGebruiker(string id)
         {
@@ -110,12 +125,14 @@ namespace kolveniershofBackend.Controllers
             return g;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IEnumerable<GebruikerDTO> GetGebruikers()
         {
             return _gebruikerRepository.GetAll().Select(g => new GebruikerDTO(g));
         }
 
+        [AllowAnonymous]
         [HttpGet("sfeergroep/{sfeergroep}")]
         public IEnumerable<GebruikerDTO> GetGebruikersVanSpecifiekeSfeergroep(int sfeergroep)
         {
@@ -123,6 +140,7 @@ namespace kolveniershofBackend.Controllers
                 ToList().Select(g => new GebruikerDTO(g));
         }
 
+        [Authorize(Policy = "Begeleider")]
         [HttpPut("{id}")]
         public ActionResult<Gebruiker> PutGebruiker(string id, Gebruiker gebruiker)
         {
