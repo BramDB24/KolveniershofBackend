@@ -27,7 +27,7 @@ namespace kolveniershofBackend.Data
             //_dbContext.Database.EnsureDeleted();
             if (false) //niet gebruiken bij azure (migrations)
                 {
-                //gebruikers   
+                #region Gebruikers
                 //admin
                 Gebruiker dina = new Gebruiker("dina", "dobbelaar", "dinadobbelaar@hotmail.com", Sfeergroep.Undefined,
                      "johanna.jpg", GebruikerType.Admin);
@@ -67,8 +67,10 @@ namespace kolveniershofBackend.Data
                 {
                     await MaakGebruiker(g, "password1010");
                 }
+                #endregion
 
-                //alle ateliers
+                #region Ateliers
+
                 //gewone ateliers
                 Atelier bakken = new Atelier(AtelierType.Gewoon, "bakken", "bakken.jpg");
                 Atelier balanske = new Atelier(AtelierType.Gewoon, "balanske", "balanske.jpg");
@@ -125,6 +127,9 @@ namespace kolveniershofBackend.Data
 
                 _dbContext.Ateliers.AddRange(ateliers);
 
+                #endregion
+
+                #region DagAteliers
                 //dagAteliers
                 DagAtelier kokenVoormiddag = new DagAtelier(DagMoment.Voormiddag, koken);
                 DagAtelier zwemmenNamiddag = new DagAtelier(DagMoment.Namiddag, zwemmen);
@@ -145,6 +150,7 @@ namespace kolveniershofBackend.Data
                 var dagAteliers = new List<DagAtelier> {kokenVoormiddag, zwemmenNamiddag, sportenVolledigeDag,
                     expressieVoormiddag,toneelNamiddag, winkelenVolledigeDag, paardrijdenVoormiddag,
                     verhalenNamiddag, petanqueVoormiddag, afwezigVolledigeDag, gelebusDag, blauwebusDag, beigebusDag, ziekVolledigDag, thuisvervofVolledigeDag };
+                #endregion
 
 
                 #region Gebruikerstoevoegen
@@ -226,6 +232,7 @@ namespace kolveniershofBackend.Data
 
                 #endregion
 
+                #region DagPlanningTemplates
                 //dagplanningTemplate
                 //week1
                 DagPlanningTemplate maandagWeek1 = new DagPlanningTemplate(1, Weekdag.Maandag);
@@ -259,7 +266,7 @@ namespace kolveniershofBackend.Data
                 maandagWeek4, dinsdagWeek4, woensdagWeek4, donderdagWeek4, vrijdagWeek4,};
 
                 _dbContext.DagPlanningen.AddRange(dagPlanningTemplates);
-
+                #endregion
 
                 #region Template seeding
 
@@ -435,9 +442,26 @@ namespace kolveniershofBackend.Data
                 vrijdagWeek4.VoegDagateliersToe(petanque).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
                 vrijdagWeek4.VoegDagateliersToe(toneel).VoegGebruikersToe(selecteerRandomGebruikers(gebruikers));
 
+                Template template1 = new Template("zomer");
+                template1.DagPlanningTemplates = dagPlanningTemplates;
+                template1.IsActief = true;
+
+                Template template2 = new Template("winter");
+                template1.DagPlanningTemplates = dagPlanningTemplates;
+                var list = new List<DagPlanningTemplate>();
+                for(int i = 1; i<5; i++)
+                {
+                    for(int j = 1; j<8; j++)
+                    {
+                        list.Add(new DagPlanningTemplate(i, (Weekdag)j));
+                    }
+                }
+                template2.DagPlanningTemplates = list.AsEnumerable();
+                _dbContext.Templates.AddRange(template1, template2);
+                
                 #endregion
 
-
+                #region Dagplanningen
                 //dagplanningen concreet
                 DateTime dt = DateTime.Today;
                 var vandaag = new DagPlanning(1, dt, "balletjes in tomatensaus en friet");
@@ -459,6 +483,9 @@ namespace kolveniershofBackend.Data
 
                 _dbContext.SaveChanges();
 
+                #endregion
+
+                #region Commentaar
                 //commentaar
                 Commentaar commentaarBijGebruikerLaura1 = new Commentaar("tekst", CommentaarType.AlgemeenCommentaar, new DateTime(2019, 12, 12), laura.Id);
                 laura.addCommentaar(commentaarBijGebruikerLaura1);
@@ -488,6 +515,10 @@ namespace kolveniershofBackend.Data
                 _dbContext.Commentaar.AddRange(commentaar);
                 _dbContext.SaveChanges();
 
+                #endregion
+
+                #region Opmerkingen
+
                 Opmerking opmerking1 = new Opmerking(OpmerkingType.AteliersEnWeekschema, "atelier en weekschema test", DateTime.Today);
                 Opmerking opmerking2 = new Opmerking(OpmerkingType.Begeleiding, "begeleiding test", DateTime.Today);
                 Opmerking opmerking3 = new Opmerking(OpmerkingType.Cliënten, "clienten test", DateTime.Today);
@@ -502,10 +533,10 @@ namespace kolveniershofBackend.Data
                 var opmerkingen = new List<Opmerking> { opmerking1, opmerking2, opmerking3, opmerking4, opmerking5, opmerking6,
                 opmerking7, opmerking8, opmerking9};
                 _dbContext.Opmerkingen.AddRange(opmerkingen);
+
+                #endregion
+
                 _dbContext.SaveChanges();
-
-
-
             }
         }
 

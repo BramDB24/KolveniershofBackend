@@ -120,6 +120,7 @@ namespace kolveniershofBackend
             services.AddScoped<IOpmerkingRepository, OpmerkingRepository>();
             services.AddScoped<IAtelierRepository, AtelierRepository>();
             services.AddScoped<ICommentaarRepository, CommentaarRepository>();
+            services.AddScoped<ITemplateRepository, TemplateRepository>();
             services.AddScoped<ApplicationDataInitialiser>();
 
             services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin()));

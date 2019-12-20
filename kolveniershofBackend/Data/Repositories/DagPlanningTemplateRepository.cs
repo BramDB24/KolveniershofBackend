@@ -78,6 +78,11 @@ namespace kolveniershofBackend.Data.Repositories
             return _dagen.OfType<DagPlanning>().OrderBy(d => d.Datum).FirstOrDefault();
         }
 
+        public DagPlanning GetLastDagPlanning()
+        {
+            return _dagen.OfType<DagPlanning>().OrderBy(d => d.Datum).Where(d => d.Datum <= DateTime.Today).LastOrDefault();
+        }
+
         public bool IsDagPlanningenLeeg()
         {
             return !_dagen.Where(d => !d.IsTemplate).Any();

@@ -15,6 +15,7 @@ namespace kolveniershofBackend.Models
         DagPlanningTemplate GetTemplateByWeeknummerEnDagnummer(int week, Weekdag dag);
         DagPlanningTemplate GetTemplateByWeeknummerEnDagnummerGeenInclude(int weeknummer, Weekdag dagnummer);
         DagPlanning GetEersteDagPlanning();
+        DagPlanning GetLastDagPlanning();
         bool IsDagPlanningenLeeg();
         void Add(DagPlanningTemplate dagPlanning);
         void AddDagPlanning(DagPlanning dagPlanning);
