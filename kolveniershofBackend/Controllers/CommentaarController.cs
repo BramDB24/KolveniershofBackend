@@ -26,7 +26,7 @@ namespace kolveniershofBackend.Controllers
             _gebruikerRepository = gebruikerRepository;
         }
 
-
+        [Authorize]
         [HttpGet("huidigeGebruiker/zaterdag/{zaterdagDatum}/zondag/{zondagDatum}/{gebruikerId}")]
         public ActionResult<IEnumerable<Commentaar>> GetCommentaarVanSpefiekeDagEnGebruiker(string zaterdagDatum, string zondagDatum, string gebruikerId)
         {
@@ -41,7 +41,7 @@ namespace kolveniershofBackend.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Policy = "ClientOnly")]
+        [Authorize(Policy = "Cliënt")]
         public ActionResult<CommentaarDTO> PostCommentaar(CommentaarDTO commentaardto) 
         {
             Gebruiker huidigeGebruiker = _gebruikerRepository.GetByEmail(User.Identity.Name);
@@ -52,6 +52,7 @@ namespace kolveniershofBackend.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "Cliënt")]
         [HttpPut("{commentaarId}/{content}")]
         public ActionResult PutCommentaar(int commentaarId, string content)
         {

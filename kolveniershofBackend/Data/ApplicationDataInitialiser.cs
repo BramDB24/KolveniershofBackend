@@ -554,7 +554,10 @@ namespace kolveniershofBackend.Data
         {
             await _userManager.CreateAsync(gebruiker, password);
             await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, gebruiker.Type.ToString()));
-
+            if(gebruiker.Type == GebruikerType.Admin)
+            {
+                await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, "Begeleider"));
+            }
         }
 
         private List<Gebruiker> selecteerRandomGebruikers(List<Gebruiker> gebruikers)
