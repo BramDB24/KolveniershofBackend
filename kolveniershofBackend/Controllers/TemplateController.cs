@@ -98,7 +98,7 @@ namespace kolveniershofBackend.Controllers
             DagplanningDTO dagPlanningTemplateDto = new DagplanningDTO()
             {
                 DagplanningId = dagPlanningTemplate.DagplanningId,
-                Eten = null,
+                Eten = dagPlanningTemplate.Eten,
                 Weekdag = dagPlanningTemplate.Weekdag,
                 Weeknummer = dagPlanningTemplate.Weeknummer,
                 Datum = null,
