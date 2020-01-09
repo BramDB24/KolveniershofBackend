@@ -267,6 +267,61 @@ namespace kolveniershofBackend.Controllers
             return NoContent();
         }
 
+        //hotfix
+        [Authorize(Policy = "Begeleider")]
+        [HttpPut("dagTemplate/{id}/dagatelier/delete")]
+        public ActionResult<DagPlanning> DeleteDagAtelierUitTemplateDagplanning(int id, DagAtelierDTO dagAtelier)
+        {
+            var planning = _dagPlanningTemplateRepository.GetByIdDagPlanningTemplate(id);
+            if (planning == null)
+                return BadRequest();
+            DagAtelier da = planning.DagAteliers.FirstOrDefault(d => d.DagAtelierId == dagAtelier.DagAtelierId);
+            if (da == null)
+                return BadRequest();
+            planning.VerwijderDagAtlierVanDagPlanningTemplate(da);
+            _dagPlanningTemplateRepository.Update(planning);
+            _dagPlanningTemplateRepository.SaveChanges();
+            return NoContent();
+        }
+
+        //hotfix
+        [Authorize(Policy = "Begeleider")]
+        [HttpPut("dagtemplate/{id}/dagAtelier")]
+        public ActionResult PutDagAtelier(int id, DagAtelierDTO dto)
+        {   
+            var dagPlanning = _dagPlanningTemplateRepository.GetByIdDagPlanningTemplate(id);
+            var atelier = _atelierRepository.getBy(dto.Atelier.AtelierId);
+
+            if (dagPlanning == null)
+            {
+                return BadRequest();
+            }
+
+            DagAtelier dagAtelier = new DagAtelier
+            {
+                Atelier = atelier,
+                DagAtelierId = dto.DagAtelierId,
+                DagMoment = dto.DagMoment
+            };
+
+            dto.Gebruikers.ToList().ForEach(e => dagAtelier.VoegGebruikerAanDagAtelierToe(_gebruikerRepository.GetBy(e.Id)));
+
+            if (dto.DagAtelierId == 0)
+            {
+                dagPlanning.DagAteliers.Add(dagAtelier);
+            }
+            else
+            {
+                var temp = dagPlanning.DagAteliers.FirstOrDefault(t => t.DagAtelierId == dto.DagAtelierId);
+                temp.Gebruikers = dagAtelier.Gebruikers;
+                temp.Atelier = dagAtelier.Atelier;
+                temp.DagMoment = dagAtelier.DagMoment;
+            }
+            _dagPlanningTemplateRepository.SaveChanges();
+
+            return Ok();
+        }
+
         [Authorize(Policy = "Begeleider")]
         [HttpPut("{datum}/dagAtelier")]
         public ActionResult PutDagAtelier(string datum, DagAtelierDTO dto)
